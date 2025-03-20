@@ -11,4 +11,9 @@ public class ExitCommand extends Command {
     protected void matchArgument(String argument) throws InvalidCommand {
         // No argument to be matched
     }
+
+    @Override
+    protected boolean isInvalidCommand() {
+        return false;
+    }
 }

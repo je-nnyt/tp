@@ -37,6 +37,14 @@ public class Parser {
         currentTrip = trip;
     }
 
+    public String getCurrentPath() {
+        if (currentTarget == null) {
+            return "~ >";
+        } else {
+            return "~/" + currentTrip + "/" + currentTarget + " >";
+        }
+    }
+
     /**
      * Parse the input command.
      * The return is an abstract Command object that represents the input command.
@@ -53,7 +61,7 @@ public class Parser {
         }
 
         String argument = extractCommandArgument(command);
-        CommandTarget commandTarget = extractCommandTargetType(command);
+        CommandTarget commandTarget = extractCommandTargetType(command, commandAction);
 
         boolean isIncorrectScope = !commandTarget.equals(CommandTarget.TRIP) && currentTarget == null;
         if (isIncorrectScope) {
@@ -83,7 +91,7 @@ public class Parser {
         }
         return switch (commandAction) {
         case "add", "a", "make", "mk" -> CommandAction.ADD;
-        case "delete", "d", "remove", "rm" -> CommandAction.DELETE;
+        case "delete", "d", "remove", "rm" -> CommandAction.DELETE_BY_INDEX;
         case "list", "l" -> CommandAction.LIST;
         case "cd" -> CommandAction.CHANGE_DIRECTORY;
         case "exit", "quit", "bye" -> CommandAction.EXIT;
@@ -91,16 +99,22 @@ public class Parser {
         };
     }
 
-    private CommandTarget extractCommandTargetType(String command) throws InvalidCommand {
+    private CommandTarget extractCommandTargetType(String command, CommandAction commandAction) throws InvalidCommand {
         String commandTarget = null;
         try {
             commandTarget = command.strip().split("\\s+")[1].toLowerCase();
         } catch (IndexOutOfBoundsException e) {
             throw new InvalidCommand();
         }
+
+        // exception case: cd ..
+        if (commandAction.equals(CommandAction.CHANGE_DIRECTORY) && commandTarget.equals("..")) {
+            return CommandTarget.TRIP;
+        }
+
         return switch (commandTarget) {
         case "trip" -> CommandTarget.TRIP;
-        case "itinerary", "i" -> CommandTarget.ITINERARY;
+        case "itinerary", "itin", "i" -> CommandTarget.ITINERARY;
         case "activity", "act" -> CommandTarget.ACTIVITY;
         case "accommodation", "accom" -> CommandTarget.ACCOMMODATION;
         case "transportation", "tran" -> CommandTarget.TRANSPORTATION;

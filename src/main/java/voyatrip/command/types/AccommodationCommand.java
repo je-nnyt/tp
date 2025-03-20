@@ -19,9 +19,14 @@ public class AccommodationCommand extends Command {
         index = null;
 
         processRawArgument(rawArgument);
+    }
 
-        if (isInvalidCommand()) {
-            throw new InvalidCommand();
+    @Override
+    protected void processRawArgument(String rawArgument) throws InvalidCommand {
+        super.processRawArgument(rawArgument);
+
+        if (commandAction == CommandAction.DELETE_BY_INDEX && name != null) {
+            super.setCommandAction(CommandAction.DELETE_BY_NAME);
         }
     }
 
@@ -43,14 +48,15 @@ public class AccommodationCommand extends Command {
         }
     }
 
-    private boolean isInvalidCommand() {
+    @Override
+    protected boolean isInvalidCommand() {
         boolean isInvalidName = name == null;
         boolean isInvalidAdd = isInvalidName || budget == null;
         boolean isInvalidDelete = isInvalidName && index == null;
 
         return switch (commandAction) {
         case ADD -> isInvalidAdd;
-        case DELETE -> isInvalidDelete;
+        case DELETE_BY_INDEX, DELETE_BY_NAME -> isInvalidDelete;
         case LIST, CHANGE_DIRECTORY, EXIT -> false;
         default -> true;
         };

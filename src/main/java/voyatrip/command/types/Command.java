@@ -23,9 +23,15 @@ public abstract class Command {
                 matchArgument(argument);
             }
         }
+
+        if (isInvalidCommand()) {
+            throw new InvalidCommand();
+        }
     }
 
     protected abstract void matchArgument(String argument) throws InvalidCommand;
+
+    protected abstract boolean isInvalidCommand();
 
     public CommandAction getCommandAction() {
         return commandAction;
@@ -33,5 +39,9 @@ public abstract class Command {
 
     public CommandTarget getCommandTarget() {
         return commandTarget;
+    }
+
+    protected void setCommandAction(CommandAction commandAction) {
+        this.commandAction = commandAction;
     }
 }

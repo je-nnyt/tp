@@ -9,7 +9,7 @@ import java.util.Arrays;
 import voyatrip.command.exceptions.InvalidCommand;
 
 public class TripsCommand extends Command {
-    static final String[] INVALID_NAMES = {"home", "all"};
+    static final String[] INVALID_NAMES = {"root"};
 
     private String name;
     private LocalDate startDate;
@@ -36,12 +36,29 @@ public class TripsCommand extends Command {
     protected void processRawArgument(String rawArgument) throws InvalidCommand {
         super.processRawArgument(rawArgument);
 
-        if (isInvalidCommand()) {
-            throw new InvalidCommand();
-        }
+        calculateNumDay();
 
+        processCommandVariation();
+    }
+
+    private void calculateNumDay() {
         if (startDate != null) {
             numDay = Math.toIntExact(ChronoUnit.DAYS.between(startDate, endDate) + 1);
+        }
+    }
+
+    private void processCommandVariation() {
+        if (commandAction == CommandAction.DELETE_BY_INDEX && name != null) {
+            super.setCommandAction(CommandAction.DELETE_BY_NAME);
+        } else if (commandAction == CommandAction.CHANGE_DIRECTORY) {
+            if (name != null) {
+                super.setCommandAction(CommandAction.CHANGE_TRIP_BY_NAME);
+            } else if (index != null) {
+                super.setCommandAction(CommandAction.CHANGE_TRIP_BY_INDEX);
+            } else {
+                super.setCommandAction(CommandAction.CHANGE_TRIP_BY_NAME);
+                name = "root";
+            }
         }
     }
 
@@ -77,7 +94,8 @@ public class TripsCommand extends Command {
         }
     }
 
-    private boolean isInvalidCommand() {
+    @Override
+    protected boolean isInvalidCommand() {
         boolean isInvalidName = name == null || Arrays.asList(INVALID_NAMES).contains(name);
         boolean isInvalidDate = startDate == null || endDate == null || startDate.isAfter(endDate);
         boolean isInvalidAdd = isInvalidName || isInvalidDate || totalBudget == null;
@@ -85,9 +103,9 @@ public class TripsCommand extends Command {
 
         return switch (commandAction) {
         case ADD -> isInvalidAdd;
-        case DELETE -> isInvalidDelete;
-        case LIST, CHANGE_DIRECTORY -> isInvalidName;
-        case EXIT -> false;
+        case DELETE_BY_INDEX, DELETE_BY_NAME -> isInvalidDelete;
+        case LIST -> isInvalidName;
+        case CHANGE_DIRECTORY, EXIT -> false;
         default -> true;
         };
     }
