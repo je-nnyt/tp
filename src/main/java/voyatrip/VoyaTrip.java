@@ -1,6 +1,5 @@
 package voyatrip;
 
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -17,16 +16,23 @@ import voyatrip.ui.Ui;
 
 import static voyatrip.command.types.CommandAction.EXIT;
 
+/**
+ * This is the main class for the VoyaTrip application.
+ */
 public class VoyaTrip {
     private static final Parser parser = new Parser();
     private static final Scanner in = new Scanner(System.in);
-    private static ArrayList<Trip> trips = new ArrayList<>();
+    private static TripList trips = new TripList();
     private static Boolean isExit = false;
 
     public static void main(String[] args) {
         run();
     }
 
+    /**
+     * This is the main loop for the VoyaTrip application.
+     * It will keep running until the user exits the application
+     */
     private static void run() {
         Ui.printWelcomeMessage();
         while (!isExit) {
@@ -44,12 +50,14 @@ public class VoyaTrip {
         try {
             Command command = parser.parse(input);
             handleCommand(command);
+        } catch (TripNotFoundException e) {
+            Ui.printTripNotFound();
         } catch (InvalidCommand e) {
             Ui.printInvalidCommand();
         }
     }
 
-    private static void handleCommand(Command command) throws InvalidCommand {
+    private static void handleCommand(Command command) throws InvalidCommand, TripNotFoundException {
         if (EXIT.equals(command.getCommandAction())) {
             handleExit();
             return;
@@ -65,7 +73,7 @@ public class VoyaTrip {
         }
     }
 
-    private static void handleTrip(TripsCommand command) throws InvalidCommand {
+    private static void handleTrip(TripsCommand command) throws InvalidCommand{
         switch (command.getCommandAction()) {
         case ADD -> executeAddTrip(command);
         case DELETE -> executeDeleteTrip(command);
@@ -82,7 +90,7 @@ public class VoyaTrip {
         }
     }
 
-    private static void handleActivity(ItineraryCommand command) throws InvalidCommand {
+    private static void handleActivity(ItineraryCommand command) throws InvalidCommand, TripNotFoundException {
         switch (command.getCommandAction()) {
         case ADD -> executeAddActivity(command);
         case DELETE -> executeDeleteActivity(command);
@@ -90,7 +98,8 @@ public class VoyaTrip {
         }
     }
 
-    private static void handleAccommodation(AccommodationCommand command) throws InvalidCommand {
+    private static void handleAccommodation(AccommodationCommand command)
+            throws InvalidCommand, TripNotFoundException {
         switch (command.getCommandAction()) {
         case ADD -> executeAddAccommodation(command);
         case DELETE -> executeDeleteAccommodation(command);
@@ -99,7 +108,8 @@ public class VoyaTrip {
         }
     }
 
-    private static void handleTransportation(TransportationCommand command) throws InvalidCommand {
+    private static void handleTransportation(TransportationCommand command)
+            throws InvalidCommand, TripNotFoundException {
         switch (command.getCommandAction()) {
         case ADD -> executeAddTransportation(command);
         case DELETE -> executeDeleteTransportation(command);
@@ -112,103 +122,42 @@ public class VoyaTrip {
         isExit = true;
     }
 
-    private static void executeAddTrip(TripsCommand command) {
-        Trip newTrip = new Trip(command.getName(),
+    private static void executeAddTrip(TripsCommand command) throws InvalidCommand {
+        trips.add(command.getName(),
                 command.getStartDate(),
                 command.getEndDate(),
                 command.getNumDay(),
                 command.getTotalBudget());
-        trips.add(newTrip);
-        Ui.printAddTripMessage(newTrip.abbrInfo());
     }
 
     private static void executeAddActivity(Command command) {
     }
 
-    private static void executeAddAccommodation(AccommodationCommand command) {
-        String tripName = command.getTrip();
-        String accommodationName = command.getName();
-        Integer accommodationBudget = command.getBudget();
-        Trip trip = findTrip(tripName);
-
-        if (trip != null) {
-            trip.addAccommodation(accommodationName, accommodationBudget);
-            Ui.printAddAccommodationMessage(trip.getLastAccommodation());
-        } else {
-            Ui.printInvalidCommand();
-        }
+    private static void executeAddAccommodation(AccommodationCommand command)
+            throws InvalidCommand, TripNotFoundException {
+        trips.get(command.getName()).addAccommodation(command.getName(), command.getBudget());
     }
 
-    private static void executeAddTransportation(TransportationCommand command) {
-
-        String tripName = command.getTrip();
-        String transportMode = command.getMode();
-        String transportName = command.getName();
-        Integer transportBudget = command.getBudget();
-
-        Trip trip = findTrip(tripName);
-        if (trip == null) {
-            Ui.printTripNotFound();
-        }
-
-        trip.addTransportation(transportMode, transportName, transportBudget);
-        Ui.printAddTransportationMessage();
-
+    private static void executeAddTransportation(TransportationCommand command)
+            throws InvalidCommand, TripNotFoundException {
+        trips.get(command.getTrip()).addTransportation(command.getName(), command.getMode(), command.getBudget());
     }
 
-    private static Trip findTrip(String associatedTrip) {
-        for (Trip trip : trips) {
-            if (trip.getName().equals(associatedTrip)) {
-                return trip;
-            }
-        }
-        return null;
-    }
-
-    private static void executeDeleteTrip(TripsCommand command) {
-        try {
-            Trip deletedTrip = trips.get(command.getIndex() - 1);
-            trips.remove(command.getIndex() - 1);
-            Ui.printDeleteTripMessage(deletedTrip.abbrInfo());
-        } catch (IndexOutOfBoundsException e) {
-            Ui.printIndexOutOfBounds();
-        }
+    private static void executeDeleteTrip(TripsCommand command) throws InvalidCommand {
+        trips.delete(command.getIndex());
     }
 
     private static void executeDeleteActivity(Command command) {
     }
 
-    private static void executeDeleteAccommodation(AccommodationCommand command) {
-        try {
-            String tripName = command.getTrip();
-            Trip trip = findTrip(tripName);
-            if (trip != null) {
-                Accommodation deletedAccommodation = trip.getAccommodation(command.getIndex());
-                trip.deleteAccommodation(command.getIndex());
-                Ui.printDeleteAccommodationMessage(deletedAccommodation);
-            } else {
-                Ui.printInvalidCommand();
-            }
-        } catch (IndexOutOfBoundsException e) {
-            Ui.printIndexOutOfBounds();
-        }
-
+    private static void executeDeleteAccommodation(AccommodationCommand command)
+            throws InvalidCommand, TripNotFoundException {
+        trips.get(command.getTrip()).deleteAccommodation(command.getIndex());
     }
 
-    private static void executeDeleteTransportation(TransportationCommand command) {
-        String tripName = command.getTrip();
-        Integer transportIndex = command.getIndex();
-
-        try {
-            Trip trip = findTrip(tripName);
-            if (trip == null) {
-                throw new TripNotFoundException();
-            }
-            trip.deleteTransportation(transportIndex);
-            Ui.printDeleteTransportationMessage();
-        } catch (TripNotFoundException e) {
-            Ui.printTripNotFound();
-        }
+    private static void executeDeleteTransportation(TransportationCommand command)
+            throws InvalidCommand, TripNotFoundException {
+        trips.get(command.getName()).deleteTransportation(command.getIndex());
     }
 
     private static void executeListTrip(Command command) {

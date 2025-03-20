@@ -1,13 +1,13 @@
 package voyatrip;
 
 public class Transportation {
-    private String mode;
     private String name;
+    private String mode;
     private Integer budget;
 
-    public Transportation(String mode, String name, Integer budget) {
-        this.mode = mode;
+    public Transportation(String name, String mode, Integer budget) {
         this.name = name;
+        this.mode = mode;
         this.budget = budget;
     }
 
@@ -37,6 +37,6 @@ public class Transportation {
 
     @Override
     public String toString() {
-        return super.toString();
+        return "Transportation" + "by " + mode + " " + name + " with budget " + budget;
     }
 }

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import java.time.LocalDate;
 
+import voyatrip.command.exceptions.InvalidCommand;
+import voyatrip.ui.Ui;
+
 /**
  * This is the trip class that will hold all the information about the trip.
  */
@@ -37,33 +40,59 @@ public class Trip {
         return name;
     }
 
-    public void addTransportation(String transportMode, String transportName, Integer transportBudget) {
-        transportations.add(new Transportation(transportMode, transportName, transportBudget));
-    }
-
-    public void deleteTransportation(Integer index) {
-        if (index < 1 || index > transportations.size()) {
-            System.out.println("Invalid index: " + index);
-            return;
+    public void addTransportation(String transportName,
+                                  String transportMode,
+                                  Integer transportBudget) throws InvalidCommand {
+        if (isContainsTransportation(transportMode)) {
+            throw new InvalidCommand();
         }
-        transportations.remove(index - 1);
-        // index - 1, to convert to zero-based index
+        transportations.add(new Transportation(transportName, transportMode, transportBudget));
+        Ui.printAddTransportationMessage();
     }
 
-    public void addAccommodation(String accommodationName, Integer accommodationBudget) {
-        accommodations.add(new Accommodation(accommodationName, accommodationBudget));
+    private boolean isContainsTransportation(String transportName) {
+        for (Transportation transportation : transportations) {
+            if (transportation.getName().equals(transportName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public void deleteAccommodation(Integer index) {
-        accommodations.remove(index - 1);
+    public void deleteTransportation(Integer index) throws InvalidCommand {
+        try {
+            transportations.remove(index - 1);
+            Ui.printDeleteTransportationMessage();
+        } catch (IndexOutOfBoundsException e) {
+            throw new InvalidCommand();
+        }
     }
 
-    public Accommodation getAccommodation(Integer index) {
-        return accommodations.get(index - 1);
+    public void addAccommodation(String accommodationName, Integer accommodationBudget) throws InvalidCommand {
+        if (isContainsAccommodation(accommodationName)) {
+            throw new InvalidCommand();
+        }
+        Accommodation newAccommodation = new Accommodation(accommodationName, accommodationBudget);
+        accommodations.add(newAccommodation);
+        Ui.printAddAccommodationMessage(newAccommodation);
     }
 
-    public Accommodation getLastAccommodation() {
-        return accommodations.get(accommodations.size() - 1);
+    private boolean isContainsAccommodation(String accommodationName) {
+        for (Accommodation accommodation : accommodations) {
+            if (accommodation.getName().equals(accommodationName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void deleteAccommodation(Integer index) throws InvalidCommand {
+        try {
+            Ui.printDeleteAccommodationMessage(accommodations.get(index - 1));
+            accommodations.remove(index - 1);
+        } catch (IndexOutOfBoundsException e) {
+            throw new InvalidCommand();
+        }
     }
 
     public String abbrInfo() {
@@ -96,6 +125,18 @@ public class Trip {
         printTransportationsInfo(tripInfo);
         printAccomodationsInfo(tripInfo);
         return tripInfo.toString().trim();
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        return this.name.equals(((Trip) obj).name);
+
     }
 }
 
