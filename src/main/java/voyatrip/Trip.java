@@ -125,6 +125,7 @@ public class Trip {
         printTransportationsInfo(tripInfo);
         printAccomodationsInfo(tripInfo);
         return tripInfo.toString().trim();
+    }
 
     @Override
     public boolean equals(Object obj) {
