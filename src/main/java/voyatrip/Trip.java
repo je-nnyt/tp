@@ -17,8 +17,9 @@ public class Trip {
 
     /**
      * Constructor for the trip class.
-     * @param startDate the start date of the trip.
-     * @param endDate the end date of the trip.
+     *
+     * @param startDate   the start date of the trip.
+     * @param endDate     the end date of the trip.
      * @param totalBudget the total budget for the trip.
      */
     public Trip(String name, LocalDate startDate, LocalDate endDate, Integer totalBudget) {
@@ -30,6 +31,10 @@ public class Trip {
 
     public String getName() {
         return name;
+    }
+
+    public ArrayList<Transportation> getTransportations() {
+        return transportations;
     }
 
     public void addTransportation(String transportMode, String transportName, Integer transportBudget) {
