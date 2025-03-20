@@ -39,6 +39,10 @@ public class Trip {
         return name;
     }
 
+    public ArrayList<Transportation> getTransportations() {
+        return transportations;
+    }
+
     public void addTransportation(String transportName,
                                   String transportMode,
                                   Integer transportBudget) throws InvalidCommand {
