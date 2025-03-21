@@ -157,7 +157,7 @@ public class Trip {
         for (Transportation transportation : transportations) {
             tripInfo.append(transportation.toString()).append("\n");
 
-            assert transportation.toString() != null : "Transportion information should not be null";
+            assert transportation.toString() != null : "Transportation information should not be null";
             assert transportation.toString().length() > 0 : "Transportation information should not be empty";
         }
     }
