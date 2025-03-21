@@ -33,6 +33,7 @@ public class Trip {
         this.numDays = numDays;
         this.totalBudget = totalBudget;
         this.accommodations = new ArrayList<>();
+        this.transportations = new ArrayList<>();
     }
 
     public String getName() {
