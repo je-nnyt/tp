@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.time.LocalDate;
 
 import voyatrip.command.exceptions.InvalidCommand;
+import voyatrip.command.exceptions.TripNotFoundException;
 import voyatrip.ui.Ui;
 
 /**
@@ -77,10 +78,11 @@ public class Trip {
     }
 
     public void deleteTransportation(String transportName) throws InvalidCommand {
-        for (Transportation transportation : transportations) {
+        for (int i = 0; i < transportations.size(); i++) {
+            Transportation transportation = transportations.get(i);
             if (transportation.getName().equals(transportName)) {
-                Ui.printDeleteTransportationMessage(transportation);
                 transportations.remove(transportation);
+                Ui.printDeleteTransportationMessage(transportation);
                 return;
             }
         }
@@ -115,7 +117,8 @@ public class Trip {
     }
 
     public void deleteAccommodation(String accommodationName) throws InvalidCommand {
-        for (Accommodation accommodation : accommodations) {
+        for (int i = 0; i < accommodations.size(); i++) {
+            Accommodation accommodation = accommodations.get(i);
             if (accommodation.getName().equals(accommodationName)) {
                 accommodations.remove(accommodation);
                 Ui.printDeleteAccommodationMessage(accommodation);
@@ -125,14 +128,25 @@ public class Trip {
         throw new InvalidCommand();
     }
 
-    public void addActivity(Integer day, String name, String time) {
+    public void addActivity(Integer day, String name, String time) throws InvalidCommand {
+        if (itinerary.get(day - 1).isContain(name)) {
+            throw new InvalidCommand();
+        }
         try {
             Activity newActivity = new Activity(name, time);
             itinerary.get(day - 1).addActivity(newActivity);
             Ui.printAddActivityMessage(newActivity);
         } catch (IndexOutOfBoundsException e) {
-            Ui.printIndexOutOfBounds();
+            throw new InvalidCommand();
         }
+    }
+
+    public void deleteActivity(Integer day, Integer index) throws InvalidCommand {
+        itinerary.get(day - 1).deleteActivity(index);
+    }
+
+    public void deleteActivity(Integer day, String name) throws TripNotFoundException {
+        itinerary.get(day - 1).deleteActivity(name);
     }
 
     public String abbrInfo() {
@@ -164,8 +178,9 @@ public class Trip {
     }
 
     public void buildItineraryInfo(StringBuilder tripInfo) {
-        for (Day day: itinerary) {
-            tripInfo.append(day.toString()).append("\n");
+        for (int i = 0; i < itinerary.size(); i++) {
+            tripInfo.append("Day ").append(i + 1).append("\n");
+            tripInfo.append(itinerary.get(i)).append("\n");
         }
     }
 

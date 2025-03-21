@@ -77,7 +77,8 @@ public class VoyaTrip {
         case ADD -> executeAddTrip(command);
         case DELETE_BY_INDEX -> executeDeleteTripByIndex(command);
         case DELETE_BY_NAME -> executeDeleteTripByName(command);
-        case LIST -> executeListTrip(command);
+        case LIST_TRIP_BY_INDEX -> executeListTripByIndex(command);
+        case LIST_TRIP_BY_NAME -> executeListTripByName(command);
         case CHANGE_TRIP_BY_NAME -> executeChangeDirectoryTripByName(command);
         case CHANGE_TRIP_BY_INDEX -> executeChangeDirectoryTripByIndex(command);
         default -> throw new InvalidCommand();
@@ -95,7 +96,8 @@ public class VoyaTrip {
     private static void handleActivity(ItineraryCommand command) throws InvalidCommand, TripNotFoundException {
         switch (command.getCommandAction()) {
         case ADD -> executeAddActivity(command);
-        case DELETE_BY_INDEX -> executeDeleteActivity(command);
+        case DELETE_BY_INDEX -> executeDeleteActivityByIndex(command);
+        case DELETE_BY_NAME -> executeDeleteActivityByName(command);
         default -> throw new InvalidCommand();
         }
     }
@@ -136,7 +138,7 @@ public class VoyaTrip {
                 command.getTotalBudget());
     }
 
-    private static void executeAddActivity(ItineraryCommand command) throws TripNotFoundException {
+    private static void executeAddActivity(ItineraryCommand command) throws TripNotFoundException, InvalidCommand {
         trips.get(command.getTrip()).addActivity(command.getDay(), command.getName(), command.getTime());
     }
 
@@ -158,8 +160,16 @@ public class VoyaTrip {
         trips.delete(command.getName());
     }
 
-    private static void executeDeleteActivity(Command command) {
+    private static void executeDeleteActivityByIndex(ItineraryCommand command)
+            throws InvalidCommand, TripNotFoundException {
+        trips.get(command.getTrip()).deleteActivity(command.getDay(), command.getIndex());
     }
+
+    private static void executeDeleteActivityByName(ItineraryCommand command)
+            throws TripNotFoundException {
+        trips.get(command.getTrip()).deleteActivity(command.getDay(), command.getName());
+    }
+
 
     private static void executeDeleteAccommodationByIndex(AccommodationCommand command)
             throws InvalidCommand, TripNotFoundException {
@@ -181,8 +191,18 @@ public class VoyaTrip {
         trips.get(command.getTrip()).deleteTransportation(command.getName());
     }
 
-    private static void executeListTrip(TripsCommand command) {
-        trips.listTrip(command.getIndex());
+    private static void executeListTripByIndex(TripsCommand command) throws InvalidCommand {
+        // TODO
+        System.out.println(trips.get(command.getIndex()));
+    }
+
+    private static void executeListTripByName(TripsCommand command) throws TripNotFoundException {
+        // TODO
+        if (command.getName().equals("all")) {
+            System.out.println(trips);
+        } else {
+            System.out.println(trips.get(command.getName()));
+        }
     }
 
     private static void executeListItinerary(Command command) {

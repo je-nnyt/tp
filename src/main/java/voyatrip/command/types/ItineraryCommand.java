@@ -57,7 +57,7 @@ public class ItineraryCommand extends Command {
     protected boolean isInvalidCommand() {
         boolean isInvalidName = name == null;
         boolean isInvalidAdd = isInvalidName || time == null || day == null;
-        boolean isInvalidDelete = isInvalidName && index == null;
+        boolean isInvalidDelete = day == null || (isInvalidName && index == null);
 
         return switch (commandAction) {
         case ADD -> isInvalidAdd;

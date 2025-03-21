@@ -64,6 +64,12 @@ public class Ui {
         System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 
+    public static void printDeleteActivityMessage(Activity activity) {
+        System.out.println(Message.DELETE_ACTIVITY_MESSAGE);
+        System.out.println(activity);
+        System.out.println(Message.NEXT_COMMAND_MESSAGE);
+    }
+
     public static void printTripNotFound() {
         System.out.println(Message.TRIP_NOT_FOUND_MESSAGE);
     }

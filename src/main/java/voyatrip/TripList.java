@@ -64,11 +64,12 @@ public class TripList {
         }
     }
 
-    public void listTrip(Integer index) {
-        try {
-            System.out.println(trips.get(index - 1));
-        } catch (IndexOutOfBoundsException e) {
-            Ui.printIndexOutOfBounds();
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < trips.size(); i++) {
+            sb.append("Trip ").append(i + 1).append(": ").append(trips.get(i).abbrInfo()).append("\n");
         }
+        return sb.toString();
     }
 }
