@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import voyatrip.command.exceptions.InvalidCommand;
@@ -20,7 +21,7 @@ public class TripsCommand extends Command {
 
     public TripsCommand(CommandAction commandAction,
                         CommandTarget commandTarget,
-                        String rawArgument) throws InvalidCommand {
+                        ArrayList<String> arguments) throws InvalidCommand {
         super(commandAction, commandTarget);
         name = null;
         startDate = null;
@@ -29,12 +30,12 @@ public class TripsCommand extends Command {
         totalBudget = null;
         index = null;
 
-        processRawArgument(rawArgument);
+        processRawArgument(arguments);
     }
 
     @Override
-    protected void processRawArgument(String rawArgument) throws InvalidCommand {
-        super.processRawArgument(rawArgument);
+    protected void processRawArgument(ArrayList<String> arguments) throws InvalidCommand {
+        super.processRawArgument(arguments);
 
         calculateNumDay();
 
@@ -99,12 +100,11 @@ public class TripsCommand extends Command {
         boolean isInvalidName = name == null || Arrays.asList(INVALID_NAMES).contains(name);
         boolean isInvalidDate = startDate == null || endDate == null || startDate.isAfter(endDate);
         boolean isInvalidAdd = isInvalidName || isInvalidDate || totalBudget == null;
-        boolean isInvalidDelete = isInvalidName && index == null;
+        boolean isHaveTargetTrip = isInvalidName && index == null;
 
         return switch (commandAction) {
         case ADD -> isInvalidAdd;
-        case DELETE_BY_INDEX, DELETE_BY_NAME -> isInvalidDelete;
-        case LIST -> isInvalidName;
+        case DELETE_BY_INDEX, DELETE_BY_NAME, LIST -> isHaveTargetTrip;
         case CHANGE_DIRECTORY, EXIT -> false;
         default -> true;
         };

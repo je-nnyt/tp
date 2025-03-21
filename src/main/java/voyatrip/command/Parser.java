@@ -1,5 +1,7 @@
 package voyatrip.command;
 
+import java.util.ArrayList;
+
 import voyatrip.command.exceptions.InvalidCommand;
 import voyatrip.command.types.AccommodationCommand;
 import voyatrip.command.types.CommandAction;
@@ -15,7 +17,7 @@ public class Parser {
     private String currentTrip;
 
     public Parser() {
-        currentTarget = null;
+        currentTarget = CommandTarget.TRIP;
         currentTrip = "";
     }
 
@@ -38,7 +40,7 @@ public class Parser {
     }
 
     public String getCurrentPath() {
-        if (currentTarget == null) {
+        if (currentTarget == CommandTarget.TRIP) {
             return "~ >";
         } else {
             return "~/" + currentTrip + "/" + currentTarget + " >";
@@ -60,26 +62,26 @@ public class Parser {
             return new ExitCommand();
         }
 
-        String argument = extractCommandArgument(command);
+        ArrayList<String> arguments = extractCommandArguments(command);
         CommandTarget commandTarget = extractCommandTargetType(command, commandAction);
 
-        boolean isIncorrectScope = !commandTarget.equals(CommandTarget.TRIP) && currentTarget == null;
+        boolean isIncorrectScope = !commandTarget.equals(CommandTarget.TRIP) && currentTarget == CommandTarget.TRIP;
         if (isIncorrectScope) {
             throw new InvalidCommand();
         }
 
-        return matchCommand(commandAction, commandTarget, argument);
+        return matchCommand(commandAction, commandTarget, arguments);
     }
 
-    private String extractCommandArgument(String command) throws InvalidCommand {
-        command = command.strip();
-        String[] spaceSeparatedTokens = command.split("\\s+");
-
-        try {
-            return command.replaceFirst(spaceSeparatedTokens[0] + "\\s+" + spaceSeparatedTokens[1], "");
-        } catch (IndexOutOfBoundsException e) {
-            throw new InvalidCommand();
+    private ArrayList<String> extractCommandArguments(String command) throws InvalidCommand {
+        String[] doubleHyphenSeparatedTokens = command.strip().split("(^--|\\s+--)(?=\\w+\\s+\\w+)");
+        ArrayList<String> arguments = new ArrayList<>();
+        for (int i = 1; i < doubleHyphenSeparatedTokens.length; i++) {
+            if (!doubleHyphenSeparatedTokens[i].isEmpty()) {
+                arguments.add(doubleHyphenSeparatedTokens[i]);
+            }
         }
+        return arguments;
     }
 
     private CommandAction extractCommandAction(String command) throws InvalidCommand {
@@ -100,12 +102,12 @@ public class Parser {
     }
 
     private CommandTarget extractCommandTargetType(String command, CommandAction commandAction) throws InvalidCommand {
-        String commandTarget = null;
-        try {
-            commandTarget = command.strip().split("\\s+")[1].toLowerCase();
-        } catch (IndexOutOfBoundsException e) {
-            throw new InvalidCommand();
+        String[] spaceSeparatedTokens = command.strip().split("\\s+");
+        if (spaceSeparatedTokens.length == 1) {
+            return currentTarget;
         }
+
+        String commandTarget = spaceSeparatedTokens[1].toLowerCase();
 
         // exception case: cd ..
         if (commandAction.equals(CommandAction.CHANGE_DIRECTORY) && commandTarget.equals("..")) {
@@ -122,13 +124,13 @@ public class Parser {
         };
     }
 
-    private Command matchCommand(CommandAction commandAction, CommandTarget commandTarget, String rawArgument)
+    private Command matchCommand(CommandAction commandAction, CommandTarget commandTarget, ArrayList<String> arguments)
             throws InvalidCommand {
         return switch (commandTarget) {
-        case TRIP -> new TripsCommand(commandAction, commandTarget, rawArgument);
-        case ITINERARY, ACTIVITY -> new ItineraryCommand(commandAction, commandTarget, currentTrip, rawArgument);
-        case ACCOMMODATION -> new AccommodationCommand(commandAction, commandTarget, currentTrip, rawArgument);
-        case TRANSPORTATION -> new TransportationCommand(commandAction, commandTarget, currentTrip, rawArgument);
+        case TRIP -> new TripsCommand(commandAction, commandTarget, arguments);
+        case ITINERARY, ACTIVITY -> new ItineraryCommand(commandAction, commandTarget, currentTrip, arguments);
+        case ACCOMMODATION -> new AccommodationCommand(commandAction, commandTarget, currentTrip, arguments);
+        case TRANSPORTATION -> new TransportationCommand(commandAction, commandTarget, currentTrip, arguments);
         default -> throw new InvalidCommand();
         };
     }

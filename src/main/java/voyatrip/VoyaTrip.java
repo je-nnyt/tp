@@ -142,7 +142,7 @@ public class VoyaTrip {
 
     private static void executeAddAccommodation(AccommodationCommand command)
             throws InvalidCommand, TripNotFoundException {
-        trips.get(command.getName()).addAccommodation(command.getName(), command.getBudget());
+        trips.get(command.getTrip()).addAccommodation(command.getName(), command.getBudget());
     }
 
     private static void executeAddTransportation(TransportationCommand command)
@@ -173,12 +173,12 @@ public class VoyaTrip {
 
     private static void executeDeleteTransportationByIndex(TransportationCommand command)
             throws InvalidCommand, TripNotFoundException {
-        trips.get(command.getName()).deleteTransportation(command.getIndex());
+        trips.get(command.getTrip()).deleteTransportation(command.getIndex());
     }
 
     private static void executeDeleteTransportationByName(TransportationCommand command)
             throws InvalidCommand, TripNotFoundException {
-        trips.get(command.getName()).deleteTransportation(command.getName());
+        trips.get(command.getTrip()).deleteTransportation(command.getName());
     }
 
     private static void executeListTrip(TripsCommand command) {
@@ -197,7 +197,7 @@ public class VoyaTrip {
     private static void executeChangeDirectoryTripByName(TripsCommand command) throws TripNotFoundException {
         if (command.getName().equals("root")) {
             parser.setCurrentTrip("");
-            parser.setCurrentTarget(null);
+            parser.setCurrentTarget(CommandTarget.TRIP);
         } else if (trips.isContains(command.getName())) {
             parser.setCurrentTrip(command.getName());
             parser.setCurrentTarget(CommandTarget.ITINERARY);

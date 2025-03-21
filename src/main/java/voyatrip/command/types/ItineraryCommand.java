@@ -1,5 +1,7 @@
 package voyatrip.command.types;
 
+import java.util.ArrayList;
+
 import voyatrip.command.exceptions.InvalidCommand;
 
 public class ItineraryCommand extends Command {
@@ -12,7 +14,7 @@ public class ItineraryCommand extends Command {
     public ItineraryCommand(CommandAction commandAction,
                             CommandTarget commandTarget,
                             String trip,
-                            String rawArgument) throws InvalidCommand {
+                            ArrayList<String> arguments) throws InvalidCommand {
         super(commandAction, commandTarget);
         this.trip = trip;
         name = null;
@@ -20,12 +22,12 @@ public class ItineraryCommand extends Command {
         day = null;
         index = null;
 
-        processRawArgument(rawArgument);
+        processRawArgument(arguments);
     }
 
     @Override
-    protected void processRawArgument(String rawArgument) throws InvalidCommand {
-        super.processRawArgument(rawArgument);
+    protected void processRawArgument(ArrayList<String> arguments) throws InvalidCommand {
+        super.processRawArgument(arguments);
 
         if (commandAction == CommandAction.DELETE_BY_INDEX && name != null) {
             super.setCommandAction(CommandAction.DELETE_BY_NAME);
