@@ -11,7 +11,7 @@ import voyatrip.ui.Ui;
 
 public class TripList {
     private static ArrayList<Trip> trips = new ArrayList<>();
-    private static Logger logger = new Logger(TripList.class.getName());
+    private static Logger logger = Logger.getLogger(TripList.class.getName());
 
     public void add(String name,
                     LocalDate startDate,
