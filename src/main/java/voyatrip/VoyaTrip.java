@@ -20,8 +20,8 @@ import voyatrip.ui.Ui;
  * This is the main class for the VoyaTrip application.
  */
 public class VoyaTrip {
-    static final Parser parser = new Parser();
-    static final Scanner in = new Scanner(System.in);
+    static final Parser PARSER = new Parser();
+    static final Scanner IN = new Scanner(System.in);
     static TripList trips = new TripList();
     static Boolean isExit = false;
     private static final Logger logger = Logger.getLogger(VoyaTrip.class.getName());
@@ -38,7 +38,7 @@ public class VoyaTrip {
         logger.log(Level.INFO, "Starting VoyaTrip application");
         Ui.printWelcomeMessage();
         while (!isExit) {
-            Ui.printCurrentPath(parser);
+            Ui.printCurrentPath(PARSER);
             handleInput(readInput());
         }
         Ui.printGoodbyeMessage();
@@ -47,13 +47,13 @@ public class VoyaTrip {
 
 
     private static String readInput() {
-        return in.nextLine();
+        return IN.nextLine();
     }
 
     private static void handleInput(String input) {
         try {
             logger.log(Level.INFO, "Starting handleInput");
-            Command command = parser.parse(input);
+            Command command = PARSER.parse(input);
             handleCommand(command);
             logger.log(Level.INFO, "Finished handleInput");
         } catch (TripNotFoundException e) {
@@ -215,30 +215,30 @@ public class VoyaTrip {
 
     private static void executeChangeDirectoryTripByName(TripsCommand command) throws TripNotFoundException {
         if (command.getName().equals("root")) {
-            parser.setCurrentTrip("");
-            parser.setCurrentTarget(CommandTarget.TRIP);
+            PARSER.setCurrentTrip("");
+            PARSER.setCurrentTarget(CommandTarget.TRIP);
         } else if (trips.isContains(command.getName())) {
-            parser.setCurrentTrip(command.getName());
-            parser.setCurrentTarget(CommandTarget.ITINERARY);
+            PARSER.setCurrentTrip(command.getName());
+            PARSER.setCurrentTarget(CommandTarget.ITINERARY);
         } else {
             throw new TripNotFoundException();
         }
     }
 
     private static void executeChangeDirectoryTripByIndex(TripsCommand command) throws InvalidCommand {
-        parser.setCurrentTrip(trips.get(command.getIndex()).getName());
-        parser.setCurrentTarget(CommandTarget.ITINERARY);
+        PARSER.setCurrentTrip(trips.get(command.getIndex()).getName());
+        PARSER.setCurrentTarget(CommandTarget.ITINERARY);
     }
 
     private static void executeChangeDirectoryItinerary(ItineraryCommand command) {
-        parser.setCurrentTarget(CommandTarget.ITINERARY);
+        PARSER.setCurrentTarget(CommandTarget.ITINERARY);
     }
 
     private static void executeChangeDirectoryAccommodation(AccommodationCommand command) {
-        parser.setCurrentTarget(CommandTarget.ACCOMMODATION);
+        PARSER.setCurrentTarget(CommandTarget.ACCOMMODATION);
     }
 
     private static void executeChangeDirectoryTransportation(TransportationCommand command) {
-        parser.setCurrentTarget(CommandTarget.TRANSPORTATION);
+        PARSER.setCurrentTarget(CommandTarget.TRANSPORTATION);
     }
 }
