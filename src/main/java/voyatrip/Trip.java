@@ -1,5 +1,6 @@
 package voyatrip;
 
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 import java.time.LocalDate;
@@ -31,6 +32,8 @@ public class Trip {
      * @param totalBudget the total budget for the trip.
      */
     public Trip(String name, LocalDate startDate, LocalDate endDate, Integer numDays, Integer totalBudget) {
+        assert(startDate.isBefore(endDate));
+        assert(numDays == ChronoUnit.DAYS.between(startDate, endDate));
         logger.log(Level.INFO, "Creating new trip");
         this.name = name;
         this.startDate = startDate;
