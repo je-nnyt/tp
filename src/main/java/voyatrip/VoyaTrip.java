@@ -1,6 +1,8 @@
 package voyatrip;
 
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import voyatrip.command.exceptions.InvalidCommand;
 import voyatrip.command.exceptions.TripNotFoundException;
@@ -18,10 +20,11 @@ import voyatrip.ui.Ui;
  * This is the main class for the VoyaTrip application.
  */
 public class VoyaTrip {
-    private static final Parser parser = new Parser();
-    private static final Scanner in = new Scanner(System.in);
-    private static TripList trips = new TripList();
-    private static Boolean isExit = false;
+    static final Parser parser = new Parser();
+    static final Scanner in = new Scanner(System.in);
+    static TripList trips = new TripList();
+    static Boolean isExit = false;
+    private static final Logger logger = Logger.getLogger(VoyaTrip.class.getName());
 
     public static void main(String[] args) {
         run();
@@ -32,12 +35,14 @@ public class VoyaTrip {
      * It will keep running until the user exits the application
      */
     private static void run() {
+        logger.log(Level.INFO, "Starting VoyaTrip application");
         Ui.printWelcomeMessage();
         while (!isExit) {
             Ui.printCurrentPath(parser);
             handleInput(readInput());
         }
         Ui.printGoodbyeMessage();
+        logger.log(Level.INFO, "Exiting VoyaTrip application");
     }
 
 
@@ -47,18 +52,24 @@ public class VoyaTrip {
 
     private static void handleInput(String input) {
         try {
+            logger.log(Level.INFO, "Starting handleInput");
             Command command = parser.parse(input);
             handleCommand(command);
+            logger.log(Level.INFO, "Finished handleInput");
         } catch (TripNotFoundException e) {
+            logger.log(Level.WARNING, "Trip not found");
             Ui.printTripNotFound();
         } catch (InvalidCommand e) {
+            logger.log(Level.WARNING, "Invalid command");
             Ui.printInvalidCommand();
         }
     }
 
     private static void handleCommand(Command command) throws InvalidCommand, TripNotFoundException {
+        logger.log(Level.INFO, "Starting handleCommand");
         if (CommandAction.EXIT.equals(command.getCommandAction())) {
             handleExit();
+            logger.log(Level.INFO, "Exiting application");
             return;
         }
 
@@ -73,6 +84,7 @@ public class VoyaTrip {
     }
 
     private static void handleTrip(TripsCommand command) throws InvalidCommand, TripNotFoundException {
+        logger.log(Level.INFO, "Starting handleTrip");
         switch (command.getCommandAction()) {
         case ADD -> executeAddTrip(command);
         case DELETE_BY_INDEX -> executeDeleteTripByIndex(command);
@@ -82,6 +94,7 @@ public class VoyaTrip {
         case CHANGE_TRIP_BY_INDEX -> executeChangeDirectoryTripByIndex(command);
         default -> throw new InvalidCommand();
         }
+        logger.log(Level.INFO, "Finished handleTrip");
     }
 
     private static void handleItinerary(ItineraryCommand command) throws InvalidCommand {
@@ -129,11 +142,13 @@ public class VoyaTrip {
     }
 
     private static void executeAddTrip(TripsCommand command) throws InvalidCommand {
+        logger.log(Level.INFO, "Starting executeAddTrip");
         trips.add(command.getName(),
                 command.getStartDate(),
                 command.getEndDate(),
                 command.getNumDay(),
                 command.getTotalBudget());
+        logger.log(Level.INFO, "Finished executeAddTrip");
     }
 
     private static void executeAddActivity(ItineraryCommand command) throws TripNotFoundException {
@@ -151,11 +166,15 @@ public class VoyaTrip {
     }
 
     private static void executeDeleteTripByIndex(TripsCommand command) throws InvalidCommand {
+        logger.log(Level.INFO, "Starting executeDeleteTripByIndex");
         trips.delete(command.getIndex());
+        logger.log(Level.INFO, "Finished executeDeleteTripByIndex");
     }
 
     private static void executeDeleteTripByName(TripsCommand command) throws TripNotFoundException {
+        logger.log(Level.INFO, "Starting executeDeleteTripByName");
         trips.delete(command.getName());
+        logger.log(Level.INFO, "Finished executeDeleteTripByName");
     }
 
     private static void executeDeleteActivity(Command command) {
