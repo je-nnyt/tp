@@ -1,9 +1,13 @@
 package voyatrip;
 
+import java.util.ArrayList;
+
 public class Transportation {
     private String name;
     private String mode;
     private Integer budget;
+    private ArrayList<Integer> day;
+
 
     public Transportation(String name, String mode, Integer budget) {
         this.name = name;
@@ -37,6 +41,7 @@ public class Transportation {
 
     @Override
     public String toString() {
-        return "Transportation by " + mode + " " + name + " with budget $" + budget;
+        return "Transportation by " + mode + " " + name + " with budget $"
+                + budget;
     }
 }
