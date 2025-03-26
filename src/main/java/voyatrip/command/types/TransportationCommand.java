@@ -10,6 +10,9 @@ public class TransportationCommand extends Command {
     private String mode;
     private Integer budget;
     private Integer index;
+    private Integer startDay;
+    private Integer endDay;
+    private ArrayList<Integer> days;
 
     public TransportationCommand(CommandAction commandAction,
                                  CommandTarget commandTarget,
@@ -21,6 +24,9 @@ public class TransportationCommand extends Command {
         mode = null;
         budget = null;
         index = null;
+        startDay = null;
+        endDay = null;
+        days = null;
 
         processRawArgument(arguments);
     }
@@ -46,6 +52,8 @@ public class TransportationCommand extends Command {
             case "mode", "m" -> mode = argumentValue;
             case "budget", "b" -> budget = Integer.parseInt(argumentValue);
             case "index", "i" -> index = Integer.parseInt(argumentValue);
+            case "start", "s" -> startDay = Integer.parseInt(argumentValue);
+            case "end", "e" -> endDay = Integer.parseInt(argumentValue);
             default -> throw new InvalidCommand();
             }
         } catch (NumberFormatException e) {
@@ -60,11 +68,17 @@ public class TransportationCommand extends Command {
         boolean isInvalidDelete = isInvalidName && index == null;
 
         return switch (commandAction) {
-        case ADD -> isInvalidAdd;
-        case DELETE_BY_INDEX, DELETE_BY_NAME -> isInvalidDelete;
-        case LIST, CHANGE_DIRECTORY, EXIT -> false;
-        default -> true;
+            case ADD -> isInvalidAdd;
+            case DELETE_BY_INDEX, DELETE_BY_NAME -> isInvalidDelete;
+            case LIST, CHANGE_DIRECTORY, EXIT -> false;
+            default -> true;
         };
+    }
+
+    private void storeDaysInList() {
+        for (int i = startDay; i <= endDay; i++) {
+            days.add(i);
+        }
     }
 
     public String getTrip() {
@@ -85,5 +99,9 @@ public class TransportationCommand extends Command {
 
     public Integer getIndex() {
         return index;
+    }
+
+    public ArrayList<Integer> getDays() {
+        return days;
     }
 }
