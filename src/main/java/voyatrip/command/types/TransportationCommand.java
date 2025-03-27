@@ -2,7 +2,10 @@ package voyatrip.command.types;
 
 import java.util.ArrayList;
 
-import voyatrip.command.exceptions.InvalidCommand;
+import voyatrip.command.exceptions.InvalidArgumentKeyword;
+import voyatrip.command.exceptions.InvalidDateFormat;
+import voyatrip.command.exceptions.InvalidNumberFormat;
+import voyatrip.command.exceptions.MissingArgument;
 
 public class TransportationCommand extends Command {
     private String trip;
@@ -14,7 +17,8 @@ public class TransportationCommand extends Command {
     public TransportationCommand(CommandAction commandAction,
                                  CommandTarget commandTarget,
                                  String trip,
-                                 ArrayList<String> arguments) throws InvalidCommand {
+                                 ArrayList<String> arguments)
+            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidDateFormat, MissingArgument {
         super(commandAction, commandTarget);
         this.trip = trip;
         name = null;
@@ -26,7 +30,8 @@ public class TransportationCommand extends Command {
     }
 
     @Override
-    protected void processRawArgument(ArrayList<String> arguments) throws InvalidCommand {
+    protected void processRawArgument(ArrayList<String> arguments)
+            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidDateFormat, MissingArgument {
         super.processRawArgument(arguments);
 
         if (commandAction == CommandAction.DELETE_BY_INDEX && name != null) {
@@ -35,7 +40,7 @@ public class TransportationCommand extends Command {
     }
 
     @Override
-    protected void matchArgument(String argument) throws InvalidCommand {
+    protected void matchArgument(String argument) throws InvalidArgumentKeyword, InvalidNumberFormat {
         String argumentKeyword = argument.split("\\s+")[0];
         String argumentValue = argument.replaceFirst(argumentKeyword, "").strip();
         argumentKeyword = argumentKeyword.toLowerCase();
@@ -46,15 +51,15 @@ public class TransportationCommand extends Command {
             case "mode", "m" -> mode = argumentValue;
             case "budget", "b" -> budget = Integer.parseInt(argumentValue);
             case "index", "i" -> index = Integer.parseInt(argumentValue);
-            default -> throw new InvalidCommand();
+            default -> throw new InvalidArgumentKeyword();
             }
         } catch (NumberFormatException e) {
-            throw new InvalidCommand();
+            throw new InvalidNumberFormat();
         }
     }
 
     @Override
-    protected boolean isInvalidCommand() {
+    protected boolean isMissingArgument() {
         boolean isInvalidName = name == null;
         boolean isInvalidAdd = isInvalidName || mode == null || budget == null;
         boolean isInvalidDelete = isInvalidName && index == null;
