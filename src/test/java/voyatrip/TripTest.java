@@ -19,14 +19,14 @@ public class TripTest {
     }
 
     @Test
-    void testAddTransportation_Success() throws InvalidCommand {
+    void testAddTransportationSuccess() throws InvalidCommand {
         trip.addTransportation("VietJet Air", "Plane", 200);
         Assertions.assertTrue(trip.isContainsTransportation("VietJet Air"));
 
     }
 
     @Test
-    void testAddTransportation_Failure() throws InvalidCommand {
+    void testAddTransportationFailure() throws InvalidCommand {
         trip.addTransportation("VietJet Air", "Plane", 200);
         Assertions.assertThrows(InvalidCommand.class, ()->  {
             trip.addTransportation("VietJet Air", "Plane", 200);
@@ -34,7 +34,7 @@ public class TripTest {
     }
 
     @Test
-    void testDeleteTransportation_Success() throws InvalidCommand {
+    void testDeleteTransportationSuccess() throws InvalidCommand {
         trip.addTransportation("SBS Transit 170", "bus", 5);
         trip.deleteTransportation("SBS Transit 170");
         Assertions.assertFalse(trip.isContainsTransportation("SBS Transit 170"));
@@ -42,7 +42,7 @@ public class TripTest {
     }
 
     @Test
-    void testDeleteTransportation_Failure() throws InvalidCommand {
+    void testDeleteTransportationFailure() throws InvalidCommand {
         trip.addTransportation("VietJet Air", "Plane", 200);
         trip.deleteTransportation("VietJet Air");
 
