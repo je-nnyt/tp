@@ -50,7 +50,7 @@ public class Trip {
     public void addTransportation(String transportName,
                                   String transportMode,
                                   Integer transportBudget) throws InvalidCommand {
-        if (isContainsTransportation(transportMode)) {
+        if (isContainsTransportation(transportName)) {
             throw new InvalidCommand();
         }
         Transportation newTransportation = new Transportation(transportName, transportMode, transportBudget);
@@ -58,7 +58,7 @@ public class Trip {
         Ui.printAddTransportationMessage(newTransportation);
     }
 
-    private boolean isContainsTransportation(String transportName) {
+    public boolean isContainsTransportation(String transportName) {
         for (Transportation transportation : transportations) {
             if (transportation.getName().equals(transportName)) {
                 return true;
