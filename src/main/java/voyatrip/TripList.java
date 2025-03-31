@@ -8,7 +8,7 @@ import voyatrip.command.exceptions.TripNotFoundException;
 import voyatrip.ui.Ui;
 
 public class TripList {
-    private static ArrayList<Trip> trips = new ArrayList<>();
+    private ArrayList<Trip> trips = new ArrayList<>();
 
     public void add(String name,
                     LocalDate startDate,
@@ -31,6 +31,10 @@ public class TripList {
             }
         }
         return false;
+    }
+
+    public Integer size() {
+        return trips.size();
     }
 
     public void delete(Integer index) throws InvalidCommand {
