@@ -78,7 +78,9 @@ class TripListTest {
             testTripList.add("Test Trip", startDate, endDate, 3, 300);
             testTripList.delete("Test Trip");
             assertEquals(testTripList.size(), 0);
-        } catch (InvalidCommand | TripNotFoundException e) {
+        } catch (TripNotFoundException e) {
+            fail("exception should not have been thrown");
+        } catch (InvalidCommand e) {
             fail("exception should not have been thrown");
         }
     }
@@ -92,7 +94,9 @@ class TripListTest {
             testTripList.listTrip(1);
             testTripList.add("Test Trip", startDate, endDate, 3, 300);
             testTripList.delete("Test Trip");
-        } catch (InvalidCommand | TripNotFoundException e) {
+        } catch (TripNotFoundException e) {
+            fail("exception should not have been thrown");
+        } catch (InvalidCommand e) {
             fail("exception should not have been thrown");
         }
 
