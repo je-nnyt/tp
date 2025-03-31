@@ -65,6 +65,10 @@ public class TripsCommand extends Command {
                 super.setCommandAction(CommandAction.CHANGE_TRIP_BY_NAME);
                 name = "root";
             }
+        } else if (commandAction == CommandAction.MODIFY) {
+            if (index == null) {
+                super.setCommandAction(CommandAction.MODIFY_TRIP_WITHOUT_INDEX);
+            }
         }
     }
 
@@ -111,6 +115,7 @@ public class TripsCommand extends Command {
         return switch (commandAction) {
         case ADD -> isInvalidAdd;
         case DELETE_BY_INDEX, DELETE_BY_NAME, LIST -> isHaveTargetTrip;
+        case MODIFY -> false;
         case CHANGE_DIRECTORY, EXIT -> false;
         default -> true;
         };

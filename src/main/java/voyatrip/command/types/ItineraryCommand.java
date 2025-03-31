@@ -67,6 +67,7 @@ public class ItineraryCommand extends Command {
         return switch (commandAction) {
         case ADD -> isInvalidAdd;
         case DELETE_BY_INDEX, DELETE_BY_NAME -> isInvalidDelete;
+        case MODIFY -> index == null;
         case LIST, CHANGE_DIRECTORY, EXIT -> false;
         default -> true;
         };
