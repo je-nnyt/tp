@@ -2,7 +2,10 @@ package voyatrip.command.types;
 
 import java.util.ArrayList;
 
-import voyatrip.command.exceptions.InvalidCommand;
+import voyatrip.command.exceptions.InvalidArgumentKeyword;
+import voyatrip.command.exceptions.InvalidDateFormat;
+import voyatrip.command.exceptions.InvalidNumberFormat;
+import voyatrip.command.exceptions.MissingArgument;
 
 public abstract class Command {
     protected CommandAction commandAction;
@@ -13,19 +16,21 @@ public abstract class Command {
         this.commandTarget = commandTarget;
     }
 
-    protected void processRawArgument(ArrayList<String> arguments) throws InvalidCommand {
+    protected void processRawArgument(ArrayList<String> arguments)
+            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidDateFormat, MissingArgument {
         for (String argument : arguments) {
             matchArgument(argument);
         }
 
-        if (isInvalidCommand()) {
-            throw new InvalidCommand();
+        if (isMissingArgument()) {
+            throw new MissingArgument();
         }
     }
 
-    protected abstract void matchArgument(String argument) throws InvalidCommand;
+    protected abstract void matchArgument(String argument)
+            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidDateFormat;
 
-    protected abstract boolean isInvalidCommand();
+    protected abstract boolean isMissingArgument();
 
     public CommandAction getCommandAction() {
         return commandAction;

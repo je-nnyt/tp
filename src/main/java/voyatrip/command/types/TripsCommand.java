@@ -7,7 +7,10 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import voyatrip.command.exceptions.InvalidCommand;
+import voyatrip.command.exceptions.InvalidArgumentKeyword;
+import voyatrip.command.exceptions.InvalidDateFormat;
+import voyatrip.command.exceptions.InvalidNumberFormat;
+import voyatrip.command.exceptions.MissingArgument;
 
 public class TripsCommand extends Command {
     static final String[] INVALID_NAMES = {"root"};
@@ -21,7 +24,8 @@ public class TripsCommand extends Command {
 
     public TripsCommand(CommandAction commandAction,
                         CommandTarget commandTarget,
-                        ArrayList<String> arguments) throws InvalidCommand {
+                        ArrayList<String> arguments)
+            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidDateFormat, MissingArgument {
         super(commandAction, commandTarget);
         name = null;
         startDate = null;
@@ -34,7 +38,8 @@ public class TripsCommand extends Command {
     }
 
     @Override
-    protected void processRawArgument(ArrayList<String> arguments) throws InvalidCommand {
+    protected void processRawArgument(ArrayList<String> arguments)
+            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidDateFormat, MissingArgument {
         super.processRawArgument(arguments);
 
         calculateNumDay();
@@ -64,7 +69,8 @@ public class TripsCommand extends Command {
     }
 
     @Override
-    protected void matchArgument(String argument) throws InvalidCommand {
+    protected void matchArgument(String argument)
+            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidDateFormat {
         String argumentKeyword = argument.split("\\s+")[0];
         String argumentValue = argument.replaceFirst(argumentKeyword, "").strip();
         argumentKeyword = argumentKeyword.toLowerCase();
@@ -77,26 +83,26 @@ public class TripsCommand extends Command {
             case "day", "d" -> numDay = Integer.parseInt(argumentValue);
             case "budget", "b" -> totalBudget = Integer.parseInt(argumentValue);
             case "index", "i" -> index = Integer.parseInt(argumentValue);
-            default -> throw new InvalidCommand();
+            default -> throw new InvalidArgumentKeyword();
             }
         } catch (NumberFormatException e) {
-            throw new InvalidCommand();
+            throw new InvalidNumberFormat();
         }
     }
 
-    private LocalDate parseDate(String date) throws InvalidCommand {
+    private LocalDate parseDate(String date) throws InvalidDateFormat {
         try {
             if (date.split("-").length == 2) {
                 date = date + "-" + LocalDate.now().getYear();
             }
             return LocalDate.parse(date, DateTimeFormatter.ofPattern("d-M-yyyy"));
         } catch (DateTimeParseException e) {
-            throw new InvalidCommand();
+            throw new InvalidDateFormat();
         }
     }
 
     @Override
-    protected boolean isInvalidCommand() {
+    protected boolean isMissingArgument() {
         boolean isInvalidName = name == null || Arrays.asList(INVALID_NAMES).contains(name);
         boolean isInvalidDate = startDate == null || endDate == null || startDate.isAfter(endDate);
         boolean isInvalidAdd = isInvalidName || isInvalidDate || totalBudget == null;
