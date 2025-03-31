@@ -120,6 +120,7 @@ public class Parser {
         case "list", "l" -> CommandAction.LIST;
         case "cd" -> CommandAction.CHANGE_DIRECTORY;
         case "exit", "quit", "bye" -> CommandAction.EXIT;
+        case "modify" -> CommandAction.MODIFY;
         default -> throw new InvalidCommandAction();
         };
     }

@@ -65,6 +65,7 @@ public class AccommodationCommand extends Command {
         case ADD -> isInvalidAdd;
         case DELETE_BY_INDEX, DELETE_BY_NAME -> isInvalidDelete;
         case LIST, CHANGE_DIRECTORY, EXIT -> false;
+        case MODIFY -> false;
         default -> true;
         };
     }
