@@ -29,6 +29,7 @@ The commands are usually composed of three main elements:
 A command action is what the command does. Examples are:
 - Adding: `add`
 - Deleting: `delete`
+- Modifying: `modify`
 - Listing: `list`
 - Changing directory: `cd`
 - Exiting the program: `exit`
@@ -73,6 +74,25 @@ add trip --name my trip --start 1-5 --end 7-5 --budget 1000
 
 ~ >
 add --n my trip --b 1000 --s 1-5 --e 7-5
+```
+
+### Modifying the trip
+
+Target: `trip`
+
+Action: `modify`
+
+Arguments: `name`, `start`, `end` and `budget`
+
+start date and end date should be in the format `d-M-yyyy` or `d-M` if the year is the current year.
+
+Note that the user must be within the trip before doing the modification.
+
+Example of usage: changing the current trip name to "new my trip" and the total budget to 1200
+
+```
+~/my trip/itinerary >
+modify trip --name new my trip --b 1200
 ```
 
 ### Deleting a trip
