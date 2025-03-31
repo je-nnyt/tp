@@ -142,7 +142,7 @@ public class VoyaTrip {
 
     private static void executeAddAccommodation(AccommodationCommand command)
             throws InvalidCommand, TripNotFoundException {
-        trips.get(command.getTrip()).addAccommodation(command.getName(), command.getBudget());
+        trips.get(command.getTrip()).addAccommodation(command.getName(), command.getBudget(), command.getDays());
     }
 
     private static void executeAddTransportation(TransportationCommand command)

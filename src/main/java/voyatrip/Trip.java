@@ -87,11 +87,11 @@ public class Trip {
         throw new InvalidCommand();
     }
 
-    public void addAccommodation(String accommodationName, Integer accommodationBudget) throws InvalidCommand {
+    public void addAccommodation(String accommodationName, Integer accommodationBudget, ArrayList<Integer> accommodationDays) throws InvalidCommand {
         if (isContainsAccommodation(accommodationName)) {
             throw new InvalidCommand();
         }
-        Accommodation newAccommodation = new Accommodation(accommodationName, accommodationBudget);
+        Accommodation newAccommodation = new Accommodation(accommodationName, accommodationBudget, accommodationDays);
         accommodations.add(newAccommodation);
         Ui.printAddAccommodationMessage(newAccommodation);
     }
