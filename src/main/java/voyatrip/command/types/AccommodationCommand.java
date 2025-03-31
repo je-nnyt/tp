@@ -31,7 +31,9 @@ public class AccommodationCommand extends Command {
         days = null;
 
         processRawArgument(arguments);
-        storeDaysInList();
+        if (commandAction == CommandAction.ADD) {
+            storeDaysInList();
+        }
     }
 
     @Override
@@ -67,7 +69,7 @@ public class AccommodationCommand extends Command {
     @Override
     protected boolean isMissingArgument() {
         boolean isInvalidName = name == null;
-        boolean isInvalidAdd = isInvalidName || budget == null;
+        boolean isInvalidAdd = isInvalidName || budget == null || startDay == null || endDay == null;
         boolean isInvalidDelete = isInvalidName && index == null;
 
         return switch (commandAction) {
