@@ -105,7 +105,8 @@ public class Trip {
         throw new InvalidCommand();
     }
 
-    public void addAccommodation(String accommodationName, Integer accommodationBudget, ArrayList<Integer> accommodationDays) throws InvalidCommand {
+    public void addAccommodation(String accommodationName, Integer accommodationBudget,
+                                 ArrayList<Integer> accommodationDays) throws InvalidCommand {
         logger.log(Level.INFO, "Adding accommodation");
         if (isContainsAccommodation(accommodationName)) {
             logger.log(Level.WARNING, "Accommodation already exists");
