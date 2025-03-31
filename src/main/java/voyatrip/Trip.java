@@ -1,8 +1,11 @@
 package voyatrip;
 
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import voyatrip.command.exceptions.InvalidCommand;
 import voyatrip.ui.Ui;
@@ -19,6 +22,7 @@ public class Trip {
     private ArrayList<Transportation> transportations;
     private ArrayList<Accommodation> accommodations;
     private ArrayList<Day> itinerary;
+    private Logger logger = Logger.getLogger(Trip.class.getName());
 
     /**
      * Constructor for the trip class.
@@ -28,6 +32,9 @@ public class Trip {
      * @param totalBudget the total budget for the trip.
      */
     public Trip(String name, LocalDate startDate, LocalDate endDate, Integer numDays, Integer totalBudget) {
+        assert(startDate.isBefore(endDate));
+        assert(numDays == ChronoUnit.DAYS.between(startDate, endDate)+1);
+        logger.log(Level.INFO, "Creating new trip");
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -41,6 +48,7 @@ public class Trip {
         for (int i = 0; i < numDays; i++) {
             itinerary.add(new Day(budgetPerDay));
         }
+        logger.log(Level.INFO, "Finished creating new trip");
     }
 
     public String getName() {
@@ -50,15 +58,19 @@ public class Trip {
     public void addTransportation(String transportName,
                                   String transportMode,
                                   Integer transportBudget) throws InvalidCommand {
+        logger.log(Level.INFO, "Adding transportation");
         if (isContainsTransportation(transportName)) {
+            logger.log(Level.WARNING, "Transportation already exists");
             throw new InvalidCommand();
         }
         Transportation newTransportation = new Transportation(transportName, transportMode, transportBudget);
         transportations.add(newTransportation);
         Ui.printAddTransportationMessage(newTransportation);
+        logger.log(Level.INFO, "Finished adding transportation");
     }
 
     public boolean isContainsTransportation(String transportName) {
+        logger.log(Level.INFO, "Checking if transportation exists");
         for (Transportation transportation : transportations) {
             if (transportation.getName().equals(transportName)) {
                 return true;
@@ -69,70 +81,91 @@ public class Trip {
 
     public void deleteTransportation(Integer index) throws InvalidCommand {
         try {
+            logger.log(Level.INFO, "Deleting transportation");
             Ui.printDeleteTransportationMessage(transportations.get(index - 1));
             transportations.remove(index - 1);
+            logger.log(Level.INFO, "Finished deleting transportation");
         } catch (IndexOutOfBoundsException e) {
+            logger.log(Level.WARNING, "Index out of bounds");
             throw new InvalidCommand();
         }
     }
 
     public void deleteTransportation(String transportName) throws InvalidCommand {
+        logger.log(Level.INFO, "Deleting transportation");
         for (Transportation transportation : transportations) {
             if (transportation.getName().equals(transportName)) {
                 Ui.printDeleteTransportationMessage(transportation);
                 transportations.remove(transportation);
+                logger.log(Level.INFO, "Finished deleting transportation");
                 return;
             }
         }
+        logger.log(Level.WARNING, "Transportation not found");
         throw new InvalidCommand();
     }
 
     public void addAccommodation(String accommodationName, Integer accommodationBudget) throws InvalidCommand {
+        logger.log(Level.INFO, "Adding accommodation");
         if (isContainsAccommodation(accommodationName)) {
+            logger.log(Level.WARNING, "Accommodation already exists");
             throw new InvalidCommand();
         }
         Accommodation newAccommodation = new Accommodation(accommodationName, accommodationBudget);
         accommodations.add(newAccommodation);
         Ui.printAddAccommodationMessage(newAccommodation);
+        logger.log(Level.INFO, "Finished adding accommodation");
     }
 
     private boolean isContainsAccommodation(String accommodationName) {
+        logger.log(Level.INFO, "Checking if accommodation exists");
         for (Accommodation accommodation : accommodations) {
             if (accommodation.getName().equals(accommodationName)) {
+                logger.log(Level.INFO, "Accommodation exists");
                 return true;
             }
         }
+        logger.log(Level.INFO, "Accommodation does not exist");
         return false;
     }
 
     public void deleteAccommodation(Integer index) throws InvalidCommand {
         try {
+            logger.log(Level.INFO, "Deleting accommodation");
             Ui.printDeleteAccommodationMessage(accommodations.get(index - 1));
             accommodations.remove(index - 1);
+            logger.log(Level.INFO, "Finished deleting accommodation");
         } catch (IndexOutOfBoundsException e) {
+            logger.log(Level.WARNING, "Index out of bounds");
             throw new InvalidCommand();
         }
     }
 
     public void deleteAccommodation(String accommodationName) throws InvalidCommand {
+        logger.log(Level.INFO, "Deleting accommodation");
         for (Accommodation accommodation : accommodations) {
             if (accommodation.getName().equals(accommodationName)) {
                 accommodations.remove(accommodation);
                 Ui.printDeleteAccommodationMessage(accommodation);
+                logger.log(Level.INFO, "Finished deleting accommodation");
                 return;
             }
         }
+        logger.log(Level.WARNING, "Accommodation not found");
         throw new InvalidCommand();
     }
 
     public void addActivity(Integer day, String name, String time) {
+        logger.log(Level.INFO, "Adding activity");
         try {
             Activity newActivity = new Activity(name, time);
             itinerary.get(day - 1).addActivity(newActivity);
             Ui.printAddActivityMessage(newActivity);
         } catch (IndexOutOfBoundsException e) {
+            logger.log(Level.WARNING, "Index out of bounds");
             Ui.printIndexOutOfBounds();
         }
+        logger.log(Level.INFO, "Finished adding activity");
     }
 
     public String abbrInfo() {

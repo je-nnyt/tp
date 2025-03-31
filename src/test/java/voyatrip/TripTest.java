@@ -15,7 +15,7 @@ public class TripTest {
 
     @BeforeEach
     void setUp() {
-        trip = new Trip("Vietnam", LocalDate.of(2025, 6, 10), LocalDate.of(2025, 6, 17), 7, 500);
+        trip = new Trip("Vietnam", LocalDate.of(2025, 6, 10), LocalDate.of(2025, 6, 17), 8, 500);
     }
 
     @Test
