@@ -33,7 +33,7 @@ public class Trip {
      */
     public Trip(String name, LocalDate startDate, LocalDate endDate, Integer numDays, Integer totalBudget) {
         assert(startDate.isBefore(endDate));
-        assert(numDays == ChronoUnit.DAYS.between(startDate, endDate));
+        assert(numDays == ChronoUnit.DAYS.between(startDate, endDate)+1);
         logger.log(Level.INFO, "Creating new trip");
         this.name = name;
         this.startDate = startDate;
