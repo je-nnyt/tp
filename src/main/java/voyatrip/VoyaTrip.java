@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 
 import voyatrip.command.exceptions.InvalidCommand;
+import voyatrip.command.exceptions.InvalidIndex;
 import voyatrip.command.exceptions.TripNotFoundException;
 import voyatrip.command.types.AccommodationCommand;
 import voyatrip.command.types.Command;
@@ -92,6 +93,7 @@ public class VoyaTrip {
         case LIST -> executeListTrip(command);
         case CHANGE_TRIP_BY_NAME -> executeChangeDirectoryTripByName(command);
         case CHANGE_TRIP_BY_INDEX -> executeChangeDirectoryTripByIndex(command);
+        case MODIFY -> executeModifyTrip(command);
         default -> throw new InvalidCommand();
         }
         logger.log(Level.INFO, "Finished handleTrip");
@@ -256,5 +258,37 @@ public class VoyaTrip {
         logger.log(Level.INFO, "Starting executeChangeDirectoryTransportation");
         PARSER.setCurrentTarget(CommandTarget.TRANSPORTATION);
         logger.log(Level.INFO, "Finished executeChangeDirectoryTransportation");
+    }
+
+    /*
+     * Modify the trip with the given command
+     * @param command The command to modify the trip
+     */
+    private static void executeModifyTrip(TripsCommand command) {
+        logger.log(Level.INFO, "Starting executeModifyTrip");
+        try {
+            Trip curTrip = trips.get(command.getIndex());
+
+            // Modify the name of the trip if not null
+            if (command.getName() != null) {
+                logger.log(Level.INFO, "Modifying trip name");
+                curTrip.setName(command.getName());
+                PARSER.setCurrentTrip(command.getName());
+            }
+
+            // TODO modify the date if it fulfills the requirement
+
+            // Modify the total budget of the trip, and add the budget to each day averagely if not null
+            if (command.getTotalBudget() != null) {
+                logger.log(Level.INFO, "Modifying trip total budget");
+                curTrip.setTotalBudget(command.getTotalBudget());
+
+                // TODO update the user on the budget status, ie exceed or not
+            }
+        } catch (InvalidIndex e) {
+            logger.log(Level.WARNING, "Index out of bounds");
+            Ui.printIndexOutOfBounds();
+        }
+        logger.log(Level.INFO, "Finished executeModifyTrip");
     }
 }

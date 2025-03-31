@@ -14,7 +14,7 @@ import voyatrip.ui.Ui;
  * This is the trip class that will hold all the information about the trip.
  */
 public class Trip {
-    private final String name;
+    private String name;
     private LocalDate startDate;
     private LocalDate endDate;
     private Integer totalBudget;
@@ -218,6 +218,22 @@ public class Trip {
         tripInfo.append("Accommodations:\n");
         buildAccommodationsInfo(tripInfo);
         return tripInfo.toString().trim();
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * This method set the total budget and the budget per day for the trip.
+     */
+    public void setTotalBudget(Integer totalBudget) {
+        int budgetToBeAdded = (totalBudget - this.totalBudget) / numDays;
+        this.totalBudget = totalBudget;
+
+        for (Day day : itinerary) {
+            day.addBudget(budgetToBeAdded);
+        }
     }
 }
 

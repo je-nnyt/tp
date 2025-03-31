@@ -23,4 +23,8 @@ public class Day {
         }
         return sb.toString();
     }
+
+    public void addBudget(int budget) {
+        this.budget += budget;
+    }
 }

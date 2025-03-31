@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import voyatrip.command.exceptions.InvalidCommand;
+import voyatrip.command.exceptions.InvalidIndex;
 import voyatrip.command.exceptions.TripNotFoundException;
 import voyatrip.ui.Ui;
 
@@ -63,6 +64,7 @@ public class TripList {
         logger.log(Level.INFO, "Finished deleting trip");
     }
 
+
     public Trip get(String name) throws TripNotFoundException {
         for (Trip trip : trips) {
             if (trip.getName().equals(name)) {
@@ -72,11 +74,11 @@ public class TripList {
         throw new TripNotFoundException();
     }
 
-    public Trip get(Integer index) throws InvalidCommand {
+    public Trip get(Integer index) throws InvalidIndex {
         try {
             return trips.get(index - 1);
         } catch (IndexOutOfBoundsException e) {
-            throw new InvalidCommand();
+            throw new InvalidIndex();
         }
     }
 
