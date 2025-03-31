@@ -1,6 +1,8 @@
 package voyatrip;
 
 import java.util.Scanner;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 import voyatrip.command.exceptions.InvalidCommand;
 import voyatrip.command.exceptions.TripNotFoundException;
@@ -14,6 +16,7 @@ import voyatrip.command.types.TripsCommand;
 import voyatrip.command.Parser;
 import voyatrip.ui.Ui;
 
+
 /**
  * This is the main class for the VoyaTrip application.
  */
@@ -22,6 +25,8 @@ public class VoyaTrip {
     private static final Scanner in = new Scanner(System.in);
     private static TripList trips = new TripList();
     private static Boolean isExit = false;
+
+    private static final Logger logger = Logger.getLogger(voyatrip.VoyaTrip.class.getName());
 
     public static void main(String[] args) {
         run();
@@ -114,14 +119,19 @@ public class VoyaTrip {
 
     private static void handleTransportation(TransportationCommand command)
             throws InvalidCommand, TripNotFoundException {
+        logger.log(Level.INFO, "Starting handleTransportation");
         switch (command.getCommandAction()) {
         case ADD -> executeAddTransportation(command);
         case DELETE_BY_INDEX -> executeDeleteTransportationByIndex(command);
         case DELETE_BY_NAME -> executeDeleteTransportationByName(command);
         case LIST -> executeListTransportation(command);
         case CHANGE_DIRECTORY -> executeChangeDirectoryTransportation(command);
-        default -> throw new InvalidCommand();
+        default -> {
+            logger.log(Level.WARNING, "Unknown command action: " + command.getCommandAction());
+            throw new InvalidCommand();
         }
+        }
+        logger.log(Level.INFO, "Finished handleTransportation");
     }
 
     private static void handleExit() {
@@ -147,7 +157,9 @@ public class VoyaTrip {
 
     private static void executeAddTransportation(TransportationCommand command)
             throws InvalidCommand, TripNotFoundException {
+        logger.log(Level.INFO, "Starting executeAddTransportation");
         trips.get(command.getTrip()).addTransportation(command.getName(), command.getMode(), command.getBudget());
+        logger.log(Level.INFO, "Finished executeAddTransportation");
     }
 
     private static void executeDeleteTripByIndex(TripsCommand command) throws InvalidCommand {
@@ -173,12 +185,16 @@ public class VoyaTrip {
 
     private static void executeDeleteTransportationByIndex(TransportationCommand command)
             throws InvalidCommand, TripNotFoundException {
+        logger.log(Level.INFO, "Starting executeDeleteTransportationByIndex");
         trips.get(command.getTrip()).deleteTransportation(command.getIndex());
+        logger.log(Level.INFO, "Finished executeDeleteTransportationByIndex");
     }
 
     private static void executeDeleteTransportationByName(TransportationCommand command)
             throws InvalidCommand, TripNotFoundException {
+        logger.log(Level.INFO, "Starting executeDeleteTransportationByName");
         trips.get(command.getTrip()).deleteTransportation(command.getName());
+        logger.log(Level.INFO, "Finished executeDeleteTransportationByName");
     }
 
     private static void executeListTrip(TripsCommand command) {
@@ -192,6 +208,9 @@ public class VoyaTrip {
     }
 
     private static void executeListTransportation(Command command) {
+        logger.log(Level.INFO, "Starting executeListTransportation");
+
+        logger.log(Level.INFO, "Finished executeListTransportation");
     }
 
     private static void executeChangeDirectoryTripByName(TripsCommand command) throws TripNotFoundException {
@@ -220,6 +239,8 @@ public class VoyaTrip {
     }
 
     private static void executeChangeDirectoryTransportation(TransportationCommand command) {
+        logger.log(Level.INFO, "Starting executeChangeDirectoryTransportation");
         parser.setCurrentTarget(CommandTarget.TRANSPORTATION);
+        logger.log(Level.INFO, "Finished executeChangeDirectoryTransportation");
     }
 }
