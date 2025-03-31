@@ -22,7 +22,7 @@ class ParserTest {
     }
 
     @Test
-    void parse_MODIFY_TRIP_WITHOUT_INDEX_successful() {
+    void parse_dummyMODIFYTRIPWITHOUTINDEX_successful() {
         PARSER.setCurrentTarget(CommandTarget.ITINERARY);
         assertDoesNotThrow(() -> {
             Command command = PARSER.parse("modify trip --name Vietnam --start 1-5 --end 7-5 --budget 1000\n");
