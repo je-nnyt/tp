@@ -12,6 +12,9 @@ public class AccommodationCommand extends Command {
     private String name;
     private Integer budget;
     private Integer index;
+    private Integer startDay;
+    private Integer endDay;
+    private ArrayList<Integer> days;
 
     public AccommodationCommand(CommandAction commandAction,
                                 CommandTarget commandTarget,
@@ -23,8 +26,14 @@ public class AccommodationCommand extends Command {
         name = null;
         budget = null;
         index = null;
+        startDay = null;
+        endDay = null;
+        days = null;
 
         processRawArgument(arguments);
+        if (commandAction == CommandAction.ADD) {
+            storeDaysInList();
+        }
     }
 
     @Override
@@ -48,6 +57,8 @@ public class AccommodationCommand extends Command {
             case "name", "n" -> name = argumentValue;
             case "budget", "b" -> budget = Integer.parseInt(argumentValue);
             case "index", "i" -> index = Integer.parseInt(argumentValue);
+            case "start", "s" -> startDay = Integer.parseInt(argumentValue);
+            case "end", "e" -> endDay = Integer.parseInt(argumentValue);
             default -> throw new InvalidArgumentKeyword();
             }
         } catch (NumberFormatException e) {
@@ -58,7 +69,7 @@ public class AccommodationCommand extends Command {
     @Override
     protected boolean isMissingArgument() {
         boolean isInvalidName = name == null;
-        boolean isInvalidAdd = isInvalidName || budget == null;
+        boolean isInvalidAdd = isInvalidName || budget == null || startDay == null || endDay == null;
         boolean isInvalidDelete = isInvalidName && index == null;
 
         return switch (commandAction) {
@@ -68,6 +79,13 @@ public class AccommodationCommand extends Command {
         case LIST, CHANGE_DIRECTORY, EXIT -> false;
         default -> true;
         };
+    }
+
+    private void storeDaysInList() {
+        days = new ArrayList<>();
+        for (int i = startDay; i <= endDay; i++) {
+            days.add(i);
+        }
     }
 
     public String getTrip() {
@@ -84,5 +102,9 @@ public class AccommodationCommand extends Command {
 
     public Integer getIndex() {
         return index;
+    }
+
+    public ArrayList<Integer> getDays() {
+        return days;
     }
 }
