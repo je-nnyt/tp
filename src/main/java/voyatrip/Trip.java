@@ -118,7 +118,7 @@ public class Trip {
         logger.log(Level.INFO, "Finished adding accommodation");
     }
 
-    private boolean isContainsAccommodation(String accommodationName) {
+    public boolean isContainsAccommodation(String accommodationName) {
         logger.log(Level.INFO, "Checking if accommodation exists");
         for (Accommodation accommodation : accommodations) {
             if (accommodation.getName().equals(accommodationName)) {
