@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.time.LocalDate;
 
 import voyatrip.command.exceptions.InvalidCommand;
+import voyatrip.command.exceptions.TransportationException;
 import voyatrip.ui.Ui;
 
 /**
@@ -22,9 +23,10 @@ public class Trip {
 
     /**
      * Constructor for the trip class.
-     * @param startDate the start date of the trip.
-     * @param endDate the end date of the trip.
-     * @param numDays the number of days for the trip.
+     *
+     * @param startDate   the start date of the trip.
+     * @param endDate     the end date of the trip.
+     * @param numDays     the number of days for the trip.
      * @param totalBudget the total budget for the trip.
      */
     public Trip(String name, LocalDate startDate, LocalDate endDate, Integer numDays, Integer totalBudget) {
@@ -86,6 +88,32 @@ public class Trip {
         }
         throw new InvalidCommand();
     }
+
+    public void listTransportation(Integer index) throws TransportationException {
+        try {
+            if (index < 0 || index > transportations.size()) {
+                throw new TransportationException("Invalid index");
+            }
+            transportations.get(index).toString();
+        } catch (TransportationException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void listTransportations() throws TransportationException {
+        try {
+            if (transportations.isEmpty()) {
+                throw new TransportationException("There are no transportations in your current trip");
+            }
+            for (Transportation transportation : transportations) {
+                transportation.toString();
+            }
+        } catch (TransportationException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
 
     public void addAccommodation(String accommodationName, Integer accommodationBudget) throws InvalidCommand {
         if (isContainsAccommodation(accommodationName)) {
@@ -164,13 +192,14 @@ public class Trip {
     }
 
     public void buildItineraryInfo(StringBuilder tripInfo) {
-        for (Day day: itinerary) {
+        for (Day day : itinerary) {
             tripInfo.append(day.toString()).append("\n");
         }
     }
 
     /**
      * This is a method to print the trip information.
+     *
      * @return String representation of the trip, and its associated transportations and accommodations.
      */
     @Override

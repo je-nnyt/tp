@@ -192,6 +192,7 @@ public class VoyaTrip {
     }
 
     private static void executeListTransportation(Command command) {
+
     }
 
     private static void executeChangeDirectoryTripByName(TripsCommand command) throws TripNotFoundException {
