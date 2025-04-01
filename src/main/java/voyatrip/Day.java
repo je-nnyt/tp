@@ -27,4 +27,12 @@ public class Day {
     public void addBudget(int budget) {
         this.budget += budget;
     }
+
+    /**
+     * This method is used to get the budget of the day.
+     * @return The budget of the day.
+     */
+    public Integer getBudget() {
+        return budget;
+    }
 }
