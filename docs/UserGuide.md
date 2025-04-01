@@ -76,23 +76,31 @@ add trip --name my trip --start 1-5 --end 7-5 --budget 1000
 add --n my trip --b 1000 --s 1-5 --e 7-5
 ```
 
+### Modifying
+
+Generally speaking, modify the item specified by index. The argument that are not index are the parameters to be changed to. Day number is also required for modifying activity. User do not need to specify the trip index if they are already in the trip they want to modify.
+
 ### Modifying the trip
 
 Target: `trip`
 
 Action: `modify`
 
+Required arguments: `index`
 Arguments: `name`, `start`, `end` and `budget`
 
 start date and end date should be in the format `d-M-yyyy` or `d-M` if the year is the current year.
 
-Note that the user must be within the trip before doing the modification.
+Note that the user do not need to specify the index of the trip if they want to modify the current trip they are in.
 
 Example of usage: changing the current trip name to "new my trip" and the total budget to 1200
 
 ```
+~ >
+modify trip --index 1 --name new my trip --budget 1200
+
 ~/my trip/itinerary >
-modify trip --name new my trip --b 1200
+modify trip --n new my trip --b 1200
 ```
 
 ### Deleting a trip
