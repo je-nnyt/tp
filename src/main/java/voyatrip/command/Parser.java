@@ -88,10 +88,7 @@ public class Parser {
         ArrayList<String> arguments = extractCommandArguments(command);
         CommandTarget commandTarget = extractCommandTargetType(command, commandAction);
 
-        boolean isIncorrectScope = !commandTarget.equals(CommandTarget.TRIP) && currentTarget == CommandTarget.TRIP;
-        if (isIncorrectScope) {
-            throw new InvalidScope();
-        }
+        validateScope(commandTarget, commandAction);
 
         return matchCommand(commandAction, commandTarget, arguments);
     }
@@ -117,10 +114,10 @@ public class Parser {
         return switch (commandAction) {
         case "add", "a", "make", "mk" -> CommandAction.ADD;
         case "delete", "d", "remove", "rm" -> CommandAction.DELETE_BY_INDEX;
+        case "modify", "mod", "m" -> CommandAction.MODIFY;
         case "list", "l" -> CommandAction.LIST;
         case "cd" -> CommandAction.CHANGE_DIRECTORY;
         case "exit", "quit", "bye" -> CommandAction.EXIT;
-        case "modify" -> CommandAction.MODIFY;
         default -> throw new InvalidCommandAction();
         };
     }
@@ -146,6 +143,15 @@ public class Parser {
         case "transportation", "tran" -> CommandTarget.TRANSPORTATION;
         default -> currentTarget;
         };
+    }
+
+    private void validateScope(CommandTarget commandTarget, CommandAction commandAction) throws InvalidScope {
+        // target scope too small
+        boolean isIncorrectScope = !commandTarget.equals(CommandTarget.TRIP) && currentTarget == CommandTarget.TRIP;
+
+        if (isIncorrectScope) {
+            throw new InvalidScope();
+        }
     }
 
     private Command matchCommand(CommandAction commandAction, CommandTarget commandTarget, ArrayList<String> arguments)
