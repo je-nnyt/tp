@@ -45,7 +45,7 @@ public class Trip {
         this.accommodations = new ArrayList<>();
         this.itinerary = new ArrayList<>();
 
-        Integer budgetPerDay = totalBudget / numDays;
+        Float budgetPerDay = (float) totalBudget / numDays;
         for (int i = 0; i < numDays; i++) {
             itinerary.add(new Day(budgetPerDay));
         }
@@ -207,7 +207,7 @@ public class Trip {
      * This method print the information of the current trip budget status, ie budget per day and remaining budget.
      */
     public void printBudgetStatus() {
-        int budgetSum = 0;
+        float budgetSum = 0;
         for (Day day : itinerary) {
             budgetSum += day.getBudget();
         }
@@ -217,7 +217,6 @@ public class Trip {
             Ui.printExceedTotalBudget();
             Ui.printBudgetPerDay(itinerary);
         }
-
     }
 
     /**
@@ -227,7 +226,7 @@ public class Trip {
         int currentSize = itinerary.size();
         if (currentSize < numDays) {
             for (int i = currentSize; i < numDays; i++) {
-                itinerary.add(new Day(0));
+                itinerary.add(new Day((float)0));
             }
         } else if (currentSize > numDays) {
             for (int i = currentSize; i > numDays; i--) {
@@ -278,7 +277,6 @@ public class Trip {
      * This method set the total budget and the budget per day for the trip.
      */
     public void setTotalBudget(Integer totalBudget) {
-        int budgetToBeAdded = (totalBudget - this.totalBudget) / numDays;
         this.totalBudget = totalBudget;
     }
 

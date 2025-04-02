@@ -67,6 +67,10 @@ public class Ui {
         System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 
+    public static void printNextCommandMessage() {
+        System.out.println(Message.NEXT_COMMAND_MESSAGE);
+    }
+
     // Methods for trip modification
     public static void printBudgetPerDay(ArrayList<Day> itinerary) {
         System.out.println(Message.BUDGET_PER_DAY_MESSAGE);
@@ -79,7 +83,7 @@ public class Ui {
         System.out.println(Message.EXCEED_TOTAL_BUDGET_MESSAGE);
     }
 
-    public static void printTotalBudgetStatus(Integer totalBudget, Integer budgetSum) {
+    public static void printTotalBudgetStatus(Integer totalBudget, Float budgetSum) {
         System.out.println(Message.TOTAL_BUDGET_AGAINST_BUDGET_SUM_MESSAGE
                 + (budgetSum / totalBudget) * 100 + "%");
     }
@@ -91,7 +95,6 @@ public class Ui {
     public static void printModifyTripMessage(String abbrTripInfo) {
         System.out.println(Message.MODIFY_TRIP_MESSAGE);
         System.out.println(abbrTripInfo);
-        System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 
     public static void printTripNotFound() {

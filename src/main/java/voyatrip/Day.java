@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class Day {
     private ArrayList<Activity> activities = new ArrayList<Activity>();
-    private Integer budget;
+    private Float budget;
 
-    public Day(Integer budget) {
+    public Day(Float budget) {
         this.budget = budget;
     }
 
@@ -32,7 +32,7 @@ public class Day {
      * This method is used to get the budget of the day.
      * @return The budget of the day.
      */
-    public Integer getBudget() {
+    public Float getBudget() {
         return budget;
     }
 }

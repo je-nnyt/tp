@@ -301,17 +301,24 @@ public class VoyaTrip {
                 if (newNumDays != null) {
                     trip.setNumDays(newNumDays);
                 }
-                trip.correctItinerarySize(); // method is called the correct the actual size of the Days arraylist
+                // method is called the correct the actual size of the Days arraylist
+                trip.correctItinerarySize();
             }
 
             // Modify the total budget of the trip, and add the budget to each day averagely if not null
+            boolean budgetIsModified = false;
             if (command.getTotalBudget() != null) {
                 logger.log(Level.INFO, "Modifying trip total budget");
+                budgetIsModified = true;
                 trip.setTotalBudget(command.getTotalBudget());
-
             }
 
             Ui.printModifyTripMessage(trip.abbrInfo());
+            // Show the user information about the current trip budget status if it is updated
+            if (budgetIsModified) {
+                trip.printBudgetStatus();
+            }
+            Ui.printNextCommandMessage();
         } catch (InvalidIndex e) {
             logger.log(Level.WARNING, "Index out of bounds");
             Ui.printIndexOutOfBounds();
@@ -349,19 +356,27 @@ public class VoyaTrip {
                 if (newNumDays != null) {
                     trip.setNumDays(newNumDays);
                 }
-                trip.correctItinerarySize(); // method is called the correct the actual size of the Days arraylist
+                // method is called the correct the actual size of the Days arraylist
+                trip.correctItinerarySize();
             }
 
             // Modify the total budget of the trip, and add the budget to each day averagely if not null
+            boolean budgetIsModified = false;
             if (command.getTotalBudget() != null) {
                 logger.log(Level.INFO, "Modifying trip total budget");
+                budgetIsModified = true;
                 trip.setTotalBudget(command.getTotalBudget());
 
-                // Show the user information about the current trip budget status
-                trip.printBudgetStatus();
             }
+
+            Ui.printModifyTripMessage(trip.abbrInfo());
+            // Show the user information about the current trip budget status if it is updated
+            trip.printBudgetStatus();
+            Ui.printNextCommandMessage();
+
         } catch (TripNotFoundException e) {
-            throw new RuntimeException(e);
+            logger.log(Level.WARNING, "Trip not found");
+            Ui.printTripNotFound();
         }
         logger.log(Level.INFO, "Finished executeModifyCurTrip");
     }
