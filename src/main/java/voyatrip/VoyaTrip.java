@@ -213,12 +213,10 @@ public class VoyaTrip {
     }
 
     private static void executeListTripByIndex(TripsCommand command) throws InvalidCommand {
-        // TODO
         System.out.println(trips.get(command.getIndex()));
     }
 
     private static void executeListTripByName(TripsCommand command) throws TripNotFoundException {
-        // TODO
         if (command.getName().equals("all")) {
             System.out.println(trips);
         } else {

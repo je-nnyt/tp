@@ -23,4 +23,8 @@ public class Day {
         }
         return sb.toString();
     }
+
+    public ArrayList<Activity> getActivities() {
+        return activities;
+    }
 }

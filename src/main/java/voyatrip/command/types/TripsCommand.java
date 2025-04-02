@@ -121,9 +121,10 @@ public class TripsCommand extends Command {
 
         return switch (commandAction) {
         case ADD -> isInvalidAdd;
-        case DELETE_BY_INDEX, DELETE_BY_NAME, LIST -> isHaveTargetTrip;
+        case DELETE_BY_INDEX, DELETE_BY_NAME -> isHaveTargetTrip;
         case MODIFY -> false;
         case CHANGE_DIRECTORY, EXIT -> false;
+        case LIST -> name == null && index == null;
         default -> true;
         };
     }
