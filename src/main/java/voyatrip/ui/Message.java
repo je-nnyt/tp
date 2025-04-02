@@ -16,6 +16,7 @@ public class Message {
             " your list! ";
     static final String ADD_ACTIVITY_MESSAGE = "The following activity has been added to your list! ";
     static final String NEXT_COMMAND_MESSAGE = "What would you like to do next? ";
+    static final String MODIFY_ACCOMMODATION_MESSAGE = "The following accommodation has been modified to: ";
     // exception
     static final String TRIP_NOT_FOUND_MESSAGE = "Trip not found. Please try again.";
     static final String INVALID_COMMAND_MESSAGE = "Invalid command. Please try again.";
