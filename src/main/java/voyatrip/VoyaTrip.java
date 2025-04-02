@@ -302,7 +302,7 @@ public class VoyaTrip {
                     trip.setNumDays(newNumDays);
                 }
                 // method is called the correct the actual size of the Days arraylist
-                trip.correctItinerarySize();
+                trip.updateItinerarySize();
             }
 
             // Modify the total budget of the trip, and add the budget to each day averagely if not null
@@ -357,7 +357,7 @@ public class VoyaTrip {
                     trip.setNumDays(newNumDays);
                 }
                 // method is called the correct the actual size of the Days arraylist
-                trip.correctItinerarySize();
+                trip.updateItinerarySize();
             }
 
             // Modify the total budget of the trip, and add the budget to each day averagely if not null

@@ -222,14 +222,17 @@ public class Trip {
     /**
      * This method is used to correct the size of the day objects according to the number of days in the trip.
      */
-    public void correctItinerarySize() {
-        int currentSize = itinerary.size();
-        if (currentSize < numDays) {
-            for (int i = currentSize; i < numDays; i++) {
+    public void updateItinerarySize() {
+        assert(ChronoUnit.DAYS.between(startDate, endDate) + 1 >= 0);
+        int curSize = itinerary.size();
+        int curNumDays = (int) ChronoUnit.DAYS.between(startDate, endDate) + 1;
+
+        if (curSize < curNumDays) {
+            for (int i = curSize; i < curNumDays; i++) {
                 itinerary.add(new Day((float)0));
             }
-        } else if (currentSize > numDays) {
-            for (int i = currentSize; i > numDays; i--) {
+        } else if (curSize > curNumDays) {
+            for (int i = curSize; i > curNumDays; i--) {
                 itinerary.remove(i - 1);
             }
         }
@@ -273,9 +276,6 @@ public class Trip {
         this.numDays = numDays;
     }
 
-    /**
-     * This method set the total budget and the budget per day for the trip.
-     */
     public void setTotalBudget(Integer totalBudget) {
         this.totalBudget = totalBudget;
     }
@@ -287,6 +287,10 @@ public class Trip {
 
     public LocalDate getEndDate() {
         return endDate;
+    }
+
+    public Integer getItinerarySize() {
+        return itinerary.size();
     }
 }
 
