@@ -13,6 +13,9 @@ public class AccommodationCommand extends Command {
     private String name;
     private Integer budget;
     private Integer index;
+    private Integer startDay;
+    private Integer endDay;
+    private ArrayList<Integer> days;
 
     public AccommodationCommand(CommandAction commandAction,
                                 CommandTarget commandTarget,
@@ -28,8 +31,14 @@ public class AccommodationCommand extends Command {
         name = null;
         budget = null;
         index = null;
+        startDay = null;
+        endDay = null;
+        days = null;
 
         processRawArgument(arguments);
+        if (commandAction == CommandAction.ADD) {
+            storeDaysInList();
+        }
     }
 
     @Override
@@ -57,6 +66,8 @@ public class AccommodationCommand extends Command {
             case "name", "n" -> name = argumentValue;
             case "budget", "b" -> budget = Integer.parseInt(argumentValue);
             case "index", "i" -> index = Integer.parseInt(argumentValue);
+            case "start", "s" -> startDay = Integer.parseInt(argumentValue);
+            case "end", "e" -> endDay = Integer.parseInt(argumentValue);
             default -> throw new InvalidArgumentKeyword();
             }
         } catch (NumberFormatException e) {
@@ -71,9 +82,10 @@ public class AccommodationCommand extends Command {
                 commandAction == CommandAction.DELETE_BY_NAME;
         boolean isModify = commandAction == CommandAction.MODIFY;
 
-        boolean isMissingAddArgument = name == null || budget == null;
+        boolean isMissingAddArgument = name == null || budget == null || startDay == null || endDay == null;
         boolean isMissingDeleteArgument = name == null && index == null;
-        boolean isMissingModifyArgument = index == null || (name == null && budget == null);
+        boolean isMissingModifyArgument = index == null ||
+                (name == null && budget == null && startDay == null && endDay == null);
 
         if (isAdd && isMissingAddArgument ||
                 isDelete && isMissingDeleteArgument ||
@@ -83,6 +95,13 @@ public class AccommodationCommand extends Command {
 
         if (budget != null && budget < 0) {
             throw new InvalidArgumentValue();
+        }
+    }
+
+    private void storeDaysInList() {
+        days = new ArrayList<>();
+        for (int i = startDay; i <= endDay; i++) {
+            days.add(i);
         }
     }
 
@@ -100,5 +119,9 @@ public class AccommodationCommand extends Command {
 
     public Integer getIndex() {
         return index;
+    }
+
+    public ArrayList<Integer> getDays() {
+        return days;
     }
 }

@@ -14,7 +14,7 @@ import voyatrip.command.exceptions.InvalidNumberFormat;
 import voyatrip.command.exceptions.MissingArgument;
 
 public class TripsCommand extends Command {
-    static final String[] INVALID_NAMES = {"root"};
+    static final String[] INVALID_NAMES = {"root", "all"};
 
     private String name;
     private LocalDate startDate;
@@ -74,6 +74,16 @@ public class TripsCommand extends Command {
                 super.setCommandAction(CommandAction.CHANGE_TRIP_BY_NAME);
                 name = "root";
             }
+        } else if (commandAction == CommandAction.LIST) {
+            if (name != null) {
+                super.setCommandAction(CommandAction.LIST_TRIP_BY_NAME);
+            } else if (index != null) {
+                super.setCommandAction(CommandAction.LIST_TRIP_BY_INDEX);
+            }
+        } else if (commandAction == CommandAction.MODIFY) {
+            if (index == null) {
+                super.setCommandAction(CommandAction.MODIFY_TRIP_WITHOUT_INDEX);
+            }
         }
     }
 
@@ -126,7 +136,7 @@ public class TripsCommand extends Command {
                 (name == null && startDate == null && endDate == null && totalBudget == null);
         boolean isMissingModifyWithoutIndexArgument =
                 name == null && startDate == null && endDate == null && totalBudget == null;
-        boolean isMissingListArgument = name == null;
+        boolean isMissingListArgument = name == null && index == null;
 
         if (isAdd && isMissingAddArgument ||
                 isDelete && isMissingDeleteArgument ||
@@ -137,9 +147,10 @@ public class TripsCommand extends Command {
         }
 
         boolean isInvalidBudget = totalBudget != null && totalBudget < 0;
-        boolean isInvalidName = Arrays.asList(INVALID_NAMES).contains(name);
+        boolean isInvalidName = name != null && Arrays.asList(INVALID_NAMES).contains(name);
+        boolean isInvalidDate = startDate != null && endDate != null && startDate.isAfter(endDate);
 
-        if (isInvalidBudget || isInvalidName) {
+        if (isInvalidBudget || isInvalidName || isInvalidDate) {
             throw new InvalidArgumentValue();
         }
     }
