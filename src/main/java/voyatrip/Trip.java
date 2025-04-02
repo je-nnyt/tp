@@ -214,20 +214,44 @@ public class Trip {
     }
 
     private void buildAccommodationsInfo(StringBuilder tripInfo) {
+        // early return when there are no accommodations
+        if (accommodations.isEmpty()) {
+            tripInfo.append("No accommodations added yet.\n");
+        }
+
         for (Accommodation accommodation : accommodations) {
             tripInfo.append(accommodation.toString()).append("\n");
         }
     }
 
     private void buildTransportationsInfo(StringBuilder tripInfo) {
+        // early return when there are no transportations
+        if (transportations.isEmpty()) {
+            tripInfo.append("No transportations added yet.\n");
+        }
+
         for (Transportation transportation : transportations) {
             tripInfo.append(transportation.toString()).append("\n");
         }
     }
 
     public void buildItineraryInfo(StringBuilder tripInfo) {
-        for (Day day: itinerary) {
-            tripInfo.append(day.toString()).append("\n");
+        boolean hasNoActivity = true;
+        for (int i = 0; i < itinerary.size(); i++) {
+            if (itinerary.get(i).getActivities().isEmpty()) {
+                continue;
+            }
+            // print the heading for the first time
+            if (hasNoActivity) {
+                tripInfo.append("Itinerary: \n");
+                hasNoActivity = false;
+            }
+            tripInfo.append("Day ").append(i + 1).append("\n");
+            tripInfo.append(itinerary.get(i)).append("\n");
+        }
+
+        if (hasNoActivity) {
+            tripInfo.append("No activities added yet.\n");
         }
     }
 
@@ -240,12 +264,10 @@ public class Trip {
         StringBuilder tripInfo = new StringBuilder();
         tripInfo.append(abbrInfo()).append("\n");
 
-        tripInfo.append("Itinerary:\n");
         buildItineraryInfo(tripInfo);
-        tripInfo.append("Transportations:\n");
         buildTransportationsInfo(tripInfo);
-        tripInfo.append("Accommodations:\n");
         buildAccommodationsInfo(tripInfo);
+
         return tripInfo.toString().trim();
     }
 }
