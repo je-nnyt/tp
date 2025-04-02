@@ -149,8 +149,20 @@ public class Parser {
         case "activity", "act" -> CommandTarget.ACTIVITY;
         case "accommodation", "accom" -> CommandTarget.ACCOMMODATION;
         case "transportation", "tran" -> CommandTarget.TRANSPORTATION;
-        default -> currentTarget;
+        default -> getAdjustedCurrentTarget(commandAction);
         };
+    }
+
+    private CommandTarget getAdjustedCurrentTarget(CommandAction action) {
+        boolean isAddDeleteModify = action == CommandAction.ADD ||
+                action == CommandAction.DELETE_BY_INDEX ||
+                action == CommandAction.MODIFY;
+
+        if (currentTarget == CommandTarget.ITINERARY && isAddDeleteModify) {
+            return CommandTarget.ACTIVITY;
+        } else {
+            return currentTarget;
+        }
     }
 
     private void validateScope(CommandTarget commandTarget) throws InvalidScope {
