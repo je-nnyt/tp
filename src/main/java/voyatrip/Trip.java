@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import voyatrip.command.exceptions.InvalidCommand;
+import voyatrip.command.exceptions.TripNotFoundException;
 import voyatrip.ui.Ui;
 
 /**
@@ -197,8 +198,9 @@ public class Trip {
     }
 
     public void buildItineraryInfo(StringBuilder tripInfo) {
-        for (Day day: itinerary) {
-            tripInfo.append(day.toString()).append("\n");
+        for (int i = 0; i < itinerary.size(); i++) {
+            tripInfo.append("Day ").append(i + 1).append("\n");
+            tripInfo.append(itinerary.get(i)).append("\n");
         }
     }
 

@@ -80,6 +80,15 @@ public class TripList {
         }
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < trips.size(); i++) {
+            sb.append("Trip ").append(i + 1).append(": ").append(trips.get(i).abbrInfo()).append("\n");
+        }
+        return sb.toString();
+    }
+
     public void listTrip(Integer index) {
         logger.log(Level.INFO, "Listing trip");
         try {

@@ -89,7 +89,8 @@ public class VoyaTrip {
         case ADD -> executeAddTrip(command);
         case DELETE_BY_INDEX -> executeDeleteTripByIndex(command);
         case DELETE_BY_NAME -> executeDeleteTripByName(command);
-        case LIST -> executeListTrip(command);
+        case LIST_TRIP_BY_INDEX -> executeListTripByIndex(command);
+        case LIST_TRIP_BY_NAME -> executeListTripByName(command);
         case CHANGE_TRIP_BY_NAME -> executeChangeDirectoryTripByName(command);
         case CHANGE_TRIP_BY_INDEX -> executeChangeDirectoryTripByIndex(command);
         default -> throw new InvalidCommand();
@@ -211,8 +212,18 @@ public class VoyaTrip {
         logger.log(Level.INFO, "Finished executeDeleteTransportationByName");
     }
 
-    private static void executeListTrip(TripsCommand command) {
-        trips.listTrip(command.getIndex());
+    private static void executeListTripByIndex(TripsCommand command) throws InvalidCommand {
+        // TODO
+        System.out.println(trips.get(command.getIndex()));
+    }
+
+    private static void executeListTripByName(TripsCommand command) throws TripNotFoundException {
+        // TODO
+        if (command.getName().equals("all")) {
+            System.out.println(trips);
+        } else {
+            System.out.println(trips.get(command.getName()));
+        }
     }
 
     private static void executeListItinerary(Command command) {

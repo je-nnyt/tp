@@ -13,7 +13,7 @@ import voyatrip.command.exceptions.InvalidNumberFormat;
 import voyatrip.command.exceptions.MissingArgument;
 
 public class TripsCommand extends Command {
-    static final String[] INVALID_NAMES = {"root"};
+    static final String[] INVALID_NAMES = {"root", "all"};
 
     private String name;
     private LocalDate startDate;
@@ -65,6 +65,12 @@ public class TripsCommand extends Command {
                 super.setCommandAction(CommandAction.CHANGE_TRIP_BY_NAME);
                 name = "root";
             }
+        } else if (commandAction == CommandAction.LIST) {
+            if (name != null) {
+                super.setCommandAction(CommandAction.LIST_TRIP_BY_NAME);
+            } else if (index != null) {
+                super.setCommandAction(CommandAction.LIST_TRIP_BY_INDEX);
+            }
         } else if (commandAction == CommandAction.MODIFY) {
             if (index == null) {
                 super.setCommandAction(CommandAction.MODIFY_TRIP_WITHOUT_INDEX);
@@ -87,6 +93,7 @@ public class TripsCommand extends Command {
             case "day", "d" -> numDay = Integer.parseInt(argumentValue);
             case "budget", "b" -> totalBudget = Integer.parseInt(argumentValue);
             case "index", "i" -> index = Integer.parseInt(argumentValue);
+            case "all" -> name = "all";
             default -> throw new InvalidArgumentKeyword();
             }
         } catch (NumberFormatException e) {
