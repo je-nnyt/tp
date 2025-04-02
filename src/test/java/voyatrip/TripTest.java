@@ -51,4 +51,19 @@ public class TripTest {
         });
 
     }
+
+    @Test
+    void updateItinerarySize_smallerSize_success() {
+        trip.setEndDate(LocalDate.of(2025, 6, 16));
+        trip.updateItinerarySize();
+        Assertions.assertEquals(7, trip.getItinerarySize());
+    }
+
+    @Test
+    void updateItinerarySize_largerSize_success() {
+        trip.addActivity(8, "Visit the beach", "10:00");
+        trip.setEndDate(LocalDate.of(2025, 6, 18));
+        trip.updateItinerarySize();
+        Assertions.assertEquals(9, trip.getItinerarySize());
+    }
 }
