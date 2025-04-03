@@ -1,6 +1,7 @@
 package voyatrip;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,6 +53,65 @@ public class TripTest {
 
     }
 
+    @Test
+    void addAccommodation_uniqueAccommodationName_success() throws InvalidCommand {
+        ArrayList<Integer> days = new ArrayList<>();
+        days.add(3);
+        days.add(4);
+        trip.addAccommodation("Park Hyatt Saigon", 800, days);
+        Assertions.assertTrue(trip.isContainsAccommodation("Park Hyatt Saigon"));
+    }
+
+    @Test
+    void addAccommodation_duplicateAccommodationName_failure() throws InvalidCommand {
+        ArrayList<Integer> days = new ArrayList<>();
+        days.add(5);
+        days.add(6);
+        trip.addAccommodation("Park Hyatt Saigon", 800, days);
+        Assertions.assertThrows(InvalidCommand.class, ()->
+                trip.addAccommodation("Park Hyatt Saigon", 600, days));
+    }
+
+    @Test
+    void deleteAccommodationByIndex_indexWithinRange_success() throws InvalidCommand {
+        ArrayList<Integer> days = new ArrayList<>();
+        days.add(1);
+        days.add(2);
+        trip.addAccommodation("Park Hyatt Saigon", 800, days);
+        trip.deleteAccommodation(1);
+        Assertions.assertFalse(trip.isContainsAccommodation("Park Hyatt Saigon"));
+    }
+
+    @Test
+    void deleteAccommodationByIndex_indexOutOfBounds_failure() throws InvalidCommand {
+        ArrayList<Integer> days = new ArrayList<>();
+        days.add(3);
+        days.add(4);
+        trip.addAccommodation("Park Hyatt Saigon", 800, days);
+        Assertions.assertThrows(InvalidCommand.class, ()->
+                trip.deleteAccommodation(2));
+    }
+
+    @Test
+    void deleteAccommodationByName_nameExists_success() throws InvalidCommand {
+        ArrayList<Integer> days = new ArrayList<>();
+        days.add(5);
+        days.add(6);
+        trip.addAccommodation("Park Hyatt Saigon", 800, days);
+        trip.deleteAccommodation("Park Hyatt Saigon");
+        Assertions.assertFalse(trip.isContainsAccommodation("Park Hyatt Saigon"));
+    }
+
+    @Test
+    void deleteAccommodationByName_nameDoesntExist_failure() throws InvalidCommand {
+        ArrayList<Integer> days = new ArrayList<>();
+        days.add(1);
+        days.add(2);
+        trip.addAccommodation("Park Hyatt Saigon", 800, days);
+        Assertions.assertThrows(InvalidCommand.class, ()->
+                trip.deleteAccommodation("Lotte Hotel Saigon"));
+    }
+  
     @Test
     void updateItinerarySize_smallerSize_success() {
         trip.setEndDate(LocalDate.of(2025, 6, 16));
