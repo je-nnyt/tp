@@ -229,15 +229,21 @@ public class VoyaTrip {
         }
     }
 
-    private static void executeListItinerary(Command command) {
+    private static void executeListItinerary(ItineraryCommand command) throws TripNotFoundException {
+        logger.log(Level.INFO, "Starting executeListItinerary");
+        Ui.printItinerary(trips.get(command.getTrip()));
+        logger.log(Level.INFO, "Finished executeListItinerary");
     }
 
-    private static void executeListAccommodation(Command command) {
+    private static void executeListAccommodation(AccommodationCommand command) throws TripNotFoundException {
+        logger.log(Level.INFO, "Starting executeListAccommodation");
+        Ui.printAccommodationList(trips.get(command.getTrip()));
+        logger.log(Level.INFO, "Finished executeListAccommodation");
     }
 
-    private static void executeListTransportation(Command command) {
+    private static void executeListTransportation(TransportationCommand command) throws TripNotFoundException {
         logger.log(Level.INFO, "Starting executeListTransportation");
-
+        Ui.printTransportationList(trips.get(command.getTrip()));
         logger.log(Level.INFO, "Finished executeListTransportation");
     }
 

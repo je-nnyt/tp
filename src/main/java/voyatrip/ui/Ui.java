@@ -3,6 +3,7 @@ package voyatrip.ui;
 import voyatrip.Accommodation;
 import voyatrip.Activity;
 import voyatrip.Day;
+import voyatrip.Trip;
 import voyatrip.command.Parser;
 import voyatrip.Transportation;
 
@@ -74,6 +75,24 @@ public class Ui {
 
     public static void printNextCommandMessage() {
         System.out.println(Message.NEXT_COMMAND_MESSAGE);
+    }
+
+    public static void printAccommodationList(Trip trip) {
+        StringBuilder tripInfo = new StringBuilder();
+        trip.buildAccommodationsInfo(tripInfo);
+        System.out.println(tripInfo.toString().trim());
+    }
+
+    public static void printTransportationList(Trip trip) {
+        StringBuilder tripInfo = new StringBuilder();
+        trip.buildTransportationsInfo(tripInfo);
+        System.out.println(tripInfo.toString().trim());
+    }
+
+    public static void printItinerary(Trip trip) {
+        StringBuilder tripInfo = new StringBuilder();
+        trip.buildItineraryInfo(tripInfo);
+        System.out.println(tripInfo.toString().trim());
     }
 
     // Methods for trip modification

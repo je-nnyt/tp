@@ -185,7 +185,7 @@ public class Trip {
         return this.name.equals(((Trip) obj).name);
     }
 
-    private void buildAccommodationsInfo(StringBuilder tripInfo) {
+    public void buildAccommodationsInfo(StringBuilder tripInfo) {
         // early return when there are no accommodations
         if (accommodations.isEmpty()) {
             tripInfo.append("No accommodations added yet.\n");
@@ -196,7 +196,7 @@ public class Trip {
         }
     }
 
-    private void buildTransportationsInfo(StringBuilder tripInfo) {
+    public void buildTransportationsInfo(StringBuilder tripInfo) {
         // early return when there are no transportations
         if (transportations.isEmpty()) {
             tripInfo.append("No transportations added yet.\n");
