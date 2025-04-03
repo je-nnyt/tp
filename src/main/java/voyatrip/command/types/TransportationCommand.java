@@ -14,6 +14,9 @@ public class TransportationCommand extends Command {
     private String mode;
     private Integer budget;
     private Integer index;
+    private Integer startDay;
+    private Integer endDay;
+    private ArrayList<Integer> days;
 
     public TransportationCommand(CommandAction commandAction,
                                  CommandTarget commandTarget,
@@ -30,6 +33,9 @@ public class TransportationCommand extends Command {
         mode = null;
         budget = null;
         index = null;
+        startDay = null;
+        endDay = null;
+        days = new ArrayList<>();
 
         processRawArgument(arguments);
     }
@@ -66,7 +72,10 @@ public class TransportationCommand extends Command {
             case "budget", "b" -> budget = Integer.parseInt(argumentValue);
             case "index", "i" -> index = Integer.parseInt(argumentValue);
             case "all" -> name = "all";
+            case "start", "s" -> startDay = Integer.parseInt(argumentValue);
+            case "end", "e" -> endDay = Integer.parseInt(argumentValue);
             default -> throw new InvalidArgumentKeyword();
+
             }
         } catch (NumberFormatException e) {
             throw new InvalidNumberFormat();
@@ -93,7 +102,15 @@ public class TransportationCommand extends Command {
         if (budget != null && budget < 0) {
             throw new InvalidArgumentValue();
         }
+        if(startDay == null || startDay <= 0) {
+            throw new InvalidArgumentValue();
+        }
+        if(endDay == null || endDay <= 0) {
+            throw new InvalidArgumentValue();
+        }
+
     }
+
 
     public String getTrip() {
         return trip;
@@ -113,5 +130,12 @@ public class TransportationCommand extends Command {
 
     public Integer getIndex() {
         return index;
+    }
+
+    public Integer getStartDay() {
+        return startDay;
+    }
+    public Integer getEndDay() {
+        return endDay;
     }
 }

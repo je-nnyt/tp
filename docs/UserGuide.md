@@ -166,16 +166,16 @@ Action: `add`
 
 Target: `transportation`
 
-Required arguments: `name`, `mode`, `budget`
+Required arguments: `name`, `mode`, `budget`, `start day number`, `end day number`
 
 Example of usage:
 
 ```
 ~/My Trip/Transportation >
-add transportation --name airplane --mode air --budget 350
+add transportation --name airplane --mode air --budget 350 --start 1 --end 2
 
 ~/My Trip/Transportation >
-add --n airplane --b 350 --m air
+add --n airplane --b 350 --m air --s 1 --e 2
 ```
 
 ## Accommodation
@@ -306,3 +306,4 @@ Action: `exit`
 {Give a 'cheat sheet' of commands here}
 
 * Add todo `todo n/TODO_NAME d/DEADLINE`
+* Add transportation `add transportaion --n NAME --m MODE --b BUDGET --s START_DAY_NUMBER --e END_DAY_NUMBER`
