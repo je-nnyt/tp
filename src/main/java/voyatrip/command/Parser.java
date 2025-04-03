@@ -55,6 +55,10 @@ public class Parser {
         }
     }
 
+    public String getCurrentTrip() {
+        return currentTrip;
+    }
+
     /**
      * Parse the input command.
      * The return is an abstract Command object that represents the input command.

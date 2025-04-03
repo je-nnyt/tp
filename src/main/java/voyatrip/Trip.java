@@ -14,7 +14,7 @@ import voyatrip.ui.Ui;
  * This is the trip class that will hold all the information about the trip.
  */
 public class Trip {
-    private final String name;
+    private String name;
     private LocalDate startDate;
     private LocalDate endDate;
     private Integer totalBudget;
@@ -26,14 +26,14 @@ public class Trip {
 
     /**
      * Constructor for the trip class.
-     * @param startDate the start date of the trip.
-     * @param endDate the end date of the trip.
-     * @param numDays the number of days for the trip.
+     * @param startDate   the start date of the trip.
+     * @param endDate     the end date of the trip.
+     * @param numDays     the number of days for the trip.
      * @param totalBudget the total budget for the trip.
      */
     public Trip(String name, LocalDate startDate, LocalDate endDate, Integer numDays, Integer totalBudget) {
-        assert(startDate.isBefore(endDate));
-        assert(numDays == ChronoUnit.DAYS.between(startDate, endDate)+1);
+        assert (startDate.isBefore(endDate));
+        assert (numDays == ChronoUnit.DAYS.between(startDate, endDate) + 1);
         logger.log(Level.INFO, "Creating new trip");
         this.name = name;
         this.startDate = startDate;
@@ -44,7 +44,7 @@ public class Trip {
         this.accommodations = new ArrayList<>();
         this.itinerary = new ArrayList<>();
 
-        Integer budgetPerDay = totalBudget / numDays;
+        Float budgetPerDay = (float) totalBudget / numDays;
         for (int i = 0; i < numDays; i++) {
             itinerary.add(new Day(budgetPerDay));
         }
@@ -228,6 +228,41 @@ public class Trip {
     }
 
     /**
+     * This method print the information of the current trip budget status, ie budget per day and remaining budget.
+     */
+    public void printBudgetStatus() {
+        float budgetSum = 0;
+        for (Day day : itinerary) {
+            budgetSum += day.getBudget();
+        }
+
+        Ui.printTotalBudgetStatus(totalBudget, budgetSum);
+        if (budgetSum > totalBudget) {
+            Ui.printExceedTotalBudget();
+            Ui.printBudgetPerDay(itinerary);
+        }
+    }
+
+    /**
+     * This method is used to correct the size of the day objects according to the number of days in the trip.
+     */
+    public void updateItinerarySize() {
+        assert(ChronoUnit.DAYS.between(startDate, endDate) + 1 >= 0);
+        int curSize = itinerary.size();
+        int curNumDays = (int) ChronoUnit.DAYS.between(startDate, endDate) + 1;
+
+        if (curSize < curNumDays) {
+            for (int i = curSize; i < curNumDays; i++) {
+                itinerary.add(new Day((float)0));
+            }
+        } else if (curSize > curNumDays) {
+            for (int i = curSize; i > curNumDays; i--) {
+                itinerary.remove(i - 1);
+            }
+        }
+    }
+
+    /**
      * This is a method to print the trip information.
      * @return String representation of the trip, and its associated transportations and accommodations.
      */
@@ -241,6 +276,41 @@ public class Trip {
         buildAccommodationsInfo(tripInfo);
 
         return tripInfo.toString().trim();
+    }
+
+    // setters
+    public void setName(String name) {
+        assert (name != null);
+        this.name = name;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setNumDays(Integer numDays) {
+        this.numDays = numDays;
+    }
+
+    public void setTotalBudget(Integer totalBudget) {
+        this.totalBudget = totalBudget;
+    }
+
+    // getters
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public Integer getItinerarySize() {
+        return itinerary.size();
     }
 }
 
