@@ -22,6 +22,9 @@
 ### Implementation
 
 #### Storage [Proposed]
+Thi is purposed to save the trip data in a file, 
+so that the data can be retrieved when the program is restarted.
+<img src="uml/storage.png"/> 
 
 ### Git Workflow
 
