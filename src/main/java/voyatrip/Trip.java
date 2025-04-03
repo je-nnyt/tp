@@ -26,6 +26,7 @@ public class Trip {
 
     /**
      * Constructor for the trip class.
+     *
      * @param startDate   the start date of the trip.
      * @param endDate     the end date of the trip.
      * @param numDays     the number of days for the trip.
@@ -57,13 +58,14 @@ public class Trip {
 
     public void addTransportation(String transportName,
                                   String transportMode,
-                                  Integer transportBudget) throws InvalidCommand {
+                                  Integer transportBudget, Integer startDay, Integer endDay) throws InvalidCommand {
         logger.log(Level.INFO, "Adding transportation");
         if (isContainsTransportation(transportName)) {
             logger.log(Level.WARNING, "Transportation already exists");
             throw new InvalidCommand();
         }
-        Transportation newTransportation = new Transportation(transportName, transportMode, transportBudget);
+        Transportation newTransportation = new Transportation(transportName, transportMode,
+                transportBudget, startDay, endDay);
         transportations.add(newTransportation);
         Ui.printAddTransportationMessage(newTransportation);
         logger.log(Level.INFO, "Finished adding transportation");
@@ -275,13 +277,13 @@ public class Trip {
      * This method is used to correct the size of the day objects according to the number of days in the trip.
      */
     public void updateItinerarySize() {
-        assert(ChronoUnit.DAYS.between(startDate, endDate) + 1 >= 0);
+        assert (ChronoUnit.DAYS.between(startDate, endDate) + 1 >= 0);
         int curSize = itinerary.size();
         int curNumDays = (int) ChronoUnit.DAYS.between(startDate, endDate) + 1;
 
         if (curSize < curNumDays) {
             for (int i = curSize; i < curNumDays; i++) {
-                itinerary.add(new Day((float)0));
+                itinerary.add(new Day((float) 0));
             }
         } else if (curSize > curNumDays) {
             for (int i = curSize; i > curNumDays; i--) {
@@ -292,6 +294,7 @@ public class Trip {
 
     /**
      * This is a method to print the trip information.
+     *
      * @return String representation of the trip, and its associated transportations and accommodations.
      */
     @Override

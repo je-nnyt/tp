@@ -2,6 +2,7 @@
 
 ### Table of Contents
 - [Design](#design)
+  - [Architecture](#architecture)
 - [Implementation](#implementation)
     - [Storage [Proposed]](#storage-proposed)
 - [Git Workflow (15 Mar)](#git-workflow)
@@ -18,10 +19,21 @@
 ### Design
 
 #### Architecture
+The architecture of the application is designed to be modular and easy to maintain.  
+The main components are:
+
+<img src="uml/architecture.png" alt="architecture-uml" width="300" height="300"/>  
+
+The interaction for any command is similar to the following, for simplicity, we will use `add trip` as an example:
+
+<img src="uml/main_flow.png" alt="main-flow-uml"/>
 
 ### Implementation
 
 #### Storage [Proposed]
+Thi is purposed to save the trip data in a file, 
+so that the data can be retrieved when the program is restarted.
+<img src="uml/storage.png"/> 
 
 ### Git Workflow
 
