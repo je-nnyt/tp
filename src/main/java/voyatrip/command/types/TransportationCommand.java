@@ -2,7 +2,6 @@ package voyatrip.command.types;
 
 import java.util.ArrayList;
 
-import voyatrip.command.exceptions.InvalidCommand;
 import voyatrip.command.exceptions.InvalidArgumentKeyword;
 import voyatrip.command.exceptions.InvalidArgumentValue;
 import voyatrip.command.exceptions.InvalidDateFormat;
@@ -102,7 +101,10 @@ public class TransportationCommand extends Command {
         if (budget != null && budget < 0) {
             throw new InvalidArgumentValue();
         }
-        if(startDay == null || startDay ==null) {
+        if(startDay == null || startDay <= 0) {
+            throw new InvalidArgumentValue();
+        }
+        if(endDay == null || endDay <= 0) {
             throw new InvalidArgumentValue();
         }
 
@@ -129,9 +131,6 @@ public class TransportationCommand extends Command {
         return index;
     }
 
-    public ArrayList<Integer> getDays() {
-        return days;
-    }
     public Integer getStartDay() {
         return startDay;
     }
