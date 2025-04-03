@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import voyatrip.command.exceptions.InvalidArgumentKeyword;
+import voyatrip.command.exceptions.InvalidArgumentValue;
 import voyatrip.command.exceptions.InvalidDateFormat;
 import voyatrip.command.exceptions.InvalidNumberFormat;
 import voyatrip.command.exceptions.MissingArgument;
@@ -25,7 +26,11 @@ public class TripsCommand extends Command {
     public TripsCommand(CommandAction commandAction,
                         CommandTarget commandTarget,
                         ArrayList<String> arguments)
-            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidDateFormat, MissingArgument {
+            throws InvalidArgumentKeyword,
+            InvalidArgumentValue,
+            InvalidDateFormat,
+            InvalidNumberFormat,
+            MissingArgument {
         super(commandAction, commandTarget);
         name = null;
         startDate = null;
@@ -39,7 +44,11 @@ public class TripsCommand extends Command {
 
     @Override
     protected void processRawArgument(ArrayList<String> arguments)
-            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidDateFormat, MissingArgument {
+            throws InvalidArgumentKeyword,
+            InvalidArgumentValue,
+            InvalidDateFormat,
+            InvalidNumberFormat,
+            MissingArgument {
         super.processRawArgument(arguments);
 
         calculateNumDay();
@@ -113,20 +122,37 @@ public class TripsCommand extends Command {
     }
 
     @Override
-    protected boolean isMissingArgument() {
-        boolean isInvalidName = name == null || Arrays.asList(INVALID_NAMES).contains(name);
-        boolean isInvalidDate = startDate == null || endDate == null || startDate.isAfter(endDate);
-        boolean isInvalidAdd = isInvalidName || isInvalidDate || totalBudget == null;
-        boolean isHaveTargetTrip = isInvalidName && index == null;
+    protected void validateArgument() throws InvalidArgumentValue, MissingArgument {
+        boolean isAdd = commandAction == CommandAction.ADD;
+        boolean isDelete = commandAction == CommandAction.DELETE_BY_INDEX ||
+                commandAction == CommandAction.DELETE_BY_NAME;
+        boolean isModify = commandAction == CommandAction.MODIFY;
+        boolean isModifyWithoutIndex = commandAction == CommandAction.MODIFY_TRIP_WITHOUT_INDEX;
+        boolean isList = commandAction == CommandAction.LIST;
 
-        return switch (commandAction) {
-        case ADD -> isInvalidAdd;
-        case DELETE_BY_INDEX, DELETE_BY_NAME -> isHaveTargetTrip;
-        case MODIFY -> false;
-        case CHANGE_DIRECTORY, EXIT -> false;
-        case LIST -> name == null && index == null;
-        default -> true;
-        };
+        boolean isMissingAddArgument = name == null || startDate == null || endDate == null || totalBudget == null;
+        boolean isMissingDeleteArgument = name == null && index == null;
+        boolean isMissingModifyArgument = index == null ||
+                (name == null && startDate == null && endDate == null && totalBudget == null);
+        boolean isMissingModifyWithoutIndexArgument =
+                name == null && startDate == null && endDate == null && totalBudget == null;
+        boolean isMissingListArgument = name == null && index == null;
+
+        if (isAdd && isMissingAddArgument ||
+                isDelete && isMissingDeleteArgument ||
+                isModify && isMissingModifyArgument ||
+                isModifyWithoutIndex && isMissingModifyWithoutIndexArgument ||
+                isList && isMissingListArgument) {
+            throw new MissingArgument();
+        }
+
+        boolean isInvalidBudget = totalBudget != null && totalBudget < 0;
+        boolean isInvalidName = name != null && Arrays.asList(INVALID_NAMES).contains(name);
+        boolean isInvalidDate = startDate != null && endDate != null && startDate.isAfter(endDate);
+
+        if (isInvalidBudget || isInvalidName || isInvalidDate) {
+            throw new InvalidArgumentValue();
+        }
     }
 
     public LocalDate getStartDate() {

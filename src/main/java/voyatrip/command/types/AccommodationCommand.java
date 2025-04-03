@@ -3,6 +3,7 @@ package voyatrip.command.types;
 import java.util.ArrayList;
 
 import voyatrip.command.exceptions.InvalidArgumentKeyword;
+import voyatrip.command.exceptions.InvalidArgumentValue;
 import voyatrip.command.exceptions.InvalidDateFormat;
 import voyatrip.command.exceptions.InvalidNumberFormat;
 import voyatrip.command.exceptions.MissingArgument;
@@ -20,7 +21,11 @@ public class AccommodationCommand extends Command {
                                 CommandTarget commandTarget,
                                 String trip,
                                 ArrayList<String> arguments)
-            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidDateFormat, MissingArgument {
+            throws InvalidArgumentKeyword,
+            InvalidDateFormat,
+            InvalidArgumentValue,
+            InvalidNumberFormat,
+            MissingArgument {
         super(commandAction, commandTarget);
         this.trip = trip;
         name = null;
@@ -38,7 +43,11 @@ public class AccommodationCommand extends Command {
 
     @Override
     protected void processRawArgument(ArrayList<String> arguments)
-            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidDateFormat, MissingArgument {
+            throws InvalidArgumentKeyword,
+            InvalidArgumentValue,
+            InvalidDateFormat,
+            InvalidNumberFormat,
+            MissingArgument {
         super.processRawArgument(arguments);
 
         if (commandAction == CommandAction.DELETE_BY_INDEX && name != null) {
@@ -67,18 +76,26 @@ public class AccommodationCommand extends Command {
     }
 
     @Override
-    protected boolean isMissingArgument() {
-        boolean isInvalidName = name == null;
-        boolean isInvalidAdd = isInvalidName || budget == null || startDay == null || endDay == null;
-        boolean isInvalidDelete = isInvalidName && index == null;
+    protected void validateArgument() throws InvalidArgumentValue, MissingArgument {
+        boolean isAdd = commandAction == CommandAction.ADD;
+        boolean isDelete = commandAction == CommandAction.DELETE_BY_INDEX ||
+                commandAction == CommandAction.DELETE_BY_NAME;
+        boolean isModify = commandAction == CommandAction.MODIFY;
 
-        return switch (commandAction) {
-        case ADD -> isInvalidAdd;
-        case DELETE_BY_INDEX, DELETE_BY_NAME -> isInvalidDelete;
-        case MODIFY -> index == null;
-        case LIST, CHANGE_DIRECTORY, EXIT -> false;
-        default -> true;
-        };
+        boolean isMissingAddArgument = name == null || budget == null || startDay == null || endDay == null;
+        boolean isMissingDeleteArgument = name == null && index == null;
+        boolean isMissingModifyArgument = index == null ||
+                (name == null && budget == null && startDay == null && endDay == null);
+
+        if (isAdd && isMissingAddArgument ||
+                isDelete && isMissingDeleteArgument ||
+                isModify && isMissingModifyArgument) {
+            throw new MissingArgument();
+        }
+
+        if (budget != null && budget < 0) {
+            throw new InvalidArgumentValue();
+        }
     }
 
     private void storeDaysInList() {
