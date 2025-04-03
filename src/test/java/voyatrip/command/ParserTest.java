@@ -2,6 +2,7 @@ package voyatrip.command;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import voyatrip.command.types.Command;
 import voyatrip.command.types.CommandAction;
 import voyatrip.command.types.CommandTarget;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 
 class ParserTest {
     private static Parser parser;
+
     @BeforeEach
     void setUp() {
         parser = new Parser();
@@ -82,7 +84,8 @@ class ParserTest {
         assertDoesNotThrow(() -> {
             parser.setCurrentTrip("Vietnam");
             parser.setCurrentTarget(CommandTarget.TRANSPORTATION);
-            Command command = parser.parse("modify transportation --index 1 --name Flight --budget 1000\n");
+            Command command = parser.parse("modify transportation --index 1 --name Flight " +
+                    "--budget 1000 --start 1 --end 2\n");
             assertEquals(CommandAction.MODIFY, command.getCommandAction());
         });
     }
