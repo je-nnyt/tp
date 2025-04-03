@@ -30,6 +30,7 @@ The interaction for any command is similar to the following, for simplicity, we 
 <img src="uml/main_flow.png" alt="main-flow-uml"/>
 
 ## Implementation
+This section describes some notable details on how certain features are implemented/going to be implemented.
 
 ### Storage [Proposed]
 This is purposed to save the trip data in a file, 
