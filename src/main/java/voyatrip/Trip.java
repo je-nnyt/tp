@@ -27,6 +27,7 @@ public class Trip {
 
     /**
      * Constructor for the trip class.
+     *
      * @param startDate   the start date of the trip.
      * @param endDate     the end date of the trip.
      * @param numDays     the number of days for the trip.
@@ -105,15 +106,17 @@ public class Trip {
         logger.log(Level.WARNING, "Transportation not found");
         throw new InvalidCommand();
     }
+
     /**
      * This method prints the information of the transportation at the given index.
+     *
      * @param index Index input by user
      * @throws TransportationException if invalid index
      */
     public void listTransportation(Integer index) throws IndexOutOfBoundsException {
         logger.log(Level.INFO, "Listing transportation");
         try {
-            System.out.println(transportations.get(index-1).toString());
+            System.out.println(transportations.get(index - 1).toString());
         } catch (IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
             logger.log(Level.WARNING, "IndexOutOfBoundsException Exception");
@@ -122,9 +125,11 @@ public class Trip {
 
     /**
      * This method lists all the transportations under the trip with its associated index.
+     *
      * @throws TransportationException if empty transportations list
      */
     public void listAllTransportations() throws TransportationException {
+        Integer transportationIndex = 1;
         logger.log(Level.INFO, "Listing all transportations");
         try {
             if (transportations.isEmpty()) {
@@ -132,13 +137,14 @@ public class Trip {
             }
             Ui.printListAllTransportationsMessage();
             for (Transportation transportation : transportations) {
-                System.out.println(transportation.toString());
+                System.out.println(transportationIndex + ". " + transportation.toString());
+                transportationIndex++;
             }
         } catch (TransportationException e) {
             System.out.println(e.getMessage());
             logger.log(Level.WARNING, "Transportation Exception");
         }
-            logger.log(Level.INFO, "Finished listing all transportations");
+        logger.log(Level.INFO, "Finished listing all transportations");
     }
 
     public void addAccommodation(String accommodationName, Integer accommodationBudget,
@@ -283,13 +289,13 @@ public class Trip {
      * This method is used to correct the size of the day objects according to the number of days in the trip.
      */
     public void updateItinerarySize() {
-        assert(ChronoUnit.DAYS.between(startDate, endDate) + 1 >= 0);
+        assert (ChronoUnit.DAYS.between(startDate, endDate) + 1 >= 0);
         int curSize = itinerary.size();
         int curNumDays = (int) ChronoUnit.DAYS.between(startDate, endDate) + 1;
 
         if (curSize < curNumDays) {
             for (int i = curSize; i < curNumDays; i++) {
-                itinerary.add(new Day((float)0));
+                itinerary.add(new Day((float) 0));
             }
         } else if (curSize > curNumDays) {
             for (int i = curSize; i > curNumDays; i--) {
@@ -300,6 +306,7 @@ public class Trip {
 
     /**
      * This is a method to print the trip information.
+     *
      * @return String representation of the trip, and its associated transportations and accommodations.
      */
     @Override

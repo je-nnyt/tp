@@ -238,7 +238,12 @@ public class VoyaTrip {
 
     private static void executeListTransportation(TransportationCommand command) throws TripNotFoundException {
         logger.log(Level.INFO, "Starting executeListTransportation");
-        trips.get(command.getTrip()).listTransportation(command.getIndex());
+
+        if ("all".equals(String.valueOf(command.getName()))) {
+            trips.get(command.getTrip()).listAllTransportations();
+        } else {
+            trips.get(command.getTrip()).listTransportation(command.getIndex());
+        }
         logger.log(Level.INFO, "Finished executeListTransportation");
     }
 
