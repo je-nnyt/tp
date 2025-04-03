@@ -411,4 +411,10 @@ public class VoyaTrip {
                 command.getDays(), command.getIndex());
         logger.log(Level.INFO, "Finished executeModifyAccommodation");
     }
+
+    private static void executeModifyTransportation (TransportationCommand command){
+        logger.log(Level.INFO, "Starting executeModifyTransportation");
+
+        logger.log(Level.INFO, "Finished executeModifyTransportation");
+    }
 }
