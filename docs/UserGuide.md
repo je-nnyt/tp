@@ -9,7 +9,7 @@ VoyaTrip is a command-line application for managing trips.
 {Give steps to get started quickly}
 
 1. Ensure that you have Java 17 or above installed.
-1. Down the latest version of `VoyaTrip` from  [Placeholder](https://).
+2. Download the latest version of `VoyaTrip` from  [Placeholder](https://).
 
 ## Features 
 
@@ -216,6 +216,27 @@ list trip --index 1
 ~ >
 list --n my trip
 ```
+
+### Listing transportations
+
+Action: `list`
+
+Target: `trip`
+
+Required arguments: `index` or `name`
+
+Special case for listing all transportations `list trip --n all`
+
+Example of usage:
+
+```
+~ >
+list transportation --index 1
+
+~ >
+list transportation --n all
+```
+
 
 ### Exiting the program
 
