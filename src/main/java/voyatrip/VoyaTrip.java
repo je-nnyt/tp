@@ -1,5 +1,7 @@
 package voyatrip;
 
+import static voyatrip.ui.Ui.printTransportationList;
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Scanner;
@@ -77,7 +79,7 @@ public class VoyaTrip {
         }
 
         switch (command.getCommandTarget()) {
-        case TRIP-> handleTrip((TripsCommand) command);
+        case TRIP -> handleTrip((TripsCommand) command);
         case ITINERARY -> handleItinerary((ItineraryCommand) command);
         case ACTIVITY -> handleActivity((ItineraryCommand) command);
         case ACCOMMODATION -> handleAccommodation((AccommodationCommand) command);
@@ -240,17 +242,12 @@ public class VoyaTrip {
         logger.log(Level.INFO, "Starting executeListTransportation");
 
         if ("all".equals(String.valueOf(command.getName()))) {
-            trips.get(command.getTrip()).listAllTransportations();
+            Ui.printTransportationListMessage();
+            printTransportationList(trips.get(command.getTrip()));
         } else {
             trips.get(command.getTrip()).listTransportation(command.getIndex());
         }
         logger.log(Level.INFO, "Finished executeListTransportation");
-    }
-
-    private static void executeListAllTransportations(TransportationCommand command) throws TripNotFoundException {
-        logger.log(Level.INFO, "Starting executeListAllTransportations");
-        trips.get(command.getTrip()).listAllTransportations();
-        logger.log(Level.INFO, "Finished executeListAllTransportations");
     }
 
     private static void executeChangeDirectoryTripByName(TripsCommand command) throws TripNotFoundException {
@@ -401,4 +398,5 @@ public class VoyaTrip {
         }
         logger.log(Level.INFO, "Finished executeModifyCurTrip");
     }
+
 }

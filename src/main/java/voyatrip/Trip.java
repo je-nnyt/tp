@@ -123,30 +123,6 @@ public class Trip {
         }
     }
 
-    /**
-     * This method lists all the transportations under the trip with its associated index.
-     *
-     * @throws TransportationException if empty transportations list
-     */
-    public void listAllTransportations() throws TransportationException {
-        Integer transportationIndex = 1;
-        logger.log(Level.INFO, "Listing all transportations");
-        try {
-            if (transportations.isEmpty()) {
-                throw new TransportationException("There are no transportations in your current trip");
-            }
-            Ui.printListAllTransportationsMessage();
-            for (Transportation transportation : transportations) {
-                System.out.println(transportationIndex + ". " + transportation.toString());
-                transportationIndex++;
-            }
-        } catch (TransportationException e) {
-            System.out.println(e.getMessage());
-            logger.log(Level.WARNING, "Transportation Exception");
-        }
-        logger.log(Level.INFO, "Finished listing all transportations");
-    }
-
     public void addAccommodation(String accommodationName, Integer accommodationBudget,
                                  ArrayList<Integer> accommodationDays) throws InvalidCommand {
         logger.log(Level.INFO, "Adding accommodation");
@@ -238,14 +214,17 @@ public class Trip {
         }
     }
 
-    private void buildTransportationsInfo(StringBuilder tripInfo) {
+    public void buildTransportationsInfo(StringBuilder tripInfo) {
         // early return when there are no transportations
+        Integer transportationIndex = 1;
+
         if (transportations.isEmpty()) {
             tripInfo.append("No transportations added yet.\n");
         }
 
         for (Transportation transportation : transportations) {
-            tripInfo.append(transportation.toString()).append("\n");
+            tripInfo.append(transportationIndex).append(". ").append(transportation.toString()).append("\n");
+            transportationIndex++;
         }
     }
 
