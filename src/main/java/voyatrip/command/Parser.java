@@ -106,7 +106,7 @@ public class Parser {
     }
 
     private ArrayList<String> extractCommandArguments(String command) {
-        String[] doubleHyphenSeparatedTokens = command.strip().split("(^--|\\s+--)(?=\\w+\\s+\\w+)");
+        String[] doubleHyphenSeparatedTokens = command.strip().split("(^--|\\s+--)(?=\\w+)");
         ArrayList<String> arguments = new ArrayList<>();
         for (int i = 1; i < doubleHyphenSeparatedTokens.length; i++) {
             if (!doubleHyphenSeparatedTokens[i].isEmpty()) {

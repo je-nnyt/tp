@@ -49,10 +49,15 @@ public class ItineraryCommand extends Command {
     }
 
     @Override
-    protected void matchArgument(String argument) throws InvalidArgumentKeyword, InvalidNumberFormat {
+    protected void matchArgument(String argument)
+            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidArgumentValue {
         String argumentKeyword = argument.split("\\s+")[0];
         String argumentValue = argument.replaceFirst(argumentKeyword, "").strip();
         argumentKeyword = argumentKeyword.toLowerCase();
+
+        if (argumentValue.isEmpty()) {
+            throw new InvalidArgumentValue();
+        }
 
         try {
             switch (argumentKeyword) {

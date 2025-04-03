@@ -89,10 +89,14 @@ public class TripsCommand extends Command {
 
     @Override
     protected void matchArgument(String argument)
-            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidDateFormat {
+            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidDateFormat, InvalidArgumentValue {
         String argumentKeyword = argument.split("\\s+")[0];
         String argumentValue = argument.replaceFirst(argumentKeyword, "").strip();
         argumentKeyword = argumentKeyword.toLowerCase();
+
+        if (!argumentKeyword.equals("all") && argumentValue.isEmpty()) {
+            throw new InvalidArgumentValue();
+        }
 
         try {
             switch (argumentKeyword) {
@@ -147,7 +151,7 @@ public class TripsCommand extends Command {
         }
 
         boolean isInvalidBudget = totalBudget != null && totalBudget < 0;
-        boolean isInvalidName = name != null && Arrays.asList(INVALID_NAMES).contains(name);
+        boolean isInvalidName = !isList && name != null && Arrays.asList(INVALID_NAMES).contains(name);
         boolean isInvalidDate = startDate != null && endDate != null && startDate.isAfter(endDate);
 
         if (isInvalidBudget || isInvalidName || isInvalidDate) {
