@@ -67,6 +67,11 @@ public class Ui {
         System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 
+    public static void printEmptyTripList() {
+        System.out.println(Message.EMPTY_TRIP_LIST_MESSAGE);
+        System.out.println(Message.NEXT_COMMAND_MESSAGE);
+    }
+
     public static void printNextCommandMessage() {
         System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }

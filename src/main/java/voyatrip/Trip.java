@@ -26,7 +26,6 @@ public class Trip {
 
     /**
      * Constructor for the trip class.
-     *
      * @param startDate   the start date of the trip.
      * @param endDate     the end date of the trip.
      * @param numDays     the number of days for the trip.
@@ -106,13 +105,14 @@ public class Trip {
         throw new InvalidCommand();
     }
 
-    public void addAccommodation(String accommodationName, Integer accommodationBudget) throws InvalidCommand {
+    public void addAccommodation(String accommodationName, Integer accommodationBudget,
+                                 ArrayList<Integer> accommodationDays) throws InvalidCommand {
         logger.log(Level.INFO, "Adding accommodation");
         if (isContainsAccommodation(accommodationName)) {
             logger.log(Level.WARNING, "Accommodation already exists");
             throw new InvalidCommand();
         }
-        Accommodation newAccommodation = new Accommodation(accommodationName, accommodationBudget);
+        Accommodation newAccommodation = new Accommodation(accommodationName, accommodationBudget, accommodationDays);
         accommodations.add(newAccommodation);
         Ui.printAddAccommodationMessage(newAccommodation);
         logger.log(Level.INFO, "Finished adding accommodation");
@@ -186,20 +186,44 @@ public class Trip {
     }
 
     private void buildAccommodationsInfo(StringBuilder tripInfo) {
+        // early return when there are no accommodations
+        if (accommodations.isEmpty()) {
+            tripInfo.append("No accommodations added yet.\n");
+        }
+
         for (Accommodation accommodation : accommodations) {
             tripInfo.append(accommodation.toString()).append("\n");
         }
     }
 
     private void buildTransportationsInfo(StringBuilder tripInfo) {
+        // early return when there are no transportations
+        if (transportations.isEmpty()) {
+            tripInfo.append("No transportations added yet.\n");
+        }
+
         for (Transportation transportation : transportations) {
             tripInfo.append(transportation.toString()).append("\n");
         }
     }
 
     public void buildItineraryInfo(StringBuilder tripInfo) {
-        for (Day day : itinerary) {
-            tripInfo.append(day.toString()).append("\n");
+        boolean hasNoActivity = true;
+        for (int i = 0; i < itinerary.size(); i++) {
+            if (itinerary.get(i).getActivities().isEmpty()) {
+                continue;
+            }
+            // print the heading for the first time
+            if (hasNoActivity) {
+                tripInfo.append("Itinerary: \n");
+                hasNoActivity = false;
+            }
+            tripInfo.append("Day ").append(i + 1).append("\n");
+            tripInfo.append(itinerary.get(i)).append("\n");
+        }
+
+        if (hasNoActivity) {
+            tripInfo.append("No activities added yet.\n");
         }
     }
 
@@ -240,21 +264,17 @@ public class Trip {
 
     /**
      * This is a method to print the trip information.
-     *
      * @return String representation of the trip, and its associated transportations and accommodations.
      */
-
     @Override
     public String toString() {
         StringBuilder tripInfo = new StringBuilder();
         tripInfo.append(abbrInfo()).append("\n");
 
-        tripInfo.append("Itinerary:\n");
         buildItineraryInfo(tripInfo);
-        tripInfo.append("Transportations:\n");
         buildTransportationsInfo(tripInfo);
-        tripInfo.append("Accommodations:\n");
         buildAccommodationsInfo(tripInfo);
+
         return tripInfo.toString().trim();
     }
 

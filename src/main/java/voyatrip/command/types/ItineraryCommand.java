@@ -3,6 +3,7 @@ package voyatrip.command.types;
 import java.util.ArrayList;
 
 import voyatrip.command.exceptions.InvalidArgumentKeyword;
+import voyatrip.command.exceptions.InvalidArgumentValue;
 import voyatrip.command.exceptions.InvalidDateFormat;
 import voyatrip.command.exceptions.InvalidNumberFormat;
 import voyatrip.command.exceptions.MissingArgument;
@@ -18,7 +19,11 @@ public class ItineraryCommand extends Command {
                             CommandTarget commandTarget,
                             String trip,
                             ArrayList<String> arguments)
-            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidDateFormat, MissingArgument {
+            throws InvalidArgumentKeyword,
+            InvalidDateFormat,
+            InvalidArgumentValue,
+            InvalidNumberFormat,
+            MissingArgument {
         super(commandAction, commandTarget);
         this.trip = trip;
         name = null;
@@ -31,7 +36,11 @@ public class ItineraryCommand extends Command {
 
     @Override
     protected void processRawArgument(ArrayList<String> arguments)
-            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidDateFormat, MissingArgument {
+            throws InvalidArgumentKeyword,
+            InvalidArgumentValue,
+            InvalidDateFormat,
+            InvalidNumberFormat,
+            MissingArgument {
         super.processRawArgument(arguments);
 
         if (commandAction == CommandAction.DELETE_BY_INDEX && name != null) {
@@ -59,18 +68,21 @@ public class ItineraryCommand extends Command {
     }
 
     @Override
-    protected boolean isMissingArgument() {
-        boolean isInvalidName = name == null;
-        boolean isInvalidAdd = isInvalidName || time == null || day == null;
-        boolean isInvalidDelete = isInvalidName && index == null;
+    protected void validateArgument() throws MissingArgument {
+        boolean isAdd = commandAction == CommandAction.ADD;
+        boolean isDelete = commandAction == CommandAction.DELETE_BY_INDEX ||
+                commandAction == CommandAction.DELETE_BY_NAME;
+        boolean isModify = commandAction == CommandAction.MODIFY;
 
-        return switch (commandAction) {
-        case ADD -> isInvalidAdd;
-        case DELETE_BY_INDEX, DELETE_BY_NAME -> isInvalidDelete;
-        case MODIFY -> index == null && day == null;
-        case LIST, CHANGE_DIRECTORY, EXIT -> false;
-        default -> true;
-        };
+        boolean isMissingAddArgument = name == null || time == null || day == null;
+        boolean isMissingDeleteArgument = name == null && index == null;
+        boolean isMissingModifyArgument = index == null || day == null || (name == null && time == null);
+
+        if (isAdd && isMissingAddArgument ||
+                isDelete && isMissingDeleteArgument ||
+                isModify && isMissingModifyArgument) {
+            throw new MissingArgument();
+        }
     }
 
     public String getTrip() {

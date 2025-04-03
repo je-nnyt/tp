@@ -185,16 +185,16 @@ Action: `add`
 
 Target: `accommodation`
 
-Required arguments: `name`, `budget`
+Required arguments: `name`, `budget`, `start` (start day of accommodation), `end` (end day of accommodation)
 
 Example of usage:
 
 ```
 ~/My Trip/Accommodation >
-add accommodation --name hotel --budget 500
+add accommodation --name hotel --budget 500 --start 1 --end 4
 
 ~/My Trip/Accommodation >
-add --n hotel --b 500
+add --n hotel --b 500 --s 1 --e 4
 ```
 
 ### Listing trips

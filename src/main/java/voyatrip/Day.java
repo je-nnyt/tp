@@ -17,15 +17,11 @@ public class Day {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Day Budget: $" + budget + "\n");
+        sb.append("Budget: $").append(budget).append("\n");
         for (int i = 0; i < activities.size(); i++) {
-            sb.append("Activity " + (i + 1) + ": " + activities.get(i) + "\n");
+            sb.append("Activity ").append(i + 1).append(": ").append(activities.get(i)).append("\n");
         }
         return sb.toString();
-    }
-
-    public void addBudget(int budget) {
-        this.budget += budget;
     }
 
     /**
@@ -34,5 +30,9 @@ public class Day {
      */
     public Float getBudget() {
         return budget;
+    }
+
+    public ArrayList<Activity> getActivities() {
+        return activities;
     }
 }

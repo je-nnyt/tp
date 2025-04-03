@@ -3,6 +3,7 @@ package voyatrip.command.types;
 import java.util.ArrayList;
 
 import voyatrip.command.exceptions.InvalidArgumentKeyword;
+import voyatrip.command.exceptions.InvalidArgumentValue;
 import voyatrip.command.exceptions.InvalidDateFormat;
 import voyatrip.command.exceptions.InvalidNumberFormat;
 import voyatrip.command.exceptions.MissingArgument;
@@ -17,20 +18,23 @@ public abstract class Command {
     }
 
     protected void processRawArgument(ArrayList<String> arguments)
-            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidDateFormat, MissingArgument {
+            throws InvalidArgumentKeyword,
+            InvalidArgumentValue,
+            InvalidDateFormat,
+            InvalidNumberFormat,
+            MissingArgument {
         for (String argument : arguments) {
             matchArgument(argument);
         }
 
-        if (isMissingArgument()) {
-            throw new MissingArgument();
-        }
+        validateArgument();
     }
 
     protected abstract void matchArgument(String argument)
-            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidDateFormat;
+            throws InvalidArgumentKeyword, InvalidDateFormat, InvalidNumberFormat;
 
-    protected abstract boolean isMissingArgument();
+    protected abstract void validateArgument()
+            throws InvalidArgumentValue, MissingArgument;
 
     public CommandAction getCommandAction() {
         return commandAction;
