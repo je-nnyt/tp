@@ -113,4 +113,10 @@ public class Ui {
     public static void printIndexOutOfBounds() {
         System.out.println(Message.INDEX_OUT_OF_BOUNDS_MESSAGE);
     }
+
+    public static void printModifyAccommodationMessage(Accommodation accommodation) {
+        System.out.println(Message.MODIFY_ACCOMMODATION_MESSAGE);
+        System.out.println(accommodation);
+        System.out.println(Message.NEXT_COMMAND_MESSAGE);
+    }
 }
