@@ -24,13 +24,13 @@ class ParserTest {
     void parse_addTripCommandWithTarget_successful() {
         assertDoesNotThrow(() -> {
             Command command = parser.parse("add trip --name Vietnam --start 1-5 --end 7-5 --budget 1000\n");
-            assertEquals(command.getCommandAction(), CommandAction.ADD);
-            assertEquals(command.getCommandTarget(), CommandTarget.TRIP);
+            assertEquals(CommandAction.ADD, command.getCommandAction());
+            assertEquals(CommandTarget.TRIP, command.getCommandTarget());
             TripsCommand tripsCommand = (voyatrip.command.types.TripsCommand) command;
-            assertEquals(tripsCommand.getName(), "Vietnam");
+            assertEquals("Vietnam", tripsCommand.getName());
             assertEquals(tripsCommand.getStartDate(), LocalDate.of(LocalDate.now().getYear(), 5, 1));
             assertEquals(tripsCommand.getEndDate(), LocalDate.of(LocalDate.now().getYear(), 5, 7));
-            assertEquals(tripsCommand.getTotalBudget(), 1000);
+            assertEquals(1000, tripsCommand.getTotalBudget());
         });
     }
 
@@ -38,13 +38,13 @@ class ParserTest {
     void parse_addTripCommandWithoutTarget_successful() {
         assertDoesNotThrow(() -> {
             Command command = parser.parse("add --name Vietnam --start 1-5 --end 7-5 --budget 1000\n");
-            assertEquals(command.getCommandAction(), CommandAction.ADD);
-            assertEquals(command.getCommandTarget(), CommandTarget.TRIP);
+            assertEquals(CommandAction.ADD, command.getCommandAction());
+            assertEquals(CommandTarget.TRIP, command.getCommandTarget());
             TripsCommand tripsCommand = (voyatrip.command.types.TripsCommand) command;
-            assertEquals(tripsCommand.getName(), "Vietnam");
+            assertEquals("Vietnam", tripsCommand.getName());
             assertEquals(tripsCommand.getStartDate(), LocalDate.of(LocalDate.now().getYear(), 5, 1));
             assertEquals(tripsCommand.getEndDate(), LocalDate.of(LocalDate.now().getYear(), 5, 7));
-            assertEquals(tripsCommand.getTotalBudget(), 1000);
+            assertEquals(1000, tripsCommand.getTotalBudget());
         });
     }
 
@@ -53,7 +53,7 @@ class ParserTest {
         assertDoesNotThrow(() -> {
             Command command = parser.parse(
                     "modify trip --index 1 --name Vietnam --start 1-5 --end 7-5 --budget 1000\n");
-            assertEquals(command.getCommandAction(), CommandAction.MODIFY);
+            assertEquals(CommandAction.MODIFY, command.getCommandAction());
         });
     }
 
@@ -63,7 +63,7 @@ class ParserTest {
         parser.setCurrentTarget(CommandTarget.ITINERARY);
         assertDoesNotThrow(() -> {
             Command command = parser.parse("modify trip --name Vietnam --start 1-5 --end 7-5 --budget 1000\n");
-            assertEquals(command.getCommandAction(), CommandAction.MODIFY_TRIP_WITHOUT_INDEX);
+            assertEquals(CommandAction.MODIFY_TRIP_WITHOUT_INDEX, command.getCommandAction());
         });
     }
 
@@ -73,7 +73,7 @@ class ParserTest {
             parser.setCurrentTrip("Vietnam");
             parser.setCurrentTarget(CommandTarget.ACCOMMODATION);
             Command command = parser.parse("modify accommodation --index 1 --name Hotel --budget 1000\n");
-            assertEquals(command.getCommandAction(), CommandAction.MODIFY);
+            assertEquals(CommandAction.MODIFY, command.getCommandAction());
         });
     }
 
@@ -83,7 +83,7 @@ class ParserTest {
             parser.setCurrentTrip("Vietnam");
             parser.setCurrentTarget(CommandTarget.TRANSPORTATION);
             Command command = parser.parse("modify transportation --index 1 --name Flight --budget 1000\n");
-            assertEquals(command.getCommandAction(), CommandAction.MODIFY);
+            assertEquals(CommandAction.MODIFY, command.getCommandAction());
         });
     }
 
@@ -94,7 +94,22 @@ class ParserTest {
             parser.setCurrentTarget(CommandTarget.ITINERARY);
             Command command = parser.parse(
                     "modify itinerary --name Museum --time 10:00 --day 1 --index 1\n");
-            assertEquals(command.getCommandAction(), CommandAction.MODIFY);
+            assertEquals(CommandAction.MODIFY, command.getCommandAction());
+        });
+    }
+
+    @Test
+    void parse_listTripsAll_successful() {
+        assertDoesNotThrow(() -> {
+            Command command = parser.parse("list trip --all\n");
+            assertEquals(CommandAction.LIST_TRIP_BY_NAME, command.getCommandAction());
+            assertEquals(CommandTarget.TRIP, command.getCommandTarget());
+            assertEquals("all", ((TripsCommand) command).getName());
+
+            command = parser.parse("list --n all\n");
+            assertEquals(CommandAction.LIST_TRIP_BY_NAME, command.getCommandAction());
+            assertEquals(CommandTarget.TRIP, command.getCommandTarget());
+            assertEquals("all", ((TripsCommand) command).getName());
         });
     }
 }
