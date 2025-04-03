@@ -105,7 +105,13 @@ public class Trip {
         logger.log(Level.WARNING, "Transportation not found");
         throw new InvalidCommand();
     }
+    /**
+     * This method prints the information of the transportation at the given index.
+     * @param index Index input by user
+     * @throws TransportationException if invalid index
+     */
     public void listTransportation(Integer index) throws TransportationException {
+        logger.log(Level.INFO, "Listing transportation");
         try {
             if (index < 0 || index > transportations.size()) {
                 throw new TransportationException("Invalid index");
@@ -113,10 +119,16 @@ public class Trip {
             transportations.get(index).toString();
         } catch (TransportationException e) {
             System.out.println(e.getMessage());
+            logger.log(Level.WARNING, "Transportation Exception");
         }
     }
 
+    /**
+     * This method lists all the transportations under the trip with its associated index.
+     * @throws TransportationException if empty transportations list
+     */
     public void listTransportations() throws TransportationException {
+        logger.log(Level.INFO, "Listing all transportations");
         try {
             if (transportations.isEmpty()) {
                 throw new TransportationException("There are no transportations in your current trip");
@@ -126,9 +138,11 @@ public class Trip {
             }
         } catch (TransportationException e) {
             System.out.println(e.getMessage());
+            logger.log(Level.WARNING, "Transportation Exception");
         }
-
+            logger.log(Level.INFO, "Finished listing all transportations");
     }
+
     public void addAccommodation(String accommodationName, Integer accommodationBudget,
                                  ArrayList<Integer> accommodationDays) throws InvalidCommand {
         logger.log(Level.INFO, "Adding accommodation");
