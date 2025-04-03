@@ -1,0 +1,8 @@
+@startuml
+User -> Ui: add trip ...
+Ui -> Logic: TripCommand
+Logic -> Model: executeAddTrip
+Model --> Logic:
+Logic --> Ui
+Ui -> User: output message
+@enduml
