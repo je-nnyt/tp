@@ -2,7 +2,11 @@ package voyatrip.command.types;
 
 import java.util.ArrayList;
 
-import voyatrip.command.exceptions.InvalidCommand;
+import voyatrip.command.exceptions.InvalidArgumentKeyword;
+import voyatrip.command.exceptions.InvalidArgumentValue;
+import voyatrip.command.exceptions.InvalidDateFormat;
+import voyatrip.command.exceptions.InvalidNumberFormat;
+import voyatrip.command.exceptions.MissingArgument;
 
 public class ItineraryCommand extends Command {
     private String trip;
@@ -14,7 +18,12 @@ public class ItineraryCommand extends Command {
     public ItineraryCommand(CommandAction commandAction,
                             CommandTarget commandTarget,
                             String trip,
-                            ArrayList<String> arguments) throws InvalidCommand {
+                            ArrayList<String> arguments)
+            throws InvalidArgumentKeyword,
+            InvalidDateFormat,
+            InvalidArgumentValue,
+            InvalidNumberFormat,
+            MissingArgument {
         super(commandAction, commandTarget);
         this.trip = trip;
         name = null;
@@ -26,7 +35,12 @@ public class ItineraryCommand extends Command {
     }
 
     @Override
-    protected void processRawArgument(ArrayList<String> arguments) throws InvalidCommand {
+    protected void processRawArgument(ArrayList<String> arguments)
+            throws InvalidArgumentKeyword,
+            InvalidArgumentValue,
+            InvalidDateFormat,
+            InvalidNumberFormat,
+            MissingArgument {
         super.processRawArgument(arguments);
 
         if (commandAction == CommandAction.DELETE_BY_INDEX && name != null) {
@@ -35,10 +49,15 @@ public class ItineraryCommand extends Command {
     }
 
     @Override
-    protected void matchArgument(String argument) throws InvalidCommand {
+    protected void matchArgument(String argument)
+            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidArgumentValue {
         String argumentKeyword = argument.split("\\s+")[0];
         String argumentValue = argument.replaceFirst(argumentKeyword, "").strip();
         argumentKeyword = argumentKeyword.toLowerCase();
+
+        if (argumentValue.isEmpty()) {
+            throw new InvalidArgumentValue();
+        }
 
         try {
             switch (argumentKeyword) {
@@ -46,25 +65,29 @@ public class ItineraryCommand extends Command {
             case "time", "t" -> time = argumentValue;
             case "day", "d" -> day = Integer.parseInt(argumentValue);
             case "index", "i" -> index = Integer.parseInt(argumentValue);
-            default -> throw new InvalidCommand();
+            default -> throw new InvalidArgumentKeyword();
             }
         } catch (NumberFormatException e) {
-            throw new InvalidCommand();
+            throw new InvalidNumberFormat();
         }
     }
 
     @Override
-    protected boolean isInvalidCommand() {
-        boolean isInvalidName = name == null;
-        boolean isInvalidAdd = isInvalidName || time == null || day == null;
-        boolean isInvalidDelete = isInvalidName && index == null;
+    protected void validateArgument() throws MissingArgument {
+        boolean isAdd = commandAction == CommandAction.ADD;
+        boolean isDelete = commandAction == CommandAction.DELETE_BY_INDEX ||
+                commandAction == CommandAction.DELETE_BY_NAME;
+        boolean isModify = commandAction == CommandAction.MODIFY;
 
-        return switch (commandAction) {
-        case ADD -> isInvalidAdd;
-        case DELETE_BY_INDEX, DELETE_BY_NAME -> isInvalidDelete;
-        case LIST, CHANGE_DIRECTORY, EXIT -> false;
-        default -> true;
-        };
+        boolean isMissingAddArgument = name == null || time == null || day == null;
+        boolean isMissingDeleteArgument = name == null && index == null;
+        boolean isMissingModifyArgument = index == null || day == null || (name == null && time == null);
+
+        if (isAdd && isMissingAddArgument ||
+                isDelete && isMissingDeleteArgument ||
+                isModify && isMissingModifyArgument) {
+            throw new MissingArgument();
+        }
     }
 
     public String getTrip() {

@@ -1,6 +1,6 @@
 package voyatrip.command.exceptions;
 
-public class TripNotFoundException extends Exception {
+public class TripNotFoundException extends InvalidCommand {
     public TripNotFoundException() {
     }
 }
