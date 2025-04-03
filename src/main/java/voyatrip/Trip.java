@@ -110,16 +110,13 @@ public class Trip {
      * @param index Index input by user
      * @throws TransportationException if invalid index
      */
-    public void listTransportation(Integer index) throws TransportationException {
+    public void listTransportation(Integer index) throws IndexOutOfBoundsException {
         logger.log(Level.INFO, "Listing transportation");
         try {
-            if (index < 0 || index > transportations.size()) {
-                throw new TransportationException("Invalid index");
-            }
-            transportations.get(index).toString();
-        } catch (TransportationException e) {
+            System.out.println(transportations.get(index-1).toString());
+        } catch (IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
-            logger.log(Level.WARNING, "Transportation Exception");
+            logger.log(Level.WARNING, "IndexOutOfBoundsException Exception");
         }
     }
 
@@ -127,14 +124,15 @@ public class Trip {
      * This method lists all the transportations under the trip with its associated index.
      * @throws TransportationException if empty transportations list
      */
-    public void listTransportations() throws TransportationException {
+    public void listAllTransportations() throws TransportationException {
         logger.log(Level.INFO, "Listing all transportations");
         try {
             if (transportations.isEmpty()) {
                 throw new TransportationException("There are no transportations in your current trip");
             }
+            Ui.printListAllTransportationsMessage();
             for (Transportation transportation : transportations) {
-                transportation.toString();
+                System.out.println(transportation.toString());
             }
         } catch (TransportationException e) {
             System.out.println(e.getMessage());
