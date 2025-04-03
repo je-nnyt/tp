@@ -37,8 +37,8 @@ so that the data can be retrieved when the program is restarted.
 <img src="uml/storage.png"/> 
 
 ### Modify Accommodation [Implemented]
-The 'modify accommodation' feature is facilitated by the `Trip` class, which is responsible for updating the details 
-of existing accommodation in the `accommodations` list, based on the modifications provided.
+The 'modify accommodation' feature is facilitated by calling `modifyAccommodation` in the `Trip` class, which is responsible 
+for updating the details of existing accommodation in the `accommodations` list, based on the modifications provided.
 
 ### Implementation Details
 1. **Index Adjustment**:
