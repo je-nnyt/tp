@@ -107,6 +107,25 @@ public class Trip {
         throw new InvalidCommand();
     }
 
+    public void modifyTransportation(String transportName, String transportMode, Integer transportBudget, Integer startDay, Integer endDay, Integer index ) throws InvalidCommand {
+        logger.log(Level.INFO, "Modifying transportation");
+
+        if(transportName != null) {
+            transportations.get(index - 1).setName(transportName);
+            }
+        if(transportMode != null) {
+            transportations.get(index - 1).setMode(transportMode);
+        }
+        if(transportBudget != null) {
+            transportations.get(index - 1).setBudget(transportBudget);
+        }
+
+
+
+        }
+
+    }
+
     public void addAccommodation(String accommodationName, Integer accommodationBudget,
                                  ArrayList<Integer> accommodationDays) throws InvalidCommand {
         logger.log(Level.INFO, "Adding accommodation");
