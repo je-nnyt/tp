@@ -35,10 +35,10 @@ Please try to use consistent branch name style if applicable
 
 Basically follow the same as cs2113 guideline yet here will have some more specific guideline if not found in cs2113 website.
 
-> ℹ️ This documentation will only add new thing from time to time, but will **not** change pre-defined standard, hence please check for any updates from time to time.
+> ℹ️ This documentation will only add new thing from time to time, but will **not** change pre-defined standard, hence please check for any updates from time to time. (deprecated)
 
 > ℹ️ For easy workflow, this issue's name will ends with last updated date for the reference.
-> And the latest update will be denoted by * in table of contents.
+> And the latest update will be denoted by * in table of contents. (deprecated)
 
 #### Primitive Type
 
