@@ -28,7 +28,7 @@ public class Message {
     static final String INVALID_MODIFICATION_DATES_MESSAGE = "Invalid modification dates. Please try again.";
 
     // list
-    static final String LIST_ALL_TRANSPORTATIONS_MESSAGE = "Here are all the transportations under your trip";
+    static final String LIST_ALL_TRANSPORTATIONS_MESSAGE = "Here are all the transportations under your trip: ";
 
     // exception
     static final String TRIP_NOT_FOUND_MESSAGE = "Trip not found. Please try again.";
