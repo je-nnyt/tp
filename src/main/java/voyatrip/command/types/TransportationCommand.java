@@ -102,17 +102,12 @@ public class TransportationCommand extends Command {
         if (budget != null && budget < 0) {
             throw new InvalidArgumentValue();
         }
-
-        if (startDay != null && endDay != null) {
-            storeDaysInList();
+        if(startDay == null || startDay ==null) {
+            throw new InvalidArgumentValue();
         }
+
     }
 
-    public void storeDaysInList() {
-        for (int i = startDay; i <= endDay; i++) {
-            days.add(i);
-        }
-    }
 
     public String getTrip() {
         return trip;
@@ -136,5 +131,11 @@ public class TransportationCommand extends Command {
 
     public ArrayList<Integer> getDays() {
         return days;
+    }
+    public Integer getStartDay() {
+        return startDay;
+    }
+    public Integer getEndDay() {
+        return endDay;
     }
 }
