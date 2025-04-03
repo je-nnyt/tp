@@ -6,7 +6,16 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
+import voyatrip.command.exceptions.InvalidArgumentKeyword;
+import voyatrip.command.exceptions.InvalidArgumentValue;
 import voyatrip.command.exceptions.InvalidCommand;
+import voyatrip.command.exceptions.InvalidCommandAction;
+import voyatrip.command.exceptions.InvalidCommandTarget;
+import voyatrip.command.exceptions.InvalidDateFormat;
+import voyatrip.command.exceptions.InvalidNumberFormat;
+import voyatrip.command.exceptions.InvalidScope;
+import voyatrip.command.exceptions.MissingArgument;
+import voyatrip.command.exceptions.MissingCommandKeyword;
 import voyatrip.command.exceptions.InvalidIndex;
 import voyatrip.command.exceptions.TripNotFoundException;
 import voyatrip.command.types.AccommodationCommand;
@@ -59,6 +68,33 @@ public class VoyaTrip {
             Command command = PARSER.parse(input);
             handleCommand(command);
             logger.log(Level.INFO, "Finished handleInput");
+        } catch (InvalidArgumentKeyword e) {
+            logger.log(Level.WARNING, "Invalid argument keyword");
+            Ui.printInvalidArgumentKeyword();
+        } catch (InvalidArgumentValue e) {
+            logger.log(Level.WARNING, "Invalid argument value");
+            Ui.printInvalidArgumentValue();
+        } catch (InvalidCommandAction e) {
+            logger.log(Level.WARNING, "Invalid command action");
+            Ui.printInvalidCommandAction();
+        } catch (InvalidCommandTarget e) {
+            logger.log(Level.WARNING, "Invalid command target");
+            Ui.printInvalidCommandTarget();
+        } catch (InvalidDateFormat e) {
+            logger.log(Level.WARNING, "Invalid date format");
+            Ui.printInvalidDateFormat();
+        } catch (InvalidNumberFormat e) {
+            logger.log(Level.WARNING, "Invalid number format");
+            Ui.printInvalidNumberFormat();
+        } catch (InvalidScope e) {
+            logger.log(Level.WARNING, "Invalid scope");
+            Ui.printInvalidScope();
+        } catch (MissingArgument e) {
+            logger.log(Level.WARNING, "Missing argument");
+            Ui.printMissingArgument();
+        } catch (MissingCommandKeyword e) {
+            logger.log(Level.WARNING, "Missing command keyword");
+            Ui.printMissingCommandKeyword();
         } catch (TripNotFoundException e) {
             logger.log(Level.WARNING, "Trip not found");
             Ui.printTripNotFound();
@@ -330,7 +366,7 @@ public class VoyaTrip {
             Ui.printNextCommandMessage();
         } catch (InvalidIndex e) {
             logger.log(Level.WARNING, "Index out of bounds");
-            Ui.printIndexOutOfBounds();
+            Ui.printInvalidIndex();
         }
         logger.log(Level.INFO, "Finished executeModifyTrip");
     }

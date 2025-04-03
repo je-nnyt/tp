@@ -101,7 +101,7 @@ public class TripList {
             System.out.println(trips.get(index - 1));
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
-            Ui.printIndexOutOfBounds();
+            Ui.printInvalidIndex();
         }
         logger.log(Level.INFO, "Finished listing trip");
     }

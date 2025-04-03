@@ -102,15 +102,51 @@ public class Ui {
         System.out.println(abbrTripInfo);
     }
 
-    public static void printTripNotFound() {
-        System.out.println(Message.TRIP_NOT_FOUND_MESSAGE);
+    public static void printInvalidArgumentKeyword() {
+        System.out.println(Message.INVALID_ARGUMENT_KEYWORD_MESSAGE);
+    }
+
+    public static void printInvalidArgumentValue() {
+        System.out.println(Message.INVALID_ARGUMENT_VALUE_MESSAGE);
     }
 
     public static void printInvalidCommand() {
         System.out.println(Message.INVALID_COMMAND_MESSAGE);
     }
 
-    public static void printIndexOutOfBounds() {
-        System.out.println(Message.INDEX_OUT_OF_BOUNDS_MESSAGE);
+    public static void printInvalidCommandAction() {
+        System.out.println(Message.INVALID_COMMAND_ACTION_MESSAGE);
+    }
+
+    public static void printInvalidCommandTarget() {
+        System.out.println(Message.INVALID_COMMAND_TARGET_MESSAGE);
+    }
+
+    public static void printInvalidDateFormat() {
+        System.out.println(Message.INVALID_DATE_FORMAT_MESSAGE);
+    }
+
+    public static void printInvalidNumberFormat() {
+        System.out.println(Message.INVALID_NUMBER_FORMAT_MESSAGE);
+    }
+
+    public static void printInvalidScope() {
+        System.out.println(Message.INVALID_SCOPE_MESSAGE);
+    }
+
+    public static void printMissingArgument() {
+        System.out.println(Message.MISSING_ARGUMENT_MESSAGE);
+    }
+
+    public static void printMissingCommandKeyword() {
+        System.out.println(Message.MISSING_COMMAND_KEYWORD_MESSAGE);
+    }
+
+    public static void printTripNotFound() {
+        System.out.println(Message.TRIP_NOT_FOUND_MESSAGE);
+    }
+
+    public static void printInvalidIndex() {
+        System.out.println(Message.INVALID_INDEX_MESSAGE);
     }
 }

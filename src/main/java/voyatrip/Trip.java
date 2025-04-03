@@ -164,7 +164,7 @@ public class Trip {
             Ui.printAddActivityMessage(newActivity);
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
-            Ui.printIndexOutOfBounds();
+            Ui.printInvalidIndex();
         }
         logger.log(Level.INFO, "Finished adding activity");
     }

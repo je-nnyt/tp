@@ -62,10 +62,6 @@ public class AccommodationCommand extends Command {
         String argumentValue = argument.replaceFirst(argumentKeyword, "").strip();
         argumentKeyword = argumentKeyword.toLowerCase();
 
-        if (argumentValue.isEmpty()) {
-            throw new InvalidArgumentValue();
-        }
-
         try {
             switch (argumentKeyword) {
             case "name", "n" -> name = argumentValue;
@@ -77,6 +73,10 @@ public class AccommodationCommand extends Command {
             }
         } catch (NumberFormatException e) {
             throw new InvalidNumberFormat();
+        }
+
+        if (argumentValue.isEmpty()) {
+            throw new InvalidArgumentValue();
         }
     }
 
