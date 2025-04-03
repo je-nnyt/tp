@@ -77,7 +77,7 @@ public class VoyaTrip {
         }
 
         switch (command.getCommandTarget()) {
-        case TRIP -> handleTrip((TripsCommand) command);
+        case TRIP-> handleTrip((TripsCommand) command);
         case ITINERARY -> handleItinerary((ItineraryCommand) command);
         case ACTIVITY -> handleActivity((ItineraryCommand) command);
         case ACCOMMODATION -> handleAccommodation((AccommodationCommand) command);
@@ -233,12 +233,19 @@ public class VoyaTrip {
     }
 
     private static void executeListAccommodation(Command command) {
+
     }
 
-    private static void executeListTransportation(Command command) {
+    private static void executeListTransportation(TransportationCommand command) throws TripNotFoundException {
         logger.log(Level.INFO, "Starting executeListTransportation");
-
+        trips.get(command.getTrip()).listTransportation(command.getIndex());
         logger.log(Level.INFO, "Finished executeListTransportation");
+    }
+
+    private static void executeListAllTransportations(TransportationCommand command) throws TripNotFoundException {
+        logger.log(Level.INFO, "Starting executeListAllTransportations");
+        trips.get(command.getTrip()).listAllTransportations();
+        logger.log(Level.INFO, "Finished executeListAllTransportations");
     }
 
     private static void executeChangeDirectoryTripByName(TripsCommand command) throws TripNotFoundException {
