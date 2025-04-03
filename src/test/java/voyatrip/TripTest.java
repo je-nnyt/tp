@@ -1,5 +1,7 @@
 package voyatrip;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -121,9 +123,11 @@ public class TripTest {
 
     @Test
     void updateItinerarySize_largerSize_success() {
-        trip.addActivity(8, "Visit the beach", "10:00");
-        trip.setEndDate(LocalDate.of(2025, 6, 18));
-        trip.updateItinerarySize();
-        Assertions.assertEquals(9, trip.getItinerarySize());
+        assertDoesNotThrow(() -> {
+            trip.addActivity(8, "Visit the beach", "10:00");
+            trip.setEndDate(LocalDate.of(2025, 6, 18));
+            trip.updateItinerarySize();
+            Assertions.assertEquals(9, trip.getItinerarySize());
+        });
     }
 }

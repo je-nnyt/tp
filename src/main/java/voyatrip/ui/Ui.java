@@ -67,6 +67,12 @@ public class Ui {
         System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 
+    public static void printDeleteActivityMessage(Activity activity) {
+        System.out.println(Message.DELETE_ACTIVITY_MESSAGE);
+        System.out.println(activity);
+        System.out.println(Message.NEXT_COMMAND_MESSAGE);
+    }
+
     public static void printEmptyTripList() {
         System.out.println(Message.EMPTY_TRIP_LIST_MESSAGE);
         System.out.println(Message.NEXT_COMMAND_MESSAGE);
