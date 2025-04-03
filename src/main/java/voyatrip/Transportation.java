@@ -16,13 +16,15 @@ public class Transportation {
 
     private Logger logger = Logger.getLogger(Transportation.class.getName());
 
-    public Transportation(String name, String mode, Integer budget, ArrayList<Integer> days) {
+    public Transportation(String name, String mode, Integer budget, Integer startDay, Integer endDay) {
         assert budget > 0;
         logger.log(Level.INFO, "Creating Transportation");
         this.name = name;
         this.mode = mode;
         this.budget = budget;
         this.days = new ArrayList<>();
+        this.startDay = startDay;
+        this.endDay = endDay;
 
         //add days to list
         for (int i = startDay; i <= endDay; i++) {
@@ -58,7 +60,7 @@ public class Transportation {
 
     @Override
     public String toString() {
-        return "Transportation by " + mode + " " + name + " with budget $"
-                + budget;
+        return "Transportation by " + mode + " " + name + " from day " + startDay
+                + " to day " + endDay + " with budget $" + budget;
     }
 }
