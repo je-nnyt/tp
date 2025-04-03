@@ -125,7 +125,8 @@ public class VoyaTrip {
         case ADD -> executeAddAccommodation(command);
         case DELETE_BY_INDEX -> executeDeleteAccommodationByIndex(command);
         case DELETE_BY_NAME -> executeDeleteAccommodationByName(command);
-        case LIST -> executeListAccommodation(command);
+        case LIST_ACCOMMODATION_BY_INDEX -> executeListAccommodationByIndex(command);
+        case LIST_ACCOMMODATION_BY_NAME -> executeListAccommodationByName(command);
         case CHANGE_DIRECTORY -> executeChangeDirectoryAccommodation(command);
         case MODIFY -> executeModifyAccommodation(command);
         default -> throw new InvalidCommand();
@@ -240,9 +241,19 @@ public class VoyaTrip {
     private static void executeListItinerary(Command command) {
     }
 
-    private static void executeListAccommodation(Command command) {
-        logger.log(Level.INFO, "Starting executeListAccommodation");
+    private static void executeListAccommodationByIndex(AccommodationCommand command) throws InvalidCommand {
+        logger.log(Level.INFO, "Starting executeListAccommodationByIndex");
+        trips.get(command.getTrip()).listAccommodation(command.getIndex());
+        logger.log(Level.INFO, "Finished executeListAccommodationByIndex");
+    }
 
+    private static void executeListAccommodationByName(AccommodationCommand command) throws InvalidCommand {
+        logger.log(Level.INFO, "Starting executeListAccommodation");
+        if (command.getName().equals("all")) {
+            Ui.printAccommodationList(trips.get(command.getTrip()));
+        } else {
+            trips.get(command.getTrip()).listAccommodation(command.getName());
+        }
         logger.log(Level.INFO, "Finished executeListAccommodation");
     }
 

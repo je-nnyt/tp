@@ -186,6 +186,30 @@ public class Trip {
         }
     }
 
+    public void listAccommodation(Integer index) throws InvalidCommand {
+        try {
+            logger.log(Level.INFO, "Listing accommodation");
+            Ui.printListAccommodationMessage(accommodations.get(index - 1));
+            logger.log(Level.INFO, "Finished listing accommodation");
+        } catch (IndexOutOfBoundsException e) {
+            logger.log(Level.WARNING, "Index out of bounds");
+            throw new InvalidCommand();
+        }
+    }
+
+    public void listAccommodation(String accommodationName) throws InvalidCommand {
+        logger.log(Level.INFO, "Listing accommodation");
+        for (Accommodation accommodation : accommodations) {
+            if (accommodation.getName().equals(accommodationName)) {
+                Ui.printListAccommodationMessage(accommodation);
+                logger.log(Level.INFO, "Finished listing accommodation");
+                return;
+            }
+        }
+        logger.log(Level.WARNING, "Accommodation not found");
+        throw new InvalidCommand();
+    }
+
     public void addActivity(Integer day, String name, String time) {
         logger.log(Level.INFO, "Adding activity");
         try {
@@ -215,7 +239,7 @@ public class Trip {
         return this.name.equals(((Trip) obj).name);
     }
 
-    private void buildAccommodationsInfo(StringBuilder tripInfo) {
+    public void buildAccommodationsInfo(StringBuilder tripInfo) {
         // early return when there are no accommodations
         if (accommodations.isEmpty()) {
             tripInfo.append("No accommodations added yet.\n");
