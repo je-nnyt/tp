@@ -206,6 +206,7 @@ public class Trip {
      * This is a method to print the trip information.
      * @return String representation of the trip, and its associated transportations and accommodations.
      */
+
     @Override
     public String toString() {
         StringBuilder tripInfo = new StringBuilder();

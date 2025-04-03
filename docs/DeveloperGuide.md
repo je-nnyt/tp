@@ -1,12 +1,10 @@
 # Developer Guide
 
 ## Acknowledgements
-
-{list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
+[AddressBook-Level3 developer guide](https://se-education.org/addressbook-level3/DeveloperGuide.html#proposed-undoredo-feature)
 
 ## Design & implementation
 
-{Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
 ### VoyaTrip Class
 
 ### Trip Class
@@ -37,8 +35,6 @@ The modify transportation is implemented as followed:
 - Throws a `TransportationException` if the budget is a negative value
 
 
-### Transportation Class
-
 
 ## Product scope
 ### Target user profile
@@ -52,14 +48,14 @@ The modify transportation is implemented as followed:
 
 ### Value proposition
 
-{Describe the value proposition: what problem does it solve?}
+helps the users who prefer CLI-based tools track their travel plans and budget
 
 ## User Stories
 
-|Version| As a ... | I want to ... | So that I can ...|
-|--------|----------|---------------|------------------|
-|v1.0|new user|see usage instructions|refer to them when I forget how to use the application|
-|v2.0|user|find a to-do item by name|locate a to-do without having to go through the entire list|
+|Version| As a ... | I want to ...             | So that I can ...|
+|--------|----------|---------------------------|------------------|
+|v1.0|new user| add a trip                |refer to them when I forget how to use the application|
+|v2.0|user| find a to-do item by name |locate a to-do without having to go through the entire list|
 
 ## Non-Functional Requirements
 
