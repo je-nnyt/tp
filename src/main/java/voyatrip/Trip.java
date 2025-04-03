@@ -157,6 +157,34 @@ public class Trip {
         throw new InvalidCommand();
     }
 
+    public void modifyAccommodation(String accommodationName, Integer accommodationBudget,
+                                    ArrayList<Integer> accommodationDays, Integer index) throws InvalidCommand {
+        try {
+            if (accommodationName != null) {
+                logger.log(Level.INFO, "Modifying accommodation name");
+                accommodations.get(index - 1).setName(accommodationName);
+                logger.log(Level.INFO, "Finished modifying accommodation name");
+            }
+
+            if (accommodationBudget != null) {
+                logger.log(Level.INFO, "Modifying accommodation budget");
+                accommodations.get(index - 1).setBudget(accommodationBudget);
+                logger.log(Level.INFO, "Finished modifying accommodation budget");
+            }
+
+            if (accommodationDays != null) {
+                logger.log(Level.INFO, "Modifying accommodation days");
+                accommodations.get(index - 1).setDays(accommodationDays);
+                logger.log(Level.INFO, "Finished modifying accommodation days");
+            }
+
+            Ui.printModifyAccommodationMessage(accommodations.get(index - 1));
+        } catch (IndexOutOfBoundsException e) {
+            logger.log(Level.WARNING, "Index out of bounds");
+            throw new InvalidCommand();
+        }
+    }
+
     public void addActivity(Integer day, String name, String time) throws InvalidCommand {
         logger.log(Level.INFO, "Adding activity");
         try {

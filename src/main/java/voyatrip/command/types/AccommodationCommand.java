@@ -36,7 +36,7 @@ public class AccommodationCommand extends Command {
         days = null;
 
         processRawArgument(arguments);
-        if (commandAction == CommandAction.ADD) {
+        if (startDay != null && endDay != null) {
             storeDaysInList();
         }
     }
