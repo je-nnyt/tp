@@ -1,4 +1,5 @@
 @startuml
+actor User as User
 User -> Ui: add trip ...
 Ui -> Logic: TripCommand
 Logic -> Model: executeAddTrip
