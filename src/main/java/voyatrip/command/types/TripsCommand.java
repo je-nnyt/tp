@@ -7,10 +7,14 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import voyatrip.command.exceptions.InvalidCommand;
+import voyatrip.command.exceptions.InvalidArgumentKeyword;
+import voyatrip.command.exceptions.InvalidArgumentValue;
+import voyatrip.command.exceptions.InvalidDateFormat;
+import voyatrip.command.exceptions.InvalidNumberFormat;
+import voyatrip.command.exceptions.MissingArgument;
 
 public class TripsCommand extends Command {
-    static final String[] INVALID_NAMES = {"root"};
+    static final String[] INVALID_NAMES = {"root", "all"};
 
     private String name;
     private LocalDate startDate;
@@ -21,7 +25,12 @@ public class TripsCommand extends Command {
 
     public TripsCommand(CommandAction commandAction,
                         CommandTarget commandTarget,
-                        ArrayList<String> arguments) throws InvalidCommand {
+                        ArrayList<String> arguments)
+            throws InvalidArgumentKeyword,
+            InvalidArgumentValue,
+            InvalidDateFormat,
+            InvalidNumberFormat,
+            MissingArgument {
         super(commandAction, commandTarget);
         name = null;
         startDate = null;
@@ -34,7 +43,12 @@ public class TripsCommand extends Command {
     }
 
     @Override
-    protected void processRawArgument(ArrayList<String> arguments) throws InvalidCommand {
+    protected void processRawArgument(ArrayList<String> arguments)
+            throws InvalidArgumentKeyword,
+            InvalidArgumentValue,
+            InvalidDateFormat,
+            InvalidNumberFormat,
+            MissingArgument {
         super.processRawArgument(arguments);
 
         calculateNumDay();
@@ -60,14 +74,29 @@ public class TripsCommand extends Command {
                 super.setCommandAction(CommandAction.CHANGE_TRIP_BY_NAME);
                 name = "root";
             }
+        } else if (commandAction == CommandAction.LIST) {
+            if (name != null) {
+                super.setCommandAction(CommandAction.LIST_TRIP_BY_NAME);
+            } else if (index != null) {
+                super.setCommandAction(CommandAction.LIST_TRIP_BY_INDEX);
+            }
+        } else if (commandAction == CommandAction.MODIFY) {
+            if (index == null) {
+                super.setCommandAction(CommandAction.MODIFY_TRIP_WITHOUT_INDEX);
+            }
         }
     }
 
     @Override
-    protected void matchArgument(String argument) throws InvalidCommand {
+    protected void matchArgument(String argument)
+            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidDateFormat, InvalidArgumentValue {
         String argumentKeyword = argument.split("\\s+")[0];
         String argumentValue = argument.replaceFirst(argumentKeyword, "").strip();
         argumentKeyword = argumentKeyword.toLowerCase();
+
+        if (!argumentKeyword.equals("all") && argumentValue.isEmpty()) {
+            throw new InvalidArgumentValue();
+        }
 
         try {
             switch (argumentKeyword) {
@@ -77,37 +106,57 @@ public class TripsCommand extends Command {
             case "day", "d" -> numDay = Integer.parseInt(argumentValue);
             case "budget", "b" -> totalBudget = Integer.parseInt(argumentValue);
             case "index", "i" -> index = Integer.parseInt(argumentValue);
-            default -> throw new InvalidCommand();
+            case "all" -> name = "all";
+            default -> throw new InvalidArgumentKeyword();
             }
         } catch (NumberFormatException e) {
-            throw new InvalidCommand();
+            throw new InvalidNumberFormat();
         }
     }
 
-    private LocalDate parseDate(String date) throws InvalidCommand {
+    private LocalDate parseDate(String date) throws InvalidDateFormat {
         try {
             if (date.split("-").length == 2) {
                 date = date + "-" + LocalDate.now().getYear();
             }
             return LocalDate.parse(date, DateTimeFormatter.ofPattern("d-M-yyyy"));
         } catch (DateTimeParseException e) {
-            throw new InvalidCommand();
+            throw new InvalidDateFormat();
         }
     }
 
     @Override
-    protected boolean isInvalidCommand() {
-        boolean isInvalidName = name == null || Arrays.asList(INVALID_NAMES).contains(name);
-        boolean isInvalidDate = startDate == null || endDate == null || startDate.isAfter(endDate);
-        boolean isInvalidAdd = isInvalidName || isInvalidDate || totalBudget == null;
-        boolean isHaveTargetTrip = isInvalidName && index == null;
+    protected void validateArgument() throws InvalidArgumentValue, MissingArgument {
+        boolean isAdd = commandAction == CommandAction.ADD;
+        boolean isDelete = commandAction == CommandAction.DELETE_BY_INDEX ||
+                commandAction == CommandAction.DELETE_BY_NAME;
+        boolean isModify = commandAction == CommandAction.MODIFY;
+        boolean isModifyWithoutIndex = commandAction == CommandAction.MODIFY_TRIP_WITHOUT_INDEX;
+        boolean isList = commandAction == CommandAction.LIST;
 
-        return switch (commandAction) {
-        case ADD -> isInvalidAdd;
-        case DELETE_BY_INDEX, DELETE_BY_NAME, LIST -> isHaveTargetTrip;
-        case CHANGE_DIRECTORY, EXIT -> false;
-        default -> true;
-        };
+        boolean isMissingAddArgument = name == null || startDate == null || endDate == null || totalBudget == null;
+        boolean isMissingDeleteArgument = name == null && index == null;
+        boolean isMissingModifyArgument = index == null ||
+                (name == null && startDate == null && endDate == null && totalBudget == null);
+        boolean isMissingModifyWithoutIndexArgument =
+                name == null && startDate == null && endDate == null && totalBudget == null;
+        boolean isMissingListArgument = name == null && index == null;
+
+        if (isAdd && isMissingAddArgument ||
+                isDelete && isMissingDeleteArgument ||
+                isModify && isMissingModifyArgument ||
+                isModifyWithoutIndex && isMissingModifyWithoutIndexArgument ||
+                isList && isMissingListArgument) {
+            throw new MissingArgument();
+        }
+
+        boolean isInvalidBudget = totalBudget != null && totalBudget < 0;
+        boolean isInvalidName = !isList && name != null && Arrays.asList(INVALID_NAMES).contains(name);
+        boolean isInvalidDate = startDate != null && endDate != null && startDate.isAfter(endDate);
+
+        if (isInvalidBudget || isInvalidName || isInvalidDate) {
+            throw new InvalidArgumentValue();
+        }
     }
 
     public LocalDate getStartDate() {

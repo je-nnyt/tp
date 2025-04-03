@@ -29,6 +29,7 @@ The commands are usually composed of three main elements:
 A command action is what the command does. Examples are:
 - Adding: `add`
 - Deleting: `delete`
+- Modifying: `modify`
 - Listing: `list`
 - Changing directory: `cd`
 - Exiting the program: `exit`
@@ -73,6 +74,33 @@ add trip --name my trip --start 1-5 --end 7-5 --budget 1000
 
 ~ >
 add --n my trip --b 1000 --s 1-5 --e 7-5
+```
+
+### Modifying
+
+Generally speaking, modify the item specified by index. The argument that are not index are the parameters to be changed to. Day number is also required for modifying activity. User do not need to specify the trip index if they are already in the trip they want to modify.
+
+### Modifying the trip
+
+Target: `trip`
+
+Action: `modify`
+
+Required arguments: `index`
+Arguments: `name`, `start`, `end` and `budget`
+
+start date and end date should be in the format `d-M-yyyy` or `d-M` if the year is the current year.
+
+Note that the user do not need to specify the index of the trip if they want to modify the current trip they are in.
+
+Example of usage: changing the current trip name to "new my trip" and the total budget to 1200
+
+```
+~ >
+modify trip --index 1 --name new my trip --budget 1200
+
+~/my trip/itinerary >
+modify trip --n new my trip --b 1200
 ```
 
 ### Deleting a trip
@@ -157,16 +185,16 @@ Action: `add`
 
 Target: `accommodation`
 
-Required arguments: `name`, `budget`
+Required arguments: `name`, `budget`, `start` (start day of accommodation), `end` (end day of accommodation)
 
 Example of usage:
 
 ```
 ~/My Trip/Accommodation >
-add accommodation --name hotel --budget 500
+add accommodation --name hotel --budget 500 --start 1 --end 4
 
 ~/My Trip/Accommodation >
-add --n hotel --b 500
+add --n hotel --b 500 --s 1 --e 4
 ```
 
 ### Listing trips
