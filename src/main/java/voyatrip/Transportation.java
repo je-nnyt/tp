@@ -58,6 +58,22 @@ public class Transportation {
         this.mode = mode;
     }
 
+    public Integer getStartDay() {
+        return startDay;
+    }
+
+    public void setStartDay(Integer startDay) {
+        this.startDay = startDay;
+    }
+
+    public Integer getEndDay() {
+        return endDay;
+    }
+
+    public void setEndDay(Integer endDay) {
+        this.endDay = endDay;
+    }
+
     @Override
     public String toString() {
         return "Transportation by " + mode + " " + name + " from day " + startDay
