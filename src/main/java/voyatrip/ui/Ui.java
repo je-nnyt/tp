@@ -124,4 +124,10 @@ public class Ui {
         trip.buildTransportationsInfo(tripInfo);
         System.out.println(tripInfo.toString().trim());
     }
+
+    public static void printModifyAccommodationMessage(Accommodation accommodation) {
+        System.out.println(Message.MODIFY_ACCOMMODATION_MESSAGE);
+        System.out.println(accommodation);
+        System.out.println(Message.NEXT_COMMAND_MESSAGE);
+    }
 }
