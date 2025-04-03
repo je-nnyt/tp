@@ -174,7 +174,7 @@ public class VoyaTrip {
     private static void executeAddTransportation(TransportationCommand command)
             throws InvalidCommand, TripNotFoundException {
         logger.log(Level.INFO, "Starting executeAddTransportation");
-        trips.get(command.getTrip()).addTransportation(command.getName(), command.getMode(), command.getBudget());
+        trips.get(command.getTrip()).addTransportation(command.getName(), command.getMode(), command.getBudget(), command.getDays());
         logger.log(Level.INFO, "Finished executeAddTransportation");
     }
 
