@@ -198,7 +198,7 @@ public class VoyaTrip {
         logger.log(Level.INFO, "Finished executeAddTrip");
     }
 
-    private static void executeAddActivity(ItineraryCommand command) throws TripNotFoundException {
+    private static void executeAddActivity(ItineraryCommand command) throws InvalidCommand, TripNotFoundException {
         trips.get(command.getTrip()).addActivity(command.getDay(), command.getName(), command.getTime());
     }
 

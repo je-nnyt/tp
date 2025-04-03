@@ -7,7 +7,9 @@ import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import voyatrip.command.exceptions.InvalidArgumentValue;
 import voyatrip.command.exceptions.InvalidCommand;
+import voyatrip.command.exceptions.InvalidIndex;
 import voyatrip.ui.Ui;
 
 /**
@@ -61,7 +63,7 @@ public class Trip {
         logger.log(Level.INFO, "Adding transportation");
         if (isContainsTransportation(transportName)) {
             logger.log(Level.WARNING, "Transportation already exists");
-            throw new InvalidCommand();
+            throw new InvalidArgumentValue();
         }
         Transportation newTransportation = new Transportation(transportName, transportMode, transportBudget);
         transportations.add(newTransportation);
@@ -87,7 +89,7 @@ public class Trip {
             logger.log(Level.INFO, "Finished deleting transportation");
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
-            throw new InvalidCommand();
+            throw new InvalidIndex();
         }
     }
 
@@ -102,7 +104,7 @@ public class Trip {
             }
         }
         logger.log(Level.WARNING, "Transportation not found");
-        throw new InvalidCommand();
+        throw new InvalidArgumentValue();
     }
 
     public void addAccommodation(String accommodationName, Integer accommodationBudget,
@@ -110,7 +112,7 @@ public class Trip {
         logger.log(Level.INFO, "Adding accommodation");
         if (isContainsAccommodation(accommodationName)) {
             logger.log(Level.WARNING, "Accommodation already exists");
-            throw new InvalidCommand();
+            throw new InvalidArgumentValue();
         }
         Accommodation newAccommodation = new Accommodation(accommodationName, accommodationBudget, accommodationDays);
         accommodations.add(newAccommodation);
@@ -130,7 +132,7 @@ public class Trip {
         return false;
     }
 
-    public void deleteAccommodation(Integer index) {
+    public void deleteAccommodation(Integer index) throws InvalidCommand {
         try {
             logger.log(Level.INFO, "Deleting accommodation");
             Ui.printDeleteAccommodationMessage(accommodations.get(index - 1));
@@ -138,7 +140,7 @@ public class Trip {
             logger.log(Level.INFO, "Finished deleting accommodation");
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
-            Ui.printInvalidIndex();
+            throw new InvalidIndex();
         }
     }
 
@@ -153,10 +155,10 @@ public class Trip {
             }
         }
         logger.log(Level.WARNING, "Accommodation not found");
-        throw new InvalidCommand();
+        throw new InvalidArgumentValue();
     }
 
-    public void addActivity(Integer day, String name, String time) {
+    public void addActivity(Integer day, String name, String time) throws InvalidCommand {
         logger.log(Level.INFO, "Adding activity");
         try {
             Activity newActivity = new Activity(name, time);
@@ -164,7 +166,7 @@ public class Trip {
             Ui.printAddActivityMessage(newActivity);
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
-            Ui.printInvalidIndex();
+            throw new InvalidIndex();
         }
         logger.log(Level.INFO, "Finished adding activity");
     }
