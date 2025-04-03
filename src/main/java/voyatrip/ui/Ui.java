@@ -61,6 +61,10 @@ public class Ui {
         System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 
+    public static void printListAllTransportationsMessage() {
+        System.out.println(Message.LIST_ALL_TRANSPORTATIONS_MESSAGE);
+    }
+
     public static void printAddActivityMessage(Activity activity) {
         System.out.println(Message.ADD_ACTIVITY_MESSAGE);
         System.out.println(activity);
