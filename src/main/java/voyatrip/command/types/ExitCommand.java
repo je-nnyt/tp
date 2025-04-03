@@ -11,8 +11,7 @@ public class ExitCommand extends Command {
     }
 
     @Override
-    protected boolean isMissingArgument() {
-        // No argument
-        return false;
+    protected void validateArgument() {
+        // No argument to be validated
     }
 }
