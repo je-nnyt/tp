@@ -57,13 +57,13 @@ public class Trip {
 
     public void addTransportation(String transportName,
                                   String transportMode,
-                                  Integer transportBudget, ArrayList<Integer> transportDays) throws InvalidCommand {
+                                  Integer transportBudget, Integer startDay, Integer endDay) throws InvalidCommand {
         logger.log(Level.INFO, "Adding transportation");
         if (isContainsTransportation(transportName)) {
             logger.log(Level.WARNING, "Transportation already exists");
             throw new InvalidCommand();
         }
-        Transportation newTransportation = new Transportation(transportName, transportMode, transportBudget, transportDays);
+        Transportation newTransportation = new Transportation(transportName, transportMode, transportBudget, startDay, endDay);
         transportations.add(newTransportation);
         Ui.printAddTransportationMessage(newTransportation);
         logger.log(Level.INFO, "Finished adding transportation");
