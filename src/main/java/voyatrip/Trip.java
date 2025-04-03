@@ -130,7 +130,7 @@ public class Trip {
         return false;
     }
 
-    public void deleteAccommodation(Integer index) throws InvalidCommand {
+    public void deleteAccommodation(Integer index) {
         try {
             logger.log(Level.INFO, "Deleting accommodation");
             Ui.printDeleteAccommodationMessage(accommodations.get(index - 1));
@@ -138,7 +138,7 @@ public class Trip {
             logger.log(Level.INFO, "Finished deleting accommodation");
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
-            throw new InvalidCommand();
+            Ui.printInvalidIndex();
         }
     }
 
