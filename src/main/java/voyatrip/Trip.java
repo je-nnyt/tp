@@ -14,7 +14,7 @@ import voyatrip.ui.Ui;
  * This is the trip class that will hold all the information about the trip.
  */
 public class Trip {
-    private final String name;
+    private String name;
     private LocalDate startDate;
     private LocalDate endDate;
     private Integer totalBudget;
@@ -26,14 +26,14 @@ public class Trip {
 
     /**
      * Constructor for the trip class.
-     * @param startDate the start date of the trip.
-     * @param endDate the end date of the trip.
-     * @param numDays the number of days for the trip.
+     * @param startDate   the start date of the trip.
+     * @param endDate     the end date of the trip.
+     * @param numDays     the number of days for the trip.
      * @param totalBudget the total budget for the trip.
      */
     public Trip(String name, LocalDate startDate, LocalDate endDate, Integer numDays, Integer totalBudget) {
-        assert(startDate.isBefore(endDate));
-        assert(numDays == ChronoUnit.DAYS.between(startDate, endDate)+1);
+        assert (startDate.isBefore(endDate));
+        assert (numDays == ChronoUnit.DAYS.between(startDate, endDate) + 1);
         logger.log(Level.INFO, "Creating new trip");
         this.name = name;
         this.startDate = startDate;
@@ -44,7 +44,7 @@ public class Trip {
         this.accommodations = new ArrayList<>();
         this.itinerary = new ArrayList<>();
 
-        Integer budgetPerDay = totalBudget / numDays;
+        Float budgetPerDay = (float) totalBudget / numDays;
         for (int i = 0; i < numDays; i++) {
             itinerary.add(new Day(budgetPerDay));
         }
@@ -105,19 +105,20 @@ public class Trip {
         throw new InvalidCommand();
     }
 
-    public void addAccommodation(String accommodationName, Integer accommodationBudget) throws InvalidCommand {
+    public void addAccommodation(String accommodationName, Integer accommodationBudget,
+                                 ArrayList<Integer> accommodationDays) throws InvalidCommand {
         logger.log(Level.INFO, "Adding accommodation");
         if (isContainsAccommodation(accommodationName)) {
             logger.log(Level.WARNING, "Accommodation already exists");
             throw new InvalidCommand();
         }
-        Accommodation newAccommodation = new Accommodation(accommodationName, accommodationBudget);
+        Accommodation newAccommodation = new Accommodation(accommodationName, accommodationBudget, accommodationDays);
         accommodations.add(newAccommodation);
         Ui.printAddAccommodationMessage(newAccommodation);
         logger.log(Level.INFO, "Finished adding accommodation");
     }
 
-    private boolean isContainsAccommodation(String accommodationName) {
+    public boolean isContainsAccommodation(String accommodationName) {
         logger.log(Level.INFO, "Checking if accommodation exists");
         for (Accommodation accommodation : accommodations) {
             if (accommodation.getName().equals(accommodationName)) {
@@ -185,20 +186,79 @@ public class Trip {
     }
 
     private void buildAccommodationsInfo(StringBuilder tripInfo) {
+        // early return when there are no accommodations
+        if (accommodations.isEmpty()) {
+            tripInfo.append("No accommodations added yet.\n");
+        }
+
         for (Accommodation accommodation : accommodations) {
             tripInfo.append(accommodation.toString()).append("\n");
         }
     }
 
     private void buildTransportationsInfo(StringBuilder tripInfo) {
+        // early return when there are no transportations
+        if (transportations.isEmpty()) {
+            tripInfo.append("No transportations added yet.\n");
+        }
+
         for (Transportation transportation : transportations) {
             tripInfo.append(transportation.toString()).append("\n");
         }
     }
 
     public void buildItineraryInfo(StringBuilder tripInfo) {
-        for (Day day: itinerary) {
-            tripInfo.append(day.toString()).append("\n");
+        boolean hasNoActivity = true;
+        for (int i = 0; i < itinerary.size(); i++) {
+            if (itinerary.get(i).getActivities().isEmpty()) {
+                continue;
+            }
+            // print the heading for the first time
+            if (hasNoActivity) {
+                tripInfo.append("Itinerary: \n");
+                hasNoActivity = false;
+            }
+            tripInfo.append("Day ").append(i + 1).append("\n");
+            tripInfo.append(itinerary.get(i)).append("\n");
+        }
+
+        if (hasNoActivity) {
+            tripInfo.append("No activities added yet.\n");
+        }
+    }
+
+    /**
+     * This method print the information of the current trip budget status, ie budget per day and remaining budget.
+     */
+    public void printBudgetStatus() {
+        float budgetSum = 0;
+        for (Day day : itinerary) {
+            budgetSum += day.getBudget();
+        }
+
+        Ui.printTotalBudgetStatus(totalBudget, budgetSum);
+        if (budgetSum > totalBudget) {
+            Ui.printExceedTotalBudget();
+            Ui.printBudgetPerDay(itinerary);
+        }
+    }
+
+    /**
+     * This method is used to correct the size of the day objects according to the number of days in the trip.
+     */
+    public void updateItinerarySize() {
+        assert(ChronoUnit.DAYS.between(startDate, endDate) + 1 >= 0);
+        int curSize = itinerary.size();
+        int curNumDays = (int) ChronoUnit.DAYS.between(startDate, endDate) + 1;
+
+        if (curSize < curNumDays) {
+            for (int i = curSize; i < curNumDays; i++) {
+                itinerary.add(new Day((float)0));
+            }
+        } else if (curSize > curNumDays) {
+            for (int i = curSize; i > curNumDays; i--) {
+                itinerary.remove(i - 1);
+            }
         }
     }
 
@@ -212,13 +272,46 @@ public class Trip {
         StringBuilder tripInfo = new StringBuilder();
         tripInfo.append(abbrInfo()).append("\n");
 
-        tripInfo.append("Itinerary:\n");
         buildItineraryInfo(tripInfo);
-        tripInfo.append("Transportations:\n");
         buildTransportationsInfo(tripInfo);
-        tripInfo.append("Accommodations:\n");
         buildAccommodationsInfo(tripInfo);
+
         return tripInfo.toString().trim();
+    }
+
+    // setters
+    public void setName(String name) {
+        assert (name != null);
+        this.name = name;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setNumDays(Integer numDays) {
+        this.numDays = numDays;
+    }
+
+    public void setTotalBudget(Integer totalBudget) {
+        this.totalBudget = totalBudget;
+    }
+
+    // getters
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public Integer getItinerarySize() {
+        return itinerary.size();
     }
 }
 

@@ -3,6 +3,7 @@ package voyatrip.command;
 import java.util.ArrayList;
 
 import voyatrip.command.exceptions.InvalidArgumentKeyword;
+import voyatrip.command.exceptions.InvalidArgumentValue;
 import voyatrip.command.exceptions.InvalidCommandAction;
 import voyatrip.command.exceptions.InvalidCommandTarget;
 import voyatrip.command.exceptions.InvalidDateFormat;
@@ -54,6 +55,10 @@ public class Parser {
         }
     }
 
+    public String getCurrentTrip() {
+        return currentTrip;
+    }
+
     /**
      * Parse the input command.
      * The return is an abstract Command object that represents the input command.
@@ -61,26 +66,28 @@ public class Parser {
      * @param command Input command.
      * @return Command object that represents the input command.
      * @throws InvalidArgumentKeyword If the argument keyword is invalid.
+     * @throws InvalidArgumentValue If the argument value is invalid.
      * @throws InvalidCommandTarget If the command target is invalid.
      * @throws InvalidCommandAction If the command action is invalid.
-     * @throws InvalidNumberFormat If the number format is invalid.
      * @throws InvalidDateFormat If the date format is invalid.
+     * @throws InvalidNumberFormat If the number format is invalid.
      * @throws InvalidScope If the scope of the command is invalid.
      * @throws MissingArgument If there is missing argument.
      * @throws MissingCommandKeyword If there is missing command keyword.
      */
     public Command parse(String command)
-            throws
-            InvalidArgumentKeyword,
+            throws InvalidArgumentKeyword,
+            InvalidArgumentValue,
             InvalidCommandTarget,
             InvalidCommandAction,
-            InvalidNumberFormat,
             InvalidDateFormat,
+            InvalidNumberFormat,
             InvalidScope,
             MissingArgument,
             MissingCommandKeyword {
         CommandAction commandAction = extractCommandAction(command);
 
+        // Exception case: no argument command exit
         if (commandAction.equals(CommandAction.EXIT)) {
             return new ExitCommand();
         }
@@ -88,16 +95,18 @@ public class Parser {
         ArrayList<String> arguments = extractCommandArguments(command);
         CommandTarget commandTarget = extractCommandTargetType(command, commandAction);
 
-        boolean isIncorrectScope = !commandTarget.equals(CommandTarget.TRIP) && currentTarget == CommandTarget.TRIP;
-        if (isIncorrectScope) {
-            throw new InvalidScope();
+        // Exception case: modify trip within the corresponding trip directory
+        if (commandTarget == CommandTarget.TRIP && commandAction == CommandAction.MODIFY && !currentTrip.isEmpty()) {
+            commandAction = CommandAction.MODIFY_TRIP_WITHOUT_INDEX;
         }
+
+        validateScope(commandTarget);
 
         return matchCommand(commandAction, commandTarget, arguments);
     }
 
     private ArrayList<String> extractCommandArguments(String command) {
-        String[] doubleHyphenSeparatedTokens = command.strip().split("(^--|\\s+--)(?=\\w+\\s+\\w+)");
+        String[] doubleHyphenSeparatedTokens = command.strip().split("(^--|\\s+--)(?=\\w+)");
         ArrayList<String> arguments = new ArrayList<>();
         for (int i = 1; i < doubleHyphenSeparatedTokens.length; i++) {
             if (!doubleHyphenSeparatedTokens[i].isEmpty()) {
@@ -117,10 +126,10 @@ public class Parser {
         return switch (commandAction) {
         case "add", "a", "make", "mk" -> CommandAction.ADD;
         case "delete", "d", "remove", "rm" -> CommandAction.DELETE_BY_INDEX;
+        case "modify", "mod", "m" -> CommandAction.MODIFY;
         case "list", "l" -> CommandAction.LIST;
         case "cd" -> CommandAction.CHANGE_DIRECTORY;
         case "exit", "quit", "bye" -> CommandAction.EXIT;
-        case "modify" -> CommandAction.MODIFY;
         default -> throw new InvalidCommandAction();
         };
     }
@@ -144,16 +153,38 @@ public class Parser {
         case "activity", "act" -> CommandTarget.ACTIVITY;
         case "accommodation", "accom" -> CommandTarget.ACCOMMODATION;
         case "transportation", "tran" -> CommandTarget.TRANSPORTATION;
-        default -> currentTarget;
+        default -> getAdjustedCurrentTarget(commandAction);
         };
+    }
+
+    private CommandTarget getAdjustedCurrentTarget(CommandAction action) {
+        boolean isAddDeleteModify = action == CommandAction.ADD ||
+                action == CommandAction.DELETE_BY_INDEX ||
+                action == CommandAction.MODIFY;
+
+        if (currentTarget == CommandTarget.ITINERARY && isAddDeleteModify) {
+            return CommandTarget.ACTIVITY;
+        } else {
+            return currentTarget;
+        }
+    }
+
+    private void validateScope(CommandTarget commandTarget) throws InvalidScope {
+        // target scope too small
+        boolean isIncorrectScope = !commandTarget.equals(CommandTarget.TRIP) && currentTarget == CommandTarget.TRIP;
+
+        if (isIncorrectScope) {
+            throw new InvalidScope();
+        }
     }
 
     private Command matchCommand(CommandAction commandAction, CommandTarget commandTarget, ArrayList<String> arguments)
             throws InvalidArgumentKeyword,
-            InvalidNumberFormat,
+            InvalidArgumentValue,
+            InvalidCommandTarget,
             InvalidDateFormat,
-            MissingArgument,
-            InvalidCommandTarget {
+            InvalidNumberFormat,
+            MissingArgument {
         return switch (commandTarget) {
         case TRIP -> new TripsCommand(commandAction, commandTarget, arguments);
         case ITINERARY, ACTIVITY -> new ItineraryCommand(commandAction, commandTarget, currentTrip, arguments);
