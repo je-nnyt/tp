@@ -15,6 +15,7 @@ public class Message {
     static final String DELETE_TRANSPORTATION_MESSAGE = "The following transportation has been deleted from" +
             " your list! ";
     static final String MODIFY_ACCOMMODATION_MESSAGE = "The following accommodation has been modified to: ";
+    static final String LIST_ACCOMMODATION_MESSAGE = "Here is the accommodation(s) you are trying to find: ";
     static final String ADD_ACTIVITY_MESSAGE = "The following activity has been added to your list! ";
     static final String NEXT_COMMAND_MESSAGE = "What would you like to do next? ";
     static final String EMPTY_TRIP_LIST_MESSAGE = "There is no trip in your list. Please add a trip first.";
@@ -27,6 +28,9 @@ public class Message {
     static final String TOTAL_BUDGET_AGAINST_BUDGET_SUM_MESSAGE
             = "The current budget sum percentage against the total budget is: ";
     static final String INVALID_MODIFICATION_DATES_MESSAGE = "Invalid modification dates. Please try again.";
+
+    // list
+    static final String LIST_ALL_TRANSPORTATIONS_MESSAGE = "Here are all the transportations under your trip: ";
 
     // exception
     static final String TRIP_NOT_FOUND_MESSAGE = "Trip not found. Please try again.";
