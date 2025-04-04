@@ -18,6 +18,7 @@ public class Message {
     static final String MODIFY_ACCOMMODATION_MESSAGE = "The following accommodation has been modified to: ";
     static final String LIST_ACCOMMODATION_MESSAGE = "Here is the accommodation: ";
     static final String LIST_TRANSPORTATION_MESSAGE = "Here is the transportation: ";
+    static final String DELETE_ACTIVITY_MESSAGE = "The following activity has been deleted from your list! ";
     static final String NEXT_COMMAND_MESSAGE = "What would you like to do next? ";
     static final String EMPTY_TRIP_LIST_MESSAGE = "There is no trip in your list. Please add a trip first.";
 

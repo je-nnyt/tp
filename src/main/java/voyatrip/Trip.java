@@ -60,7 +60,9 @@ public class Trip {
 
     public void addTransportation(String transportName,
                                   String transportMode,
-                                  Integer transportBudget, Integer startDay, Integer endDay) throws InvalidCommand {
+                                  Integer transportBudget,
+                                  Integer startDay,
+                                  Integer endDay) throws InvalidCommand {
         logger.log(Level.INFO, "Adding transportation");
         if (isContainsTransportation(transportName)) {
             logger.log(Level.WARNING, "Transportation already exists");
@@ -242,7 +244,7 @@ public class Trip {
         throw new InvalidCommand();
     }
 
-    public void addActivity(Integer day, String name, String time) {
+    public void addActivity(Integer day, String name, String time) throws InvalidCommand {
         logger.log(Level.INFO, "Adding activity");
         try {
             Activity newActivity = new Activity(name, time);
@@ -250,9 +252,29 @@ public class Trip {
             Ui.printAddActivityMessage(newActivity);
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
-            Ui.printIndexOutOfBounds();
+            throw new InvalidIndex();
         }
         logger.log(Level.INFO, "Finished adding activity");
+    }
+
+    public void deleteActivity(Integer day, Integer index) throws InvalidCommand {
+        logger.log(Level.INFO, "Deleting activity");
+        try {
+            itinerary.get(day - 1).deleteActivity(index);
+        } catch (IndexOutOfBoundsException e) {
+            logger.log(Level.WARNING, "Index out of bounds");
+            throw new InvalidIndex();
+        }
+    }
+
+    public void deleteActivity(Integer day, String name) throws InvalidCommand {
+        logger.log(Level.INFO, "Deleting activity");
+        try {
+            itinerary.get(day - 1).deleteActivity(name);
+        } catch (IndexOutOfBoundsException e) {
+            logger.log(Level.WARNING, "Index out of bounds");
+            throw new InvalidIndex();
+        }
     }
 
     public String abbrInfo() {
@@ -336,7 +358,7 @@ public class Trip {
      * This method is used to correct the size of the day objects according to the number of days in the trip.
      */
     public void updateItinerarySize() {
-        assert (ChronoUnit.DAYS.between(startDate, endDate) + 1 >= 0);
+        assert(ChronoUnit.DAYS.between(startDate, endDate) + 1 >= 0);
         int curSize = itinerary.size();
         int curNumDays = (int) ChronoUnit.DAYS.between(startDate, endDate) + 1;
 

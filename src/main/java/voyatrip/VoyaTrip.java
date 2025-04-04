@@ -114,7 +114,8 @@ public class VoyaTrip {
     private static void handleActivity(ItineraryCommand command) throws InvalidCommand, TripNotFoundException {
         switch (command.getCommandAction()) {
         case ADD -> executeAddActivity(command);
-        case DELETE_BY_INDEX -> executeDeleteActivity(command);
+        case DELETE_BY_INDEX -> executeDeleteActivityByIndex(command);
+        case DELETE_BY_NAME -> executeDeleteActivityByName(command);
         default -> throw new InvalidCommand();
         }
     }
@@ -165,7 +166,7 @@ public class VoyaTrip {
         logger.log(Level.INFO, "Finished executeAddTrip");
     }
 
-    private static void executeAddActivity(ItineraryCommand command) throws TripNotFoundException {
+    private static void executeAddActivity(ItineraryCommand command) throws InvalidCommand {
         trips.get(command.getTrip()).addActivity(command.getDay(), command.getName(), command.getTime());
     }
 
@@ -196,7 +197,16 @@ public class VoyaTrip {
         logger.log(Level.INFO, "Finished executeDeleteTripByName");
     }
 
-    private static void executeDeleteActivity(Command command) {
+    private static void executeDeleteActivityByIndex(ItineraryCommand command) throws InvalidCommand {
+        logger.log(Level.INFO, "Starting executeDeleteActivityByIndex");
+        trips.get(command.getTrip()).deleteActivity(command.getDay(), command.getIndex());
+        logger.log(Level.INFO, "Finished executeDeleteActivityByIndex");
+    }
+
+    private static void executeDeleteActivityByName(ItineraryCommand command) throws InvalidCommand {
+        logger.log(Level.INFO, "Starting executeDeleteActivityByName");
+        trips.get(command.getTrip()).deleteActivity(command.getDay(), command.getName());
+        logger.log(Level.INFO, "Finished executeDeleteActivityByName");
     }
 
     private static void executeDeleteAccommodationByIndex(AccommodationCommand command)
