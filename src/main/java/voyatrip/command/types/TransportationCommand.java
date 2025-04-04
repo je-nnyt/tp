@@ -90,7 +90,8 @@ public class TransportationCommand extends Command {
 
         boolean isMissingAddArgument = name == null || mode == null || budget == null;
         boolean isMissingDeleteArgument = name == null && index == null;
-        boolean isMissingModifyArgument = index == null || (name == null && mode == null && budget == null);
+        boolean isMissingModifyArgument = index == null || (name == null && mode == null && budget == null
+                && startDay == null && endDay == null);
 
         if (isAdd && isMissingAddArgument ||
                 isDelete && isMissingDeleteArgument ||
