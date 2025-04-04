@@ -1,6 +1,8 @@
-# Developer Guide
+# Developer Guide (4 Apr)
 
 ## Table of Contents
+- [Get Started (4 Apr)](#get-started)
+    - [Setting up (4 Apr)](#setting-up)
 - [Design](#design)
   - [Architecture](#architecture)
 - [Implementation](#implementation)
@@ -17,6 +19,18 @@
     - [PlantUML](#plantuml)
         - [How to use](#how-to-use)
 
+## Get Started
+
+### Setting up
+
+> ℹ️ This section is only for the developer who want to run the project locally, 
+> if you are not a developer, please refer to [User Guide](UserGuide.md) instead.
+
+> ℹ️ Logger information is hidden by default,
+> if you wish to unable logger for debugging purpose, 
+> please pass argument `--verbose` when running the jar file.
+> ie java -jar VoyaTrip.jar --verbose
+
 ## Design
 
 ### Architecture
@@ -27,8 +41,8 @@ The main components are:
 
 The interaction for any command is similar to the following, for simplicity, we will use `add trip` as an example:
 
-<img src="uml/main_flow.png" alt="main-flow-uml"/>
 
+<img src="uml/main_flow.png" alt="main-flow-uml"/>
 ## Implementation
 This section describes some notable details on how certain features are implemented/going to be implemented.
 
