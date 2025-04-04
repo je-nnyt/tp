@@ -1,5 +1,7 @@
 package voyatrip;
 
+import static voyatrip.ui.Ui.printTransportationList;
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Scanner;
@@ -246,9 +248,15 @@ public class VoyaTrip {
         logger.log(Level.INFO, "Finished executeListAccommodation");
     }
 
-    private static void executeListTransportation(Command command) {
+    private static void executeListTransportation(TransportationCommand command) throws TripNotFoundException {
         logger.log(Level.INFO, "Starting executeListTransportation");
 
+        if ("all".equals(String.valueOf(command.getName()))) {
+            Ui.printTransportationListMessage();
+            printTransportationList(trips.get(command.getTrip()));
+        } else {
+            trips.get(command.getTrip()).listTransportation(command.getIndex());
+        }
         logger.log(Level.INFO, "Finished executeListTransportation");
     }
 
@@ -403,7 +411,8 @@ public class VoyaTrip {
         }
         logger.log(Level.INFO, "Finished executeModifyCurTrip");
     }
-  
+
+
     private static void executeModifyAccommodation(AccommodationCommand command)
             throws InvalidCommand, TripNotFoundException {
         logger.log(Level.INFO, "Starting executeModifyAccommodation");

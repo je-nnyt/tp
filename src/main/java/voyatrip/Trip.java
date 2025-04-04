@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import voyatrip.command.exceptions.InvalidCommand;
+import voyatrip.command.exceptions.TransportationException;
 import voyatrip.ui.Ui;
 
 /**
@@ -105,6 +106,22 @@ public class Trip {
         }
         logger.log(Level.WARNING, "Transportation not found");
         throw new InvalidCommand();
+    }
+
+    /**
+     * This method prints the information of the transportation at the given index.
+     *
+     * @param index Index input by user
+     * @throws TransportationException if invalid index
+     */
+    public void listTransportation(Integer index) throws IndexOutOfBoundsException {
+        logger.log(Level.INFO, "Listing transportation");
+        try {
+            System.out.println(transportations.get(index - 1).toString());
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
+            logger.log(Level.WARNING, "IndexOutOfBoundsException Exception");
+        }
     }
 
     public void addAccommodation(String accommodationName, Integer accommodationBudget,
@@ -226,14 +243,17 @@ public class Trip {
         }
     }
 
-    private void buildTransportationsInfo(StringBuilder tripInfo) {
+    public void buildTransportationsInfo(StringBuilder tripInfo) {
         // early return when there are no transportations
+        Integer transportationIndex = 1;
+
         if (transportations.isEmpty()) {
             tripInfo.append("No transportations added yet.\n");
         }
 
         for (Transportation transportation : transportations) {
-            tripInfo.append(transportation.toString()).append("\n");
+            tripInfo.append(transportationIndex).append(". ").append(transportation.toString()).append("\n");
+            transportationIndex++;
         }
     }
 

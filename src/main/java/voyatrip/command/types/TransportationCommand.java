@@ -71,6 +71,7 @@ public class TransportationCommand extends Command {
             case "mode", "m" -> mode = argumentValue;
             case "budget", "b" -> budget = Integer.parseInt(argumentValue);
             case "index", "i" -> index = Integer.parseInt(argumentValue);
+            case "all" -> name = "all";
             case "start", "s" -> startDay = Integer.parseInt(argumentValue);
             case "end", "e" -> endDay = Integer.parseInt(argumentValue);
             default -> throw new InvalidArgumentKeyword();

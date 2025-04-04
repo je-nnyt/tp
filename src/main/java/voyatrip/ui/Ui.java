@@ -5,6 +5,7 @@ import voyatrip.Activity;
 import voyatrip.Day;
 import voyatrip.command.Parser;
 import voyatrip.Transportation;
+import voyatrip.Trip;
 
 import java.util.ArrayList;
 
@@ -61,6 +62,10 @@ public class Ui {
         System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 
+    public static void printTransportationListMessage() {
+        System.out.println(Message.LIST_ALL_TRANSPORTATIONS_MESSAGE);
+    }
+
     public static void printAddActivityMessage(Activity activity) {
         System.out.println(Message.ADD_ACTIVITY_MESSAGE);
         System.out.println(activity);
@@ -112,6 +117,12 @@ public class Ui {
 
     public static void printIndexOutOfBounds() {
         System.out.println(Message.INDEX_OUT_OF_BOUNDS_MESSAGE);
+    }
+
+    public static void printTransportationList(Trip trip) {
+        StringBuilder tripInfo = new StringBuilder();
+        trip.buildTransportationsInfo(tripInfo);
+        System.out.println(tripInfo.toString().trim());
     }
 
     public static void printModifyAccommodationMessage(Accommodation accommodation) {
