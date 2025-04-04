@@ -107,22 +107,37 @@ public class Trip {
         throw new InvalidCommand();
     }
 
-    public void modifyTransportation(String transportName, String transportMode, Integer transportBudget, Integer startDay, Integer endDay, Integer index ) throws InvalidCommand {
+    public void modifyTransportation(String transportName, String transportMode, Integer transportBudget,
+                                     Integer startDay, Integer endDay, Integer index) throws InvalidCommand {
         logger.log(Level.INFO, "Modifying transportation");
 
-        if(transportName != null) {
-            transportations.get(index - 1).setName(transportName);
-            }
-        if(transportMode != null) {
-            transportations.get(index - 1).setMode(transportMode);
+        if (transportName != null) {
+            logger.log(Level.INFO, "Starting modifying name");
+            transportations.get(index).setName(transportName);
+            logger.log(Level.INFO, "Finishing modifying name");
         }
-        if(transportBudget != null) {
-            transportations.get(index - 1).setBudget(transportBudget);
+        if (transportMode != null) {
+            logger.log(Level.INFO, "Starting modifying mode");
+            transportations.get(index).setMode(transportMode);
+            logger.log(Level.INFO, "Finishing modifying mode");
         }
-
-
-
+        if (transportBudget != null) {
+            logger.log(Level.INFO, "Starting modifying budget");
+            transportations.get(index).setBudget(transportBudget);
+            logger.log(Level.INFO, "Finishing modifying budget");
         }
+        if (startDay != null) {
+            logger.log(Level.INFO, "Starting modifying startDay");
+            transportations.get(index).setStartDay(startDay);
+            logger.log(Level.INFO, "Finishing modifying startDay");
+        }
+        if (endDay != null) {
+            logger.log(Level.INFO, "Starting modifying endDay");
+            transportations.get(index).setEndDay(endDay);
+            logger.log(Level.INFO, "Finishing modifying endDay");
+        }
+        Ui.printModifyTransportationMessage(transportations.get(index));
+        logger.log(Level.INFO, "Finishing modifying transportation");
 
     }
 
@@ -359,8 +374,20 @@ public class Trip {
         return endDate;
     }
 
+    public Integer getNumDays() {
+        return numDays;
+    }
+
+    public Integer getTotalBudget() {
+        return totalBudget;
+    }
+
     public Integer getItinerarySize() {
         return itinerary.size();
+    }
+
+    public ArrayList<Transportation> getTransportations() {
+        return transportations;
     }
 }
 
