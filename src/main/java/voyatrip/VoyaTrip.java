@@ -161,10 +161,7 @@ public class VoyaTrip {
         case DELETE_BY_NAME -> executeDeleteTransportationByName(command);
         case LIST_BY_INDEX -> executeListTransportationByIndex(command);
         case LIST_BY_NAME -> executeListTransportationByName(command);
-        case LIST -> executeListTransportation(command);
         case MODIFY -> executeModifyTransportation(command);
-        case LIST_BY_INDEX -> executeListTransportationByIndex(command);
-        case LIST_BY_NAME -> executeListTransportationByName(command);
         case CHANGE_DIRECTORY -> executeChangeDirectoryTransportation(command);
         default -> {
             logger.log(Level.WARNING, "Unknown command action: " + command.getCommandAction());
@@ -490,7 +487,7 @@ public class VoyaTrip {
             Integer newStartDay = command.getStartDay();
             Integer newEndDay = command.getEndDay();
 
-            if (newStartDay != null && newEndDay != null) {
+
                 //use existing values
                 if (newStartDay == null) {
                     newStartDay = trip.getTransportations().get(command.getIndex() - 1).getStartDay();
@@ -498,7 +495,6 @@ public class VoyaTrip {
                 if (newEndDay == null) {
                     newEndDay = trip.getTransportations().get(command.getIndex() - 1).getEndDay();
                 }
-            }
 
             Integer newDuration = newEndDay - newStartDay;
             if (newDuration > trip.getNumDays()) {
