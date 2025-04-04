@@ -1,5 +1,7 @@
 package voyatrip;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -16,41 +18,55 @@ public class TripTest {
 
     @BeforeEach
     void setUp() {
-        trip = new Trip("Vietnam", LocalDate.of(2025, 6, 10), LocalDate.of(2025, 6, 17), 8, 500);
+        trip = new Trip("Vietnam", LocalDate.of(2025, 6, 10),
+                LocalDate.of(2025, 6, 17), 8, 500);
     }
 
     @Test
-    void testAddTransportationSuccess() throws InvalidCommand {
-        trip.addTransportation("VietJet Air", "Plane", 200);
+    void addTransportation_uniqueTransportationName_success() throws InvalidCommand {
+        trip.addTransportation("VietJet Air", "Plane", 200, 2, 4);
         Assertions.assertTrue(trip.isContainsTransportation("VietJet Air"));
 
     }
 
     @Test
-    void testAddTransportationFailure() throws InvalidCommand {
-        trip.addTransportation("VietJet Air", "Plane", 200);
-        Assertions.assertThrows(InvalidCommand.class, ()->  {
-            trip.addTransportation("VietJet Air", "Plane", 200);
+    void addTransportation_duplicateTransportationName_failure() throws InvalidCommand {
+        trip.addTransportation("VietJet Air", "Plane", 200, 1, 3);
+        Assertions.assertThrows(InvalidCommand.class, () -> {
+            trip.addTransportation("VietJet Air", "Plane", 200, 1, 3);
         });
     }
 
     @Test
-    void testDeleteTransportationSuccess() throws InvalidCommand {
-        trip.addTransportation("SBS Transit 170", "bus", 5);
-        trip.deleteTransportation("SBS Transit 170");
+    void deleteTransportationByIndex_indexWithinRange_success() throws InvalidCommand {
+        trip.addTransportation("SBS Transit 170", "bus", 5, 1, 3);
+        trip.deleteTransportation(1);
         Assertions.assertFalse(trip.isContainsTransportation("SBS Transit 170"));
 
     }
 
     @Test
-    void testDeleteTransportationFailure() throws InvalidCommand {
-        trip.addTransportation("VietJet Air", "Plane", 200);
-        trip.deleteTransportation("VietJet Air");
-
-        Assertions.assertThrows(InvalidCommand.class, ()->  {
-            trip.deleteTransportation("VietJet Air");
+    void deleteTransportationByIndex_indexWithinRange_failure() throws InvalidCommand {
+        trip.addTransportation("SBS Transit 170", "bus", 5, 1, 3);
+        Assertions.assertThrows(InvalidCommand.class, () -> {
+            trip.deleteTransportation(2);
         });
 
+    }
+
+    @Test
+    void deleteTransportationByName_nameExists_success() throws InvalidCommand {
+        trip.addTransportation("SBS Transit 170", "bus", 5, 1, 3);
+        trip.deleteTransportation("SBS Transit 170");
+        Assertions.assertFalse(trip.isContainsAccommodation("SBS Transit 170"));
+    }
+
+    @Test
+    void deleteTransportationByName_nameDoesNotExists_failure() throws InvalidCommand {
+        trip.addTransportation("SBS Transit 170", "bus", 5, 1, 3);
+        Assertions.assertThrows(InvalidCommand.class, () -> {
+            trip.deleteTransportation("    Transit 170");
+        });
     }
 
     @Test
@@ -68,7 +84,7 @@ public class TripTest {
         days.add(5);
         days.add(6);
         trip.addAccommodation("Park Hyatt Saigon", 800, days);
-        Assertions.assertThrows(InvalidCommand.class, ()->
+        Assertions.assertThrows(InvalidCommand.class, () ->
                 trip.addAccommodation("Park Hyatt Saigon", 600, days));
     }
 
@@ -88,7 +104,7 @@ public class TripTest {
         days.add(3);
         days.add(4);
         trip.addAccommodation("Park Hyatt Saigon", 800, days);
-        Assertions.assertThrows(InvalidCommand.class, ()->
+        Assertions.assertThrows(InvalidCommand.class, () ->
                 trip.deleteAccommodation(2));
     }
 
@@ -108,10 +124,10 @@ public class TripTest {
         days.add(1);
         days.add(2);
         trip.addAccommodation("Park Hyatt Saigon", 800, days);
-        Assertions.assertThrows(InvalidCommand.class, ()->
+        Assertions.assertThrows(InvalidCommand.class, () ->
                 trip.deleteAccommodation("Lotte Hotel Saigon"));
     }
-  
+
     @Test
     void updateItinerarySize_smallerSize_success() {
         trip.setEndDate(LocalDate.of(2025, 6, 16));
@@ -121,9 +137,11 @@ public class TripTest {
 
     @Test
     void updateItinerarySize_largerSize_success() {
-        trip.addActivity(8, "Visit the beach", "10:00");
-        trip.setEndDate(LocalDate.of(2025, 6, 18));
-        trip.updateItinerarySize();
-        Assertions.assertEquals(9, trip.getItinerarySize());
+        assertDoesNotThrow(() -> {
+            trip.addActivity(8, "Visit the beach", "10:00");
+            trip.setEndDate(LocalDate.of(2025, 6, 18));
+            trip.updateItinerarySize();
+            Assertions.assertEquals(9, trip.getItinerarySize());
+        });
     }
 }

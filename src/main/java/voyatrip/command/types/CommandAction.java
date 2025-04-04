@@ -10,7 +10,7 @@ public enum CommandAction {
     CHANGE_DIRECTORY,
     CHANGE_TRIP_BY_INDEX,
     CHANGE_TRIP_BY_NAME,
-    LIST_TRIP_BY_INDEX,
-    LIST_TRIP_BY_NAME,
+    LIST_BY_INDEX,
+    LIST_BY_NAME,
     EXIT
 }
