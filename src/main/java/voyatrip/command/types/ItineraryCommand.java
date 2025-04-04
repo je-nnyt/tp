@@ -80,7 +80,7 @@ public class ItineraryCommand extends Command {
         boolean isModify = commandAction == CommandAction.MODIFY;
 
         boolean isMissingAddArgument = name == null || time == null || day == null;
-        boolean isMissingDeleteArgument = name == null && index == null;
+        boolean isMissingDeleteArgument = name == null && index == null || day == null;
         boolean isMissingModifyArgument = index == null || day == null || (name == null && time == null);
 
         if (isAdd && isMissingAddArgument ||

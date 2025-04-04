@@ -3,7 +3,6 @@ package voyatrip.ui;
 import voyatrip.Accommodation;
 import voyatrip.Activity;
 import voyatrip.Day;
-import voyatrip.Trip;
 import voyatrip.command.Parser;
 import voyatrip.Transportation;
 import voyatrip.Trip;
@@ -69,6 +68,12 @@ public class Ui {
 
     public static void printAddActivityMessage(Activity activity) {
         System.out.println(Message.ADD_ACTIVITY_MESSAGE);
+        System.out.println(activity);
+        System.out.println(Message.NEXT_COMMAND_MESSAGE);
+    }
+
+    public static void printDeleteActivityMessage(Activity activity) {
+        System.out.println(Message.DELETE_ACTIVITY_MESSAGE);
         System.out.println(activity);
         System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
