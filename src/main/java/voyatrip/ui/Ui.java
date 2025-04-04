@@ -5,6 +5,7 @@ import voyatrip.Activity;
 import voyatrip.Day;
 import voyatrip.command.Parser;
 import voyatrip.Transportation;
+import voyatrip.Trip;
 
 import java.util.ArrayList;
 
