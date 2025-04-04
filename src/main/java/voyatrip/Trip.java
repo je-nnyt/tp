@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 
 import voyatrip.command.exceptions.InvalidCommand;
 import voyatrip.command.exceptions.InvalidIndex;
+import voyatrip.command.exceptions.TransportationException;
 import voyatrip.ui.Ui;
 
 /**
@@ -27,6 +28,7 @@ public class Trip {
 
     /**
      * Constructor for the trip class.
+     *
      * @param startDate   the start date of the trip.
      * @param endDate     the end date of the trip.
      * @param numDays     the number of days for the trip.
@@ -58,13 +60,16 @@ public class Trip {
 
     public void addTransportation(String transportName,
                                   String transportMode,
-                                  Integer transportBudget) throws InvalidCommand {
+                                  Integer transportBudget,
+                                  Integer startDay,
+                                  Integer endDay) throws InvalidCommand {
         logger.log(Level.INFO, "Adding transportation");
         if (isContainsTransportation(transportName)) {
             logger.log(Level.WARNING, "Transportation already exists");
             throw new InvalidCommand();
         }
-        Transportation newTransportation = new Transportation(transportName, transportMode, transportBudget);
+        Transportation newTransportation = new Transportation(transportName, transportMode,
+                transportBudget, startDay, endDay);
         transportations.add(newTransportation);
         Ui.printAddTransportationMessage(newTransportation);
         logger.log(Level.INFO, "Finished adding transportation");
@@ -104,6 +109,22 @@ public class Trip {
         }
         logger.log(Level.WARNING, "Transportation not found");
         throw new InvalidCommand();
+    }
+
+    /**
+     * This method prints the information of the transportation at the given index.
+     *
+     * @param index Index input by user
+     * @throws TransportationException if invalid index
+     */
+    public void listTransportation(Integer index) throws IndexOutOfBoundsException {
+        logger.log(Level.INFO, "Listing transportation");
+        try {
+            System.out.println(transportations.get(index - 1).toString());
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
+            logger.log(Level.WARNING, "IndexOutOfBoundsException Exception");
+        }
     }
 
     public void addAccommodation(String accommodationName, Integer accommodationBudget,
@@ -185,6 +206,30 @@ public class Trip {
         }
     }
 
+    public void listAccommodation(Integer index) throws InvalidCommand {
+        try {
+            logger.log(Level.INFO, "Listing accommodation");
+            Ui.printListAccommodationMessage(accommodations.get(index - 1));
+            logger.log(Level.INFO, "Finished listing accommodation");
+        } catch (IndexOutOfBoundsException e) {
+            logger.log(Level.WARNING, "Index out of bounds");
+            throw new InvalidCommand();
+        }
+    }
+
+    public void listAccommodation(String accommodationName) throws InvalidCommand {
+        logger.log(Level.INFO, "Listing accommodation");
+        for (Accommodation accommodation : accommodations) {
+            if (accommodation.getName().equals(accommodationName)) {
+                Ui.printListAccommodationMessage(accommodation);
+                logger.log(Level.INFO, "Finished listing accommodation");
+                return;
+            }
+        }
+        logger.log(Level.WARNING, "Accommodation not found");
+        throw new InvalidCommand();
+    }
+
     public void addActivity(Integer day, String name, String time) throws InvalidCommand {
         logger.log(Level.INFO, "Adding activity");
         try {
@@ -234,7 +279,7 @@ public class Trip {
         return this.name.equals(((Trip) obj).name);
     }
 
-    private void buildAccommodationsInfo(StringBuilder tripInfo) {
+    public void buildAccommodationsInfo(StringBuilder tripInfo) {
         // early return when there are no accommodations
         if (accommodations.isEmpty()) {
             tripInfo.append("No accommodations added yet.\n");
@@ -245,14 +290,17 @@ public class Trip {
         }
     }
 
-    private void buildTransportationsInfo(StringBuilder tripInfo) {
+    public void buildTransportationsInfo(StringBuilder tripInfo) {
         // early return when there are no transportations
+        Integer transportationIndex = 1;
+
         if (transportations.isEmpty()) {
             tripInfo.append("No transportations added yet.\n");
         }
 
         for (Transportation transportation : transportations) {
-            tripInfo.append(transportation.toString()).append("\n");
+            tripInfo.append(transportationIndex).append(". ").append(transportation.toString()).append("\n");
+            transportationIndex++;
         }
     }
 
@@ -302,7 +350,7 @@ public class Trip {
 
         if (curSize < curNumDays) {
             for (int i = curSize; i < curNumDays; i++) {
-                itinerary.add(new Day((float)0));
+                itinerary.add(new Day((float) 0));
             }
         } else if (curSize > curNumDays) {
             for (int i = curSize; i > curNumDays; i--) {
@@ -313,6 +361,7 @@ public class Trip {
 
     /**
      * This is a method to print the trip information.
+     *
      * @return String representation of the trip, and its associated transportations and accommodations.
      */
     @Override

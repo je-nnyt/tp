@@ -50,8 +50,18 @@ public class AccommodationCommand extends Command {
             MissingArgument {
         super.processRawArgument(arguments);
 
+        processCommandVariation();
+    }
+
+    private void processCommandVariation() {
         if (commandAction == CommandAction.DELETE_BY_INDEX && name != null) {
             super.setCommandAction(CommandAction.DELETE_BY_NAME);
+        } else if (commandAction == CommandAction.LIST) {
+            if (name != null) {
+                super.setCommandAction(CommandAction.LIST_ACCOMMODATION_BY_NAME);
+            } else if (index != null) {
+                super.setCommandAction(CommandAction.LIST_ACCOMMODATION_BY_INDEX);
+            }
         }
     }
 
@@ -86,15 +96,18 @@ public class AccommodationCommand extends Command {
         boolean isDelete = commandAction == CommandAction.DELETE_BY_INDEX ||
                 commandAction == CommandAction.DELETE_BY_NAME;
         boolean isModify = commandAction == CommandAction.MODIFY;
+        boolean isList = commandAction == CommandAction.LIST;
 
         boolean isMissingAddArgument = name == null || budget == null || startDay == null || endDay == null;
         boolean isMissingDeleteArgument = name == null && index == null;
         boolean isMissingModifyArgument = index == null ||
                 (name == null && budget == null && startDay == null && endDay == null);
+        boolean isMissingListArgument = name == null && index == null;
 
         if (isAdd && isMissingAddArgument ||
                 isDelete && isMissingDeleteArgument ||
-                isModify && isMissingModifyArgument) {
+                isModify && isMissingModifyArgument ||
+                isList && isMissingListArgument) {
             throw new MissingArgument();
         }
 
