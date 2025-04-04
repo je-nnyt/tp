@@ -119,4 +119,9 @@ public class Ui {
         System.out.println(accommodation);
         System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
+
+    public static void printModifyTransportationMessage(Transportation transportation) {
+        System.out.println(Message.MODIFY_TRANSPORTATION_MESSAGE);
+        System.out.println(transportation);
+    }
 }
