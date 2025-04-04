@@ -118,7 +118,7 @@ public class VoyaTrip {
         case ACTIVITY -> handleActivity((ItineraryCommand) command);
         case ACCOMMODATION -> handleAccommodation((AccommodationCommand) command);
         case TRANSPORTATION -> handleTransportation((TransportationCommand) command);
-        default -> throw new InvalidCommand();
+        default -> throw new InvalidCommandTarget();
         }
     }
 
@@ -134,7 +134,7 @@ public class VoyaTrip {
         case CHANGE_TRIP_BY_INDEX -> executeChangeDirectoryTripByIndex(command);
         case MODIFY -> executeModifyTrip(command);
         case MODIFY_TRIP_WITHOUT_INDEX -> executeModifyCurTrip(command);
-        default -> throw new InvalidCommand();
+        default -> throw new InvalidCommandAction();
         }
         logger.log(Level.INFO, "Finished handleTrip");
     }
@@ -143,7 +143,7 @@ public class VoyaTrip {
         switch (command.getCommandAction()) {
         case LIST -> executeListItinerary(command);
         case CHANGE_DIRECTORY -> executeChangeDirectoryItinerary(command);
-        default -> throw new InvalidCommand();
+        default -> throw new InvalidCommandAction();
         }
     }
 
@@ -152,7 +152,7 @@ public class VoyaTrip {
         case ADD -> executeAddActivity(command);
         case DELETE_BY_INDEX -> executeDeleteActivityByIndex(command);
         case DELETE_BY_NAME -> executeDeleteActivityByName(command);
-        default -> throw new InvalidCommand();
+        default -> throw new InvalidCommandAction();
         }
     }
 
@@ -166,7 +166,7 @@ public class VoyaTrip {
         case LIST_BY_NAME -> executeListAccommodationByName(command);
         case CHANGE_DIRECTORY -> executeChangeDirectoryAccommodation(command);
         case MODIFY -> executeModifyAccommodation(command);
-        default -> throw new InvalidCommand();
+        default -> throw new InvalidCommandAction();
         }
     }
 
@@ -182,7 +182,7 @@ public class VoyaTrip {
         case CHANGE_DIRECTORY -> executeChangeDirectoryTransportation(command);
         default -> {
             logger.log(Level.WARNING, "Unknown command action: " + command.getCommandAction());
-            throw new InvalidCommand();
+            throw new InvalidCommandAction();
         }
         }
         logger.log(Level.INFO, "Finished handleTransportation");

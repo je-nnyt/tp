@@ -74,10 +74,6 @@ public class TransportationCommand extends Command {
         String argumentValue = argument.replaceFirst(argumentKeyword, "").strip();
         argumentKeyword = argumentKeyword.toLowerCase();
 
-        if (!argumentKeyword.equals("all") && argumentValue.isEmpty()) {
-            throw new InvalidArgumentValue();
-        }
-
         try {
             switch (argumentKeyword) {
             case "name", "n" -> name = argumentValue;
@@ -91,6 +87,10 @@ public class TransportationCommand extends Command {
             }
         } catch (NumberFormatException e) {
             throw new InvalidNumberFormat();
+        }
+
+        if (!argumentKeyword.equals("all") && argumentValue.isEmpty()) {
+            throw new InvalidArgumentValue();
         }
     }
 
