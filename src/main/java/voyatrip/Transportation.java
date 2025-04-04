@@ -11,6 +11,7 @@ public class Transportation {
     private Integer budget;
     private Integer startDay;
     private Integer endDay;
+    private Integer numDays;
     private ArrayList<Integer> days;
 
 
@@ -23,6 +24,7 @@ public class Transportation {
         this.mode = mode;
         this.budget = budget;
         this.days = new ArrayList<>();
+        this.numDays = 0;
         this.startDay = startDay;
         this.endDay = endDay;
 
@@ -31,8 +33,12 @@ public class Transportation {
             days.add(i);
         }
 
+        //calculate numDays
+        calculateNumDay();
+
         logger.log(Level.INFO, "Transportation created");
     }
+
 
     public Integer getBudget() {
         return budget;
@@ -74,9 +80,22 @@ public class Transportation {
         this.endDay = endDay;
     }
 
+    public Integer getNumDays() {
+        return numDays;
+    }
+    public void setNumDays(Integer numDays) {
+        this.numDays = numDays;
+    }
+
     @Override
     public String toString() {
         return "Transportation by " + mode + " " + name + " from day " + startDay
                 + " to day " + endDay + " with budget $" + budget;
+    }
+
+    private void calculateNumDay() {
+        if (startDay != null && endDay != null) {
+             numDays = endDay - startDay;
+        }
     }
 }
