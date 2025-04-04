@@ -83,19 +83,20 @@ public class Transportation {
     public Integer getNumDays() {
         return numDays;
     }
+
     public void setNumDays(Integer numDays) {
         this.numDays = numDays;
     }
 
     @Override
     public String toString() {
-        return "Transportation by " + mode + " " + name + " from day " + startDay
-                + " to day " + endDay + " with budget $" + budget;
+        return "Transportation by " + mode + " " + name + " from day " + startDay +
+                " to day " + endDay + " with budget $" + budget;
     }
 
     private void calculateNumDay() {
         if (startDay != null && endDay != null) {
-             numDays = endDay - startDay;
+            numDays = endDay - startDay;
         }
     }
 }

@@ -413,7 +413,8 @@ public class VoyaTrip {
         logger.log(Level.INFO, "Finished executeModifyAccommodation");
     }
 
-    private static void executeModifyTransportation(TransportationCommand command) throws InvalidCommand, TripNotFoundException {
+    private static void executeModifyTransportation(TransportationCommand command)
+            throws InvalidCommand, TripNotFoundException {
         logger.log(Level.INFO, "Starting executeModifyTransportation");
         try {
             Trip trip = trips.get(command.getTrip());
@@ -447,10 +448,11 @@ public class VoyaTrip {
             Integer newDuration = newEndDay - newStartDay;
             if (newDuration > trip.getNumDays()) {
                 System.out.println("Invalid modification of day");
-                logger.log(Level.WARNING, "The new duration of transportation does not match the trip duration");
+                logger.log(Level.WARNING, "The new duration of transportation" +
+                        " does not match the trip duration");
             } else {
-                trips.get(command.getTrip()).modifyTransportation(command.getName(), command.getMode(), command.getBudget(),
-                        command.getStartDay(), command.getEndDay(), command.getIndex() - 1);
+                trips.get(command.getTrip()).modifyTransportation(command.getName(), command.getMode(),
+                        command.getBudget(), command.getStartDay(), command.getEndDay(), command.getIndex() - 1);
             }
         } catch (IndexOutOfBoundsException e) {
             throw new InvalidIndex();
