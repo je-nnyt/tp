@@ -7,8 +7,9 @@ import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import voyatrip.command.exceptions.InvalidArgumentValue;
 import voyatrip.command.exceptions.InvalidCommand;
-import voyatrip.command.exceptions.TransportationException;
+import voyatrip.command.exceptions.InvalidIndex;
 import voyatrip.ui.Ui;
 
 /**
@@ -112,16 +113,30 @@ public class Trip {
      * This method prints the information of the transportation at the given index.
      *
      * @param index Index input by user
-     * @throws TransportationException if invalid index
+     * @throws InvalidIndex if invalid index
      */
-    public void listTransportation(Integer index) throws IndexOutOfBoundsException {
+    public void listTransportation(Integer index) throws InvalidCommand {
         logger.log(Level.INFO, "Listing transportation");
         try {
-            System.out.println(transportations.get(index - 1).toString());
+            Ui.printListTransportationMessage(transportations.get(index - 1));
+            logger.log(Level.INFO, "Finished listing transportation");
         } catch (IndexOutOfBoundsException e) {
-            System.out.println(e.getMessage());
             logger.log(Level.WARNING, "IndexOutOfBoundsException Exception");
+            throw new InvalidIndex();
         }
+    }
+
+    public void listTransportation(String name) throws InvalidCommand {
+        logger.log(Level.INFO, "Listing transportation");
+        for (Transportation transportation : transportations) {
+            if (transportation.getName().equals(name)) {
+                Ui.printListTransportationMessage(transportation);
+                logger.log(Level.INFO, "Finished listing transportation");
+                return;
+            }
+        }
+        logger.log(Level.WARNING, "Transportation not found");
+        throw new InvalidArgumentValue();
     }
 
     public void addAccommodation(String accommodationName, Integer accommodationBudget,

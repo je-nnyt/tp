@@ -76,9 +76,9 @@ public class TripsCommand extends Command {
             }
         } else if (commandAction == CommandAction.LIST) {
             if (name != null) {
-                super.setCommandAction(CommandAction.LIST_TRIP_BY_NAME);
+                super.setCommandAction(CommandAction.LIST_BY_NAME);
             } else if (index != null) {
-                super.setCommandAction(CommandAction.LIST_TRIP_BY_INDEX);
+                super.setCommandAction(CommandAction.LIST_BY_INDEX);
             }
         } else if (commandAction == CommandAction.MODIFY) {
             if (index == null) {
