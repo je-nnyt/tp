@@ -105,12 +105,12 @@ class ParserTest {
     void parse_listTripsAll_successful() {
         assertDoesNotThrow(() -> {
             Command command = parser.parse("list trip --all\n");
-            assertEquals(CommandAction.LIST_TRIP_BY_NAME, command.getCommandAction());
+            assertEquals(CommandAction.LIST_BY_NAME, command.getCommandAction());
             assertEquals(CommandTarget.TRIP, command.getCommandTarget());
             assertEquals("all", ((TripsCommand) command).getName());
 
             command = parser.parse("list --n all\n");
-            assertEquals(CommandAction.LIST_TRIP_BY_NAME, command.getCommandAction());
+            assertEquals(CommandAction.LIST_BY_NAME, command.getCommandAction());
             assertEquals(CommandTarget.TRIP, command.getCommandTarget());
             assertEquals("all", ((TripsCommand) command).getName());
         });

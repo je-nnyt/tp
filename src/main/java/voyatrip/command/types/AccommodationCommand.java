@@ -1,6 +1,7 @@
 package voyatrip.command.types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import voyatrip.command.exceptions.InvalidArgumentKeyword;
 import voyatrip.command.exceptions.InvalidArgumentValue;
@@ -9,6 +10,8 @@ import voyatrip.command.exceptions.InvalidNumberFormat;
 import voyatrip.command.exceptions.MissingArgument;
 
 public class AccommodationCommand extends Command {
+    static final String[] INVALID_NAMES = {"all"};
+
     private String trip;
     private String name;
     private Integer budget;
@@ -58,9 +61,9 @@ public class AccommodationCommand extends Command {
             super.setCommandAction(CommandAction.DELETE_BY_NAME);
         } else if (commandAction == CommandAction.LIST) {
             if (name != null) {
-                super.setCommandAction(CommandAction.LIST_ACCOMMODATION_BY_NAME);
+                super.setCommandAction(CommandAction.LIST_BY_NAME);
             } else if (index != null) {
-                super.setCommandAction(CommandAction.LIST_ACCOMMODATION_BY_INDEX);
+                super.setCommandAction(CommandAction.LIST_BY_INDEX);
             }
         }
     }
@@ -72,7 +75,7 @@ public class AccommodationCommand extends Command {
         String argumentValue = argument.replaceFirst(argumentKeyword, "").strip();
         argumentKeyword = argumentKeyword.toLowerCase();
 
-        if (argumentValue.isEmpty()) {
+        if (!argumentKeyword.equals("all") && argumentValue.isEmpty()) {
             throw new InvalidArgumentValue();
         }
 
@@ -81,6 +84,7 @@ public class AccommodationCommand extends Command {
             case "name", "n" -> name = argumentValue;
             case "budget", "b" -> budget = Integer.parseInt(argumentValue);
             case "index", "i" -> index = Integer.parseInt(argumentValue);
+            case "all" -> name = "all";
             case "start", "s" -> startDay = Integer.parseInt(argumentValue);
             case "end", "e" -> endDay = Integer.parseInt(argumentValue);
             default -> throw new InvalidArgumentKeyword();
@@ -111,7 +115,12 @@ public class AccommodationCommand extends Command {
             throw new MissingArgument();
         }
 
-        if (budget != null && budget < 0) {
+        boolean isInvalidBudget = budget != null && budget < 0;
+        boolean isInvalidName = !isList && name != null && Arrays.asList(INVALID_NAMES).contains(name);
+        boolean hasStartEndDay = startDay != null && endDay != null;
+        boolean isInvalidStartEndDay = hasStartEndDay && (startDay < 0 || endDay < 0 || startDay > endDay);
+
+        if (isInvalidBudget || isInvalidName || isInvalidStartEndDay) {
             throw new InvalidArgumentValue();
         }
     }

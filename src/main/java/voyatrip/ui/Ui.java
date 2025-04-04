@@ -62,10 +62,6 @@ public class Ui {
         System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 
-    public static void printTransportationListMessage() {
-        System.out.println(Message.LIST_ALL_TRANSPORTATIONS_MESSAGE);
-    }
-
     public static void printAddActivityMessage(Activity activity) {
         System.out.println(Message.ADD_ACTIVITY_MESSAGE);
         System.out.println(activity);
@@ -85,6 +81,12 @@ public class Ui {
 
     public static void printNextCommandMessage() {
         System.out.println(Message.NEXT_COMMAND_MESSAGE);
+    }
+
+    public static void printItinerary(Trip trip) {
+        StringBuilder tripInfo = new StringBuilder();
+        trip.buildItineraryInfo(tripInfo);
+        System.out.println(tripInfo.toString().trim());
     }
 
     // Methods for trip modification
@@ -125,10 +127,18 @@ public class Ui {
         System.out.println(Message.INDEX_OUT_OF_BOUNDS_MESSAGE);
     }
 
+    public static void printListTransportationMessage(Transportation transportation) {
+        System.out.println(Message.LIST_TRANSPORTATION_MESSAGE);
+        System.out.println(transportation);
+        System.out.println(Message.NEXT_COMMAND_MESSAGE);
+    }
+
     public static void printTransportationList(Trip trip) {
+        System.out.println(Message.LIST_ALL_TRANSPORTATIONS_MESSAGE);
         StringBuilder tripInfo = new StringBuilder();
         trip.buildTransportationsInfo(tripInfo);
         System.out.println(tripInfo.toString().trim());
+        System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 
     public static void printModifyAccommodationMessage(Accommodation accommodation) {
@@ -144,7 +154,7 @@ public class Ui {
     }
 
     public static void printAccommodationList(Trip trip) {
-        System.out.println(Message.LIST_ACCOMMODATION_MESSAGE);
+        System.out.println(Message.LIST_ALL_ACCOMMODATIONS_MESSAGE);
         StringBuilder tripInfo = new StringBuilder();
         trip.buildAccommodationsInfo(tripInfo);
         System.out.println(tripInfo.toString().trim());

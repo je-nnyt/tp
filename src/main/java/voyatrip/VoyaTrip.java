@@ -1,7 +1,5 @@
 package voyatrip;
 
-import static voyatrip.ui.Ui.printTransportationList;
-
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Scanner;
@@ -94,8 +92,8 @@ public class VoyaTrip {
         case ADD -> executeAddTrip(command);
         case DELETE_BY_INDEX -> executeDeleteTripByIndex(command);
         case DELETE_BY_NAME -> executeDeleteTripByName(command);
-        case LIST_TRIP_BY_INDEX -> executeListTripByIndex(command);
-        case LIST_TRIP_BY_NAME -> executeListTripByName(command);
+        case LIST_BY_INDEX -> executeListTripByIndex(command);
+        case LIST_BY_NAME -> executeListTripByName(command);
         case CHANGE_TRIP_BY_NAME -> executeChangeDirectoryTripByName(command);
         case CHANGE_TRIP_BY_INDEX -> executeChangeDirectoryTripByIndex(command);
         case MODIFY -> executeModifyTrip(command);
@@ -128,8 +126,8 @@ public class VoyaTrip {
         case ADD -> executeAddAccommodation(command);
         case DELETE_BY_INDEX -> executeDeleteAccommodationByIndex(command);
         case DELETE_BY_NAME -> executeDeleteAccommodationByName(command);
-        case LIST_ACCOMMODATION_BY_INDEX -> executeListAccommodationByIndex(command);
-        case LIST_ACCOMMODATION_BY_NAME -> executeListAccommodationByName(command);
+        case LIST_BY_INDEX -> executeListAccommodationByIndex(command);
+        case LIST_BY_NAME -> executeListAccommodationByName(command);
         case CHANGE_DIRECTORY -> executeChangeDirectoryAccommodation(command);
         case MODIFY -> executeModifyAccommodation(command);
         default -> throw new InvalidCommand();
@@ -143,7 +141,8 @@ public class VoyaTrip {
         case ADD -> executeAddTransportation(command);
         case DELETE_BY_INDEX -> executeDeleteTransportationByIndex(command);
         case DELETE_BY_NAME -> executeDeleteTransportationByName(command);
-        case LIST -> executeListTransportation(command);
+        case LIST_BY_INDEX -> executeListTransportationByIndex(command);
+        case LIST_BY_NAME -> executeListTransportationByName(command);
         case CHANGE_DIRECTORY -> executeChangeDirectoryTransportation(command);
         default -> {
             logger.log(Level.WARNING, "Unknown command action: " + command.getCommandAction());
@@ -250,7 +249,10 @@ public class VoyaTrip {
         }
     }
 
-    private static void executeListItinerary(Command command) {
+    private static void executeListItinerary(ItineraryCommand command) throws TripNotFoundException {
+        logger.log(Level.INFO, "Starting executeListItinerary");
+        Ui.printItinerary(trips.get(command.getTrip()));
+        logger.log(Level.INFO, "Finished executeListItinerary");
     }
 
     private static void executeListAccommodationByIndex(AccommodationCommand command) throws InvalidCommand {
@@ -269,14 +271,18 @@ public class VoyaTrip {
         logger.log(Level.INFO, "Finished executeListAccommodation");
     }
 
-    private static void executeListTransportation(TransportationCommand command) throws TripNotFoundException {
-        logger.log(Level.INFO, "Starting executeListTransportation");
+    private static void executeListTransportationByIndex(TransportationCommand command) throws InvalidCommand {
+        logger.log(Level.INFO, "Starting executeListTransportationByIndex");
+        trips.get(command.getTrip()).listTransportation(command.getIndex());
+        logger.log(Level.INFO, "Finished executeListTransportationByIndex");
+    }
 
+    private static void executeListTransportationByName(TransportationCommand command) throws InvalidCommand {
+        logger.log(Level.INFO, "Starting executeListTransportation");
         if ("all".equals(String.valueOf(command.getName()))) {
-            Ui.printTransportationListMessage();
-            printTransportationList(trips.get(command.getTrip()));
+            Ui.printTransportationList(trips.get(command.getTrip()));
         } else {
-            trips.get(command.getTrip()).listTransportation(command.getIndex());
+            trips.get(command.getTrip()).listTransportation(command.getName());
         }
         logger.log(Level.INFO, "Finished executeListTransportation");
     }
@@ -313,7 +319,6 @@ public class VoyaTrip {
         PARSER.setCurrentTarget(CommandTarget.TRANSPORTATION);
         logger.log(Level.INFO, "Finished executeChangeDirectoryTransportation");
     }
-
 
     // The following methods are for modifying trips
 
@@ -432,7 +437,6 @@ public class VoyaTrip {
         }
         logger.log(Level.INFO, "Finished executeModifyCurTrip");
     }
-
 
     private static void executeModifyAccommodation(AccommodationCommand command)
             throws InvalidCommand, TripNotFoundException {
