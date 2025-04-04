@@ -179,6 +179,10 @@ add --n airplane --b 350 --m air --s 1 --e 2
 ```
 
 ## Accommodation
+Note that for all operations related to accommodation, you should ensure that you are in the directory/trip 
+which you want to make these operations in, or else you should first change directory to the trip. For example, 
+if you want to add/delete accommodation in your 2nd trip named 'Another Trip', and your current directory is 
+not starting by ~/Another Trip/, please change directory by `cd trip --i 2` or `cd trip --n Another Trip`.
 
 ### Adding new accommodation
 
@@ -203,9 +207,9 @@ add --n Hilton Hotel --b 500 --s 1 --e 4
 
 ### Modifying the accommodation
 
-Target: `accommodation`
-
 Action: `modify`
+
+Target: `accommodation`
 
 Required arguments: `index`
 
@@ -214,8 +218,8 @@ Arguments: `name`, `budget`, `start` (start day of accommodation), `end` (end da
 Note that if you are changing the days of accommodation of a saved accommodation, 
 you should provide both the new start and end days.
 
-Example of usage: changing the current accommodation name to 
-"Lotte Hotel" and the current days of accommodation to day 3 to 6
+Example of usage: for the 1st accommodation of the current trip, change the 
+accommodation name to "Lotte Hotel" and the days of accommodation to day 3 to 6
 
 ```
 ~/My Trip/Accommodation >
@@ -224,9 +228,9 @@ modify accom --index 1 --n Lotte Hotel --s 3 --e 6
 
 ### Deleting an accommodation
 
-Target: `accommodation`
-
 Action: `delete`
+
+Target: `accommodation`
 
 Required arguments: `index` or `name`
 
@@ -238,6 +242,26 @@ delete accom --index 1
 
 ~/My Trip/Accommodation >
 delete --n Hilton Hotel
+```
+
+### Listing accommodation(s)
+
+Action: `list`
+
+Target: `accommodation`
+
+Required arguments: `index` or `name`
+
+Special case for listing all accommodations of the current trip `list accommodation --n all`
+
+Example of usage:
+
+```
+~/My Trip/Accommodation >
+list accom --index 1
+
+~/My Trip/Accommodation >
+list --n Hilton Hotel
 ```
 
 ## Listing
