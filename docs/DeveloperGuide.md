@@ -1,6 +1,8 @@
-# Developer Guide
+# Developer Guide (4 Apr)
 
 ### Table of Contents
+- [Get Started (4 Apr)](#get-started)
+    - [Setting up (4 Apr)](#setting-up)
 - [Design](#design)
 - [Implementation](#implementation)
     - [Storage [Proposed]](#storage-proposed)
@@ -14,6 +16,18 @@
 - [Appendix](#appendix)
     - [PlantUML](#plantuml)
         - [How to use](#how-to-use)
+
+### Get Started
+
+#### Setting up
+
+> ℹ️ This section is only for the developer who want to run the project locally, 
+> if you are not a developer, please refer to [User Guide](UserGuide.md) instead.
+
+> ℹ️ Logger information is hidden by default,
+> if you wish to unable logger for debugging purpose, 
+> please pass argument `--verbose` when running the jar file.
+> ie java -jar VoyaTrip.jar --verbose
 
 ### Design
 
