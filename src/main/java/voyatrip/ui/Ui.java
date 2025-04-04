@@ -3,7 +3,6 @@ package voyatrip.ui;
 import voyatrip.Accommodation;
 import voyatrip.Activity;
 import voyatrip.Day;
-import voyatrip.Trip;
 import voyatrip.command.Parser;
 import voyatrip.Transportation;
 import voyatrip.Trip;
