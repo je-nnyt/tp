@@ -1,0 +1,39 @@
+@startuml
+Main -> Storage: load()
+activate Storage
+activate TripList
+alt if file exists and nonempty
+    loop for each trip in file
+        Storage -> Storage: read file line
+        Storage -> TripList: addTrip()
+        TripList --> Trip
+        activate Trip
+        Trip -> TripList
+        TripList --> Storage: getTrip()
+        Storage -> Trip: addItinerary()
+        Trip --> Storage
+        Storage -> Trip: addAccommodation()
+        Trip --> Storage
+        Storage -> Trip: addTransportation()
+        Trip --> Storage
+    end
+    Storage --> Main
+else else
+Storage --> Main
+end
+
+Main -> Storage: save()
+alt if trip exists
+Storage --> Main
+loop for each trip
+    Storage -> TripList: getTrip()
+    TripList --> Storage: getTrip()
+    Storage -> Trip: save()
+    Trip --> Storage
+    Storage --> Storage: write trip to file
+end
+else else
+Storage --> Main
+end
+deactivate Storage
+@enduml

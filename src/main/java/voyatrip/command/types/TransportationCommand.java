@@ -1,6 +1,7 @@
 package voyatrip.command.types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import voyatrip.command.exceptions.InvalidArgumentKeyword;
 import voyatrip.command.exceptions.InvalidArgumentValue;
@@ -9,6 +10,8 @@ import voyatrip.command.exceptions.InvalidNumberFormat;
 import voyatrip.command.exceptions.MissingArgument;
 
 public class TransportationCommand extends Command {
+    static final String[] INVALID_NAMES = {"all"};
+
     private String trip;
     private String name;
     private String mode;
@@ -49,8 +52,18 @@ public class TransportationCommand extends Command {
             MissingArgument {
         super.processRawArgument(arguments);
 
+        processCommandVariation();
+    }
+
+    private void processCommandVariation() {
         if (commandAction == CommandAction.DELETE_BY_INDEX && name != null) {
             super.setCommandAction(CommandAction.DELETE_BY_NAME);
+        } else if (commandAction == CommandAction.LIST) {
+            if (name != null) {
+                super.setCommandAction(CommandAction.LIST_BY_NAME);
+            } else if (index != null) {
+                super.setCommandAction(CommandAction.LIST_BY_INDEX);
+            }
         }
     }
 
@@ -61,7 +74,7 @@ public class TransportationCommand extends Command {
         String argumentValue = argument.replaceFirst(argumentKeyword, "").strip();
         argumentKeyword = argumentKeyword.toLowerCase();
 
-        if (argumentValue.isEmpty()) {
+        if (!argumentKeyword.equals("all") && argumentValue.isEmpty()) {
             throw new InvalidArgumentValue();
         }
 
@@ -71,6 +84,7 @@ public class TransportationCommand extends Command {
             case "mode", "m" -> mode = argumentValue;
             case "budget", "b" -> budget = Integer.parseInt(argumentValue);
             case "index", "i" -> index = Integer.parseInt(argumentValue);
+            case "all" -> name = "all";
             case "start", "s" -> startDay = Integer.parseInt(argumentValue);
             case "end", "e" -> endDay = Integer.parseInt(argumentValue);
             default -> throw new InvalidArgumentKeyword();
@@ -87,28 +101,30 @@ public class TransportationCommand extends Command {
         boolean isDelete = commandAction == CommandAction.DELETE_BY_INDEX ||
                 commandAction == CommandAction.DELETE_BY_NAME;
         boolean isModify = commandAction == CommandAction.MODIFY;
+        boolean isList = commandAction == CommandAction.LIST;
 
-        boolean isMissingAddArgument = name == null || mode == null || budget == null;
+        boolean isMissingAddArgument =
+                name == null || mode == null || budget == null || startDay == null || endDay == null;
         boolean isMissingDeleteArgument = name == null && index == null;
         boolean isMissingModifyArgument = index == null || (name == null && mode == null && budget == null
                 && startDay == null && endDay == null);
+        boolean isMissingListArgument = name == null && index == null;
 
         if (isAdd && isMissingAddArgument ||
                 isDelete && isMissingDeleteArgument ||
-                isModify && isMissingModifyArgument) {
+                isModify && isMissingModifyArgument ||
+                isList && isMissingListArgument) {
             throw new MissingArgument();
         }
 
-        if (budget != null && budget < 0) {
-            throw new InvalidArgumentValue();
-        }
-        if(startDay == null || startDay <= 0) {
-            throw new InvalidArgumentValue();
-        }
-        if(endDay == null || endDay <= 0) {
-            throw new InvalidArgumentValue();
-        }
+        boolean isInvalidBudget = budget != null && budget < 0;
+        boolean isInvalidName = !isList && name != null && Arrays.asList(INVALID_NAMES).contains(name);
+        boolean hasStartEndDay = startDay != null && endDay != null;
+        boolean isInvalidStartEndDay = hasStartEndDay && (startDay < 0 || endDay < 0 || startDay > endDay);
 
+        if (isInvalidBudget || isInvalidName || isInvalidStartEndDay) {
+            throw new InvalidArgumentValue();
+        }
     }
 
 
