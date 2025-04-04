@@ -163,6 +163,8 @@ public class VoyaTrip {
         case LIST_BY_NAME -> executeListTransportationByName(command);
         case LIST -> executeListTransportation(command);
         case MODIFY -> executeModifyTransportation(command);
+        case LIST_BY_INDEX -> executeListTransportationByIndex(command);
+        case LIST_BY_NAME -> executeListTransportationByName(command);
         case CHANGE_DIRECTORY -> executeChangeDirectoryTransportation(command);
         default -> {
             logger.log(Level.WARNING, "Unknown command action: " + command.getCommandAction());

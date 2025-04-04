@@ -172,8 +172,13 @@ public class Trip {
         }
         Ui.printModifyTransportationMessage(transportations.get(index));
         logger.log(Level.INFO, "Finishing modifying transportation");
-
     }
+    /**
+     * This method prints the information of the transportation at the given index.
+     *
+     * @param index Index input by user
+     * @throws InvalidIndex if invalid index
+     */
 
     public void addAccommodation(String accommodationName, Integer accommodationBudget,
                                  ArrayList<Integer> accommodationDays) throws InvalidCommand {
