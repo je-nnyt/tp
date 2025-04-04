@@ -2,6 +2,7 @@ package voyatrip;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.logging.Logger;
 import java.util.logging.Level;
@@ -38,7 +39,24 @@ public class VoyaTrip {
     static Boolean isExit = false;
     private static final Logger logger = Logger.getLogger(voyatrip.VoyaTrip.class.getName());
 
+    /*
+     * This method is used to check if the application is running in end user mode.
+     */
+    public static Boolean isEndUserMode(String[] args) {
+        return !Arrays.asList(args).contains("--verbose");
+    }
+    /*
+     * This method is used to set the logger for the application.
+     * If it is the user, then the logger will be disabled.
+     */
+    public static void setLogger(String[] args) {
+        if (isEndUserMode(args)) {
+            Logger.getLogger("").setLevel(Level.OFF);
+        }
+    }
+
     public static void main(String[] args) {
+        setLogger(args);
         run();
     }
 
