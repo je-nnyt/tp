@@ -5,6 +5,7 @@ import voyatrip.Activity;
 import voyatrip.Day;
 import voyatrip.command.Parser;
 import voyatrip.Transportation;
+import voyatrip.Trip;
 
 import java.util.ArrayList;
 
@@ -67,6 +68,12 @@ public class Ui {
         System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 
+    public static void printDeleteActivityMessage(Activity activity) {
+        System.out.println(Message.DELETE_ACTIVITY_MESSAGE);
+        System.out.println(activity);
+        System.out.println(Message.NEXT_COMMAND_MESSAGE);
+    }
+
     public static void printEmptyTripList() {
         System.out.println(Message.EMPTY_TRIP_LIST_MESSAGE);
         System.out.println(Message.NEXT_COMMAND_MESSAGE);
@@ -74,6 +81,12 @@ public class Ui {
 
     public static void printNextCommandMessage() {
         System.out.println(Message.NEXT_COMMAND_MESSAGE);
+    }
+
+    public static void printItinerary(Trip trip) {
+        StringBuilder tripInfo = new StringBuilder();
+        trip.buildItineraryInfo(tripInfo);
+        System.out.println(tripInfo.toString().trim());
     }
 
     // Methods for trip modification
@@ -148,5 +161,39 @@ public class Ui {
 
     public static void printInvalidIndex() {
         System.out.println(Message.INVALID_INDEX_MESSAGE);
+    }
+
+    public static void printListTransportationMessage(Transportation transportation) {
+        System.out.println(Message.LIST_TRANSPORTATION_MESSAGE);
+        System.out.println(transportation);
+        System.out.println(Message.NEXT_COMMAND_MESSAGE);
+    }
+
+    public static void printTransportationList(Trip trip) {
+        System.out.println(Message.LIST_ALL_TRANSPORTATIONS_MESSAGE);
+        StringBuilder tripInfo = new StringBuilder();
+        trip.buildTransportationsInfo(tripInfo);
+        System.out.println(tripInfo.toString().trim());
+        System.out.println(Message.NEXT_COMMAND_MESSAGE);
+    }
+
+    public static void printModifyAccommodationMessage(Accommodation accommodation) {
+        System.out.println(Message.MODIFY_ACCOMMODATION_MESSAGE);
+        System.out.println(accommodation);
+        System.out.println(Message.NEXT_COMMAND_MESSAGE);
+    }
+
+    public static void printListAccommodationMessage(Accommodation accommodation) {
+        System.out.println(Message.LIST_ACCOMMODATION_MESSAGE);
+        System.out.println(accommodation);
+        System.out.println(Message.NEXT_COMMAND_MESSAGE);
+    }
+
+    public static void printAccommodationList(Trip trip) {
+        System.out.println(Message.LIST_ALL_ACCOMMODATIONS_MESSAGE);
+        StringBuilder tripInfo = new StringBuilder();
+        trip.buildAccommodationsInfo(tripInfo);
+        System.out.println(tripInfo.toString().trim());
+        System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 }

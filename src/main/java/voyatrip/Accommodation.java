@@ -1,16 +1,24 @@
 package voyatrip;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Accommodation {
     private String name;
     private Integer budget;
     private ArrayList<Integer> days;
+    private Logger logger = Logger.getLogger(Accommodation.class.getName());
 
     public Accommodation(String name, Integer budget, ArrayList<Integer> days) {
+        assert budget > 0;
+        assert !days.isEmpty();
+        assert days.get(0) > 0;
+        logger.log(Level.INFO, "Creating Accommodation");
         this.name = name;
         this.budget = budget;
-        this.days = days;
+        this.days = new ArrayList<>(days);
+        logger.log(Level.INFO, "Accommodation created");
     }
 
     public Integer getBudget() {
@@ -34,7 +42,7 @@ public class Accommodation {
     }
 
     public void setDays(ArrayList<Integer> days) {
-        this.days = days;
+        this.days = new ArrayList<>(days);
     }
 
     @Override

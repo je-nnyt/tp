@@ -9,7 +9,7 @@ VoyaTrip is a command-line application for managing trips.
 {Give steps to get started quickly}
 
 1. Ensure that you have Java 17 or above installed.
-1. Down the latest version of `VoyaTrip` from  [Placeholder](https://).
+2. Download the latest version of `VoyaTrip` from  [Placeholder](https://).
 
 ## Features 
 
@@ -87,6 +87,7 @@ Target: `trip`
 Action: `modify`
 
 Required arguments: `index`
+
 Arguments: `name`, `start`, `end` and `budget`
 
 start date and end date should be in the format `d-M-yyyy` or `d-M` if the year is the current year.
@@ -109,9 +110,7 @@ Target: `trip`
 
 Action: `delete`
 
-Required arguments: `index` or `name` 
-
-start date and end date should be in the format `d-M-yyyy` or `d-M` if the year is the current year.
+Required arguments: `index` or `name`
 
 Example of usage:
 
@@ -167,17 +166,23 @@ Action: `add`
 
 Target: `transportation`
 
-Required arguments: `name`, `mode`, `budget`
+Required arguments: `name`, `mode`, `budget`, `start day number`, `end day number`
 
 Example of usage:
 
 ```
 ~/My Trip/Transportation >
-add transportation --name airplane --mode air --budget 350
+add transportation --name airplane --mode air --budget 350 --start 1 --end 2
 
 ~/My Trip/Transportation >
-add --n airplane --b 350 --m air
+add --n airplane --b 350 --m air --s 1 --e 2
 ```
+
+## Accommodation
+Note that for all operations related to accommodation, you should ensure that you are in the directory/trip 
+which you want to make these operations in, or else you should first change directory to the trip. For example, 
+if you want to add/delete accommodation in your 2nd trip named 'Another Trip', and your current directory is 
+not starting by ~/Another Trip/, please change directory by `cd trip --i 2` or `cd trip --n Another Trip`.
 
 ### Adding new accommodation
 
@@ -187,15 +192,79 @@ Target: `accommodation`
 
 Required arguments: `name`, `budget`, `start` (start day of accommodation), `end` (end day of accommodation)
 
+The start day should be at least 1 and the end day should not be over the 
+total no. of days of the trip.
+
 Example of usage:
 
 ```
 ~/My Trip/Accommodation >
-add accommodation --name hotel --budget 500 --start 1 --end 4
+add accommodation --name Hilton Hotel --budget 500 --start 1 --end 4
 
 ~/My Trip/Accommodation >
-add --n hotel --b 500 --s 1 --e 4
+add --n Hilton Hotel --b 500 --s 1 --e 4
 ```
+
+### Modifying the accommodation
+
+Action: `modify`
+
+Target: `accommodation`
+
+Required arguments: `index`
+
+Arguments: `name`, `budget`, `start` (start day of accommodation), `end` (end day of accommodation)
+
+Note that if you are changing the days of accommodation of a saved accommodation, 
+you should provide both the new start and end days.
+
+Example of usage: for the 1st accommodation of the current trip, change the 
+accommodation name to "Lotte Hotel" and the days of accommodation to day 3 to 6
+
+```
+~/My Trip/Accommodation >
+modify accom --index 1 --n Lotte Hotel --s 3 --e 6
+```
+
+### Deleting an accommodation
+
+Action: `delete`
+
+Target: `accommodation`
+
+Required arguments: `index` or `name`
+
+Example of usage:
+
+```
+~/My Trip/Accommodation >
+delete accom --index 1
+
+~/My Trip/Accommodation >
+delete --n Hilton Hotel
+```
+
+### Listing accommodation(s)
+
+Action: `list`
+
+Target: `accommodation`
+
+Required arguments: `index` or `name`
+
+Special case for listing all accommodations of the current trip `list accommodation --n all`
+
+Example of usage:
+
+```
+~/My Trip/Accommodation >
+list accom --index 1
+
+~/My Trip/Accommodation >
+list --n Hilton Hotel
+```
+
+## Listing
 
 ### Listing trips
 
@@ -216,6 +285,27 @@ list trip --index 1
 ~ >
 list --n my trip
 ```
+
+### Listing transportations
+
+Action: `list`
+
+Target: `trip`
+
+Required arguments: `index` or `name`
+
+Special case for listing all transportations `list trip --n all`
+
+Example of usage:
+
+```
+~ >
+list transportation --index 1
+
+~ >
+list transportation --n all
+```
+
 
 ### Exiting the program
 
@@ -240,3 +330,4 @@ Action: `exit`
 {Give a 'cheat sheet' of commands here}
 
 * Add todo `todo n/TODO_NAME d/DEADLINE`
+* Add transportation `add transportaion --n NAME --m MODE --b BUDGET --s START_DAY_NUMBER --e END_DAY_NUMBER`

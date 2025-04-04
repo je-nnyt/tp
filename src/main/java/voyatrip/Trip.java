@@ -28,6 +28,7 @@ public class Trip {
 
     /**
      * Constructor for the trip class.
+     *
      * @param startDate   the start date of the trip.
      * @param endDate     the end date of the trip.
      * @param numDays     the number of days for the trip.
@@ -59,13 +60,16 @@ public class Trip {
 
     public void addTransportation(String transportName,
                                   String transportMode,
-                                  Integer transportBudget) throws InvalidCommand {
+                                  Integer transportBudget,
+                                  Integer startDay,
+                                  Integer endDay) throws InvalidCommand {
         logger.log(Level.INFO, "Adding transportation");
         if (isContainsTransportation(transportName)) {
             logger.log(Level.WARNING, "Transportation already exists");
             throw new InvalidArgumentValue();
         }
-        Transportation newTransportation = new Transportation(transportName, transportMode, transportBudget);
+        Transportation newTransportation = new Transportation(transportName, transportMode,
+                transportBudget, startDay, endDay);
         transportations.add(newTransportation);
         Ui.printAddTransportationMessage(newTransportation);
         logger.log(Level.INFO, "Finished adding transportation");
@@ -100,6 +104,36 @@ public class Trip {
                 Ui.printDeleteTransportationMessage(transportation);
                 transportations.remove(transportation);
                 logger.log(Level.INFO, "Finished deleting transportation");
+                return;
+            }
+        }
+        logger.log(Level.WARNING, "Transportation not found");
+        throw new InvalidArgumentValue();
+    }
+
+    /**
+     * This method prints the information of the transportation at the given index.
+     *
+     * @param index Index input by user
+     * @throws InvalidIndex if invalid index
+     */
+    public void listTransportation(Integer index) throws InvalidCommand {
+        logger.log(Level.INFO, "Listing transportation");
+        try {
+            Ui.printListTransportationMessage(transportations.get(index - 1));
+            logger.log(Level.INFO, "Finished listing transportation");
+        } catch (IndexOutOfBoundsException e) {
+            logger.log(Level.WARNING, "IndexOutOfBoundsException Exception");
+            throw new InvalidIndex();
+        }
+    }
+
+    public void listTransportation(String name) throws InvalidCommand {
+        logger.log(Level.INFO, "Listing transportation");
+        for (Transportation transportation : transportations) {
+            if (transportation.getName().equals(name)) {
+                Ui.printListTransportationMessage(transportation);
+                logger.log(Level.INFO, "Finished listing transportation");
                 return;
             }
         }
@@ -158,6 +192,58 @@ public class Trip {
         throw new InvalidArgumentValue();
     }
 
+    public void modifyAccommodation(String accommodationName, Integer accommodationBudget,
+                                    ArrayList<Integer> accommodationDays, Integer index) throws InvalidCommand {
+        try {
+            if (accommodationName != null) {
+                logger.log(Level.INFO, "Modifying accommodation name");
+                accommodations.get(index - 1).setName(accommodationName);
+                logger.log(Level.INFO, "Finished modifying accommodation name");
+            }
+
+            if (accommodationBudget != null) {
+                logger.log(Level.INFO, "Modifying accommodation budget");
+                accommodations.get(index - 1).setBudget(accommodationBudget);
+                logger.log(Level.INFO, "Finished modifying accommodation budget");
+            }
+
+            if (accommodationDays != null) {
+                logger.log(Level.INFO, "Modifying accommodation days");
+                accommodations.get(index - 1).setDays(accommodationDays);
+                logger.log(Level.INFO, "Finished modifying accommodation days");
+            }
+
+            Ui.printModifyAccommodationMessage(accommodations.get(index - 1));
+        } catch (IndexOutOfBoundsException e) {
+            logger.log(Level.WARNING, "Index out of bounds");
+            throw new InvalidCommand();
+        }
+    }
+
+    public void listAccommodation(Integer index) throws InvalidCommand {
+        try {
+            logger.log(Level.INFO, "Listing accommodation");
+            Ui.printListAccommodationMessage(accommodations.get(index - 1));
+            logger.log(Level.INFO, "Finished listing accommodation");
+        } catch (IndexOutOfBoundsException e) {
+            logger.log(Level.WARNING, "Index out of bounds");
+            throw new InvalidCommand();
+        }
+    }
+
+    public void listAccommodation(String accommodationName) throws InvalidCommand {
+        logger.log(Level.INFO, "Listing accommodation");
+        for (Accommodation accommodation : accommodations) {
+            if (accommodation.getName().equals(accommodationName)) {
+                Ui.printListAccommodationMessage(accommodation);
+                logger.log(Level.INFO, "Finished listing accommodation");
+                return;
+            }
+        }
+        logger.log(Level.WARNING, "Accommodation not found");
+        throw new InvalidCommand();
+    }
+
     public void addActivity(Integer day, String name, String time) throws InvalidCommand {
         logger.log(Level.INFO, "Adding activity");
         try {
@@ -169,6 +255,26 @@ public class Trip {
             throw new InvalidIndex();
         }
         logger.log(Level.INFO, "Finished adding activity");
+    }
+
+    public void deleteActivity(Integer day, Integer index) throws InvalidCommand {
+        logger.log(Level.INFO, "Deleting activity");
+        try {
+            itinerary.get(day - 1).deleteActivity(index);
+        } catch (IndexOutOfBoundsException e) {
+            logger.log(Level.WARNING, "Index out of bounds");
+            throw new InvalidIndex();
+        }
+    }
+
+    public void deleteActivity(Integer day, String name) throws InvalidCommand {
+        logger.log(Level.INFO, "Deleting activity");
+        try {
+            itinerary.get(day - 1).deleteActivity(name);
+        } catch (IndexOutOfBoundsException e) {
+            logger.log(Level.WARNING, "Index out of bounds");
+            throw new InvalidIndex();
+        }
     }
 
     public String abbrInfo() {
@@ -187,7 +293,7 @@ public class Trip {
         return this.name.equals(((Trip) obj).name);
     }
 
-    private void buildAccommodationsInfo(StringBuilder tripInfo) {
+    public void buildAccommodationsInfo(StringBuilder tripInfo) {
         // early return when there are no accommodations
         if (accommodations.isEmpty()) {
             tripInfo.append("No accommodations added yet.\n");
@@ -198,14 +304,17 @@ public class Trip {
         }
     }
 
-    private void buildTransportationsInfo(StringBuilder tripInfo) {
+    public void buildTransportationsInfo(StringBuilder tripInfo) {
         // early return when there are no transportations
+        Integer transportationIndex = 1;
+
         if (transportations.isEmpty()) {
             tripInfo.append("No transportations added yet.\n");
         }
 
         for (Transportation transportation : transportations) {
-            tripInfo.append(transportation.toString()).append("\n");
+            tripInfo.append(transportationIndex).append(". ").append(transportation.toString()).append("\n");
+            transportationIndex++;
         }
     }
 
@@ -255,7 +364,7 @@ public class Trip {
 
         if (curSize < curNumDays) {
             for (int i = curSize; i < curNumDays; i++) {
-                itinerary.add(new Day((float)0));
+                itinerary.add(new Day((float) 0));
             }
         } else if (curSize > curNumDays) {
             for (int i = curSize; i > curNumDays; i--) {
@@ -266,6 +375,7 @@ public class Trip {
 
     /**
      * This is a method to print the trip information.
+     *
      * @return String representation of the trip, and its associated transportations and accommodations.
      */
     @Override
