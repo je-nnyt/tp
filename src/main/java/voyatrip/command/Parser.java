@@ -134,7 +134,8 @@ public class Parser {
         };
     }
 
-    private CommandTarget extractCommandTargetType(String command, CommandAction commandAction) {
+    private CommandTarget extractCommandTargetType(String command, CommandAction commandAction)
+            throws InvalidCommandTarget {
         String[] spaceSeparatedTokens = command.strip().split("\\s+");
         if (spaceSeparatedTokens.length == 1) {
             return currentTarget;
@@ -153,11 +154,15 @@ public class Parser {
         case "activity", "act" -> CommandTarget.ACTIVITY;
         case "accommodation", "accom" -> CommandTarget.ACCOMMODATION;
         case "transportation", "tran" -> CommandTarget.TRANSPORTATION;
-        default -> getAdjustedCurrentTarget(commandAction);
+        default -> getAdjustedCurrentTarget(commandAction, commandTarget);
         };
     }
 
-    private CommandTarget getAdjustedCurrentTarget(CommandAction action) {
+    private CommandTarget getAdjustedCurrentTarget(CommandAction action, String target) throws InvalidCommandTarget {
+        if(!target.matches("--\\w+")) {
+            throw new InvalidCommandTarget();
+        }
+
         boolean isAddDeleteModify = action == CommandAction.ADD ||
                 action == CommandAction.DELETE_BY_INDEX ||
                 action == CommandAction.MODIFY;
