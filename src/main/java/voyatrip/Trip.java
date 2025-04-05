@@ -66,7 +66,7 @@ public class Trip {
         logger.log(Level.INFO, "Adding transportation");
         if (isContainsTransportation(transportName)) {
             logger.log(Level.WARNING, "Transportation already exists");
-            throw new InvalidCommand();
+            throw new InvalidArgumentValue();
         }
         Transportation newTransportation = new Transportation(transportName, transportMode,
                 transportBudget, startDay, endDay);
@@ -93,7 +93,7 @@ public class Trip {
             logger.log(Level.INFO, "Finished deleting transportation");
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
-            throw new InvalidCommand();
+            throw new InvalidIndex();
         }
     }
 
@@ -108,7 +108,7 @@ public class Trip {
             }
         }
         logger.log(Level.WARNING, "Transportation not found");
-        throw new InvalidCommand();
+        throw new InvalidArgumentValue();
     }
 
     /**
@@ -178,7 +178,7 @@ public class Trip {
         logger.log(Level.INFO, "Adding accommodation");
         if (isContainsAccommodation(accommodationName)) {
             logger.log(Level.WARNING, "Accommodation already exists");
-            throw new InvalidCommand();
+            throw new InvalidArgumentValue();
         }
         Accommodation newAccommodation = new Accommodation(accommodationName, accommodationBudget, accommodationDays);
         accommodations.add(newAccommodation);
@@ -206,7 +206,7 @@ public class Trip {
             logger.log(Level.INFO, "Finished deleting accommodation");
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
-            throw new InvalidCommand();
+            throw new InvalidIndex();
         }
     }
 
@@ -221,7 +221,7 @@ public class Trip {
             }
         }
         logger.log(Level.WARNING, "Accommodation not found");
-        throw new InvalidCommand();
+        throw new InvalidArgumentValue();
     }
 
     public void modifyAccommodation(String accommodationName, Integer accommodationBudget,
@@ -248,7 +248,7 @@ public class Trip {
             Ui.printModifyAccommodationMessage(accommodations.get(index - 1));
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
-            throw new InvalidCommand();
+            throw new InvalidIndex();
         }
     }
 
@@ -259,7 +259,7 @@ public class Trip {
             logger.log(Level.INFO, "Finished listing accommodation");
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
-            throw new InvalidCommand();
+            throw new InvalidIndex();
         }
     }
 
@@ -273,7 +273,7 @@ public class Trip {
             }
         }
         logger.log(Level.WARNING, "Accommodation not found");
-        throw new InvalidCommand();
+        throw new InvalidArgumentValue();
     }
 
     public void addActivity(Integer day, String name, String time) throws InvalidCommand {
