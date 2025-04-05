@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import voyatrip.command.exceptions.InvalidArgumentValue;
 import voyatrip.command.exceptions.InvalidCommand;
 import voyatrip.command.exceptions.InvalidIndex;
 import voyatrip.command.exceptions.TripNotFoundException;
@@ -25,7 +26,7 @@ public class TripList {
         logger.log(Level.INFO, "Adding new trip");
         if (isContains(name)) {
             logger.log(Level.WARNING, "Trip already exists");
-            throw new InvalidCommand();
+            throw new InvalidArgumentValue();
         }
 
         Trip newTrip = new Trip(name, startDate, endDate, numDays, totalBudget);
@@ -55,7 +56,7 @@ public class TripList {
             trips.remove(index - 1);
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
-            throw new InvalidCommand();
+            throw new InvalidIndex();
         }
         logger.log(Level.INFO, "Finished deleting trip");
     }
@@ -120,7 +121,7 @@ public class TripList {
             System.out.println(trips.get(index - 1));
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
-            Ui.printIndexOutOfBounds();
+            Ui.printInvalidIndex();
         }
         logger.log(Level.INFO, "Finished listing trip");
     }
