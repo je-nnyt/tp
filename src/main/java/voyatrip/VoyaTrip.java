@@ -14,7 +14,6 @@ import voyatrip.command.exceptions.InvalidCommandAction;
 import voyatrip.command.exceptions.InvalidCommandTarget;
 import voyatrip.command.exceptions.InvalidDateFormat;
 import voyatrip.command.exceptions.InvalidNumberFormat;
-import voyatrip.command.exceptions.InvalidScope;
 import voyatrip.command.exceptions.MissingArgument;
 import voyatrip.command.exceptions.MissingCommandKeyword;
 import voyatrip.command.exceptions.InvalidIndex;
@@ -104,9 +103,6 @@ public class VoyaTrip {
         } catch (InvalidNumberFormat e) {
             logger.log(Level.WARNING, "Invalid number format");
             Ui.printInvalidNumberFormat();
-        } catch (InvalidScope e) {
-            logger.log(Level.WARNING, "Invalid scope");
-            Ui.printInvalidScope();
         } catch (MissingArgument e) {
             logger.log(Level.WARNING, "Missing argument");
             Ui.printMissingArgument();
