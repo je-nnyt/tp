@@ -64,8 +64,12 @@ public class Day {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Budget: $").append(budget).append("\n");
+        sb.append("Activities: \n");
+        if (activities.isEmpty()) {
+            sb.append("No activities added yet.\n");
+        }
         for (int i = 0; i < activities.size(); i++) {
-            sb.append("Activity ").append(i + 1).append(": ").append(activities.get(i)).append("\n");
+            sb.append(i + 1).append(": ").append(activities.get(i)).append("\n");
         }
         return sb.toString();
     }
