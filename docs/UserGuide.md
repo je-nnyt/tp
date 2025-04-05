@@ -42,7 +42,7 @@ A command target is what the command affects. Examples are:
 - `itinerary` or `itin` for short
 - Special case for changing to the root directory `..`
 
-Note that the target keyword may be omitted. The program will then use the default target according to the current directory.
+Note that the target keyword may be omitted. The program will then use the default target according to the current directory and the command action. For example, if the current directory is `~/<trip name>/Itinerary`, then default target will be `itinerary` or `activity` adjusted based on the command action.
 
 An argument consist of a double hyphen (`--`) immediately followed by a keyword and a value: `--<keyword> <value>`. For example: `--name my trip` will have the keyword `name` and the value `my trip`.
 
@@ -50,11 +50,43 @@ List of arguments:
 - `--name <trip name>` or `--n`
 - `--index <trip index>` or `--i`
 - `--budget <total budget>` or `--b`
-- `--start <start date>` or `--s`
-- `--end <end date>` or `--e`
+- `--start <start date or day>` or `--s`
+- `--end <end date or day>` or `--e`
 - `--day <day number>` or `--d`
 - `--time <time>` or `--t`
 - `--mode <transportation mode>` or `--m`
+
+Note that extra arguments that are not necessary or duplicated will be ignored. 
+
+# Uncategorized
+
+## Accommodation
+Note that for all operations related to accommodation, you should ensure that you are in the directory/trip
+which you want to make these operations in, or else you should first change directory to the trip. For example,
+if you want to add/delete accommodation in your 2nd trip named 'Another Trip', and your current directory is
+not starting by ~/Another Trip/, please change directory by `cd trip --i 2` or `cd trip --n Another Trip`.
+
+## Changing Directory
+
+### Changing the current trip currently working on
+
+Target: `trip`
+
+Action: `cd`
+
+Required arguments: `index` or `name`
+
+Special case for changing to the root directory `cd ..`
+
+Example of usage:
+
+```
+~ >
+cd trip --index 1
+
+~ >
+cd --n my trip
+```
 
 ## Adding
 
@@ -77,72 +109,6 @@ add trip --name my trip --start 1-5 --end 7-5 --budget 1000
 ~ >
 add --n my trip --b 1000 --s 1-5 --e 7-5
 ```
-
-### Modifying
-
-Generally speaking, modify the item specified by index. The argument that are not index are the parameters to be changed to. Day number is also required for modifying activity. User do not need to specify the trip index if they are already in the trip they want to modify.
-
-### Modifying the trip
-
-Target: `trip`
-
-Action: `modify`
-
-Required arguments: `index`
-
-Arguments: `name`, `start`, `end` and `budget`
-
-start date and end date should be in the format `d-M-yyyy` or `d-M` if the year is the current year.
-
-Note that the user do not need to specify the index of the trip if they want to modify the current trip they are in.
-
-Example of usage: changing the current trip name to "new my trip" and the total budget to 1200
-
-```
-~ >
-modify trip --index 1 --name new my trip --budget 1200
-
-~/my trip/itinerary >
-modify trip --n new my trip --b 1200
-```
-
-### Deleting a trip
-
-Target: `trip`
-
-Action: `delete`
-
-Required arguments: `index` or `name`
-
-Example of usage:
-
-```
-~ >
-delete trip --index 1
-
-~ >
-delete --n my trip
-```
-
-### Changing the current trip currently working on
-
-Target: `trip`
-
-Action: `cd`
-
-Required arguments: `index` or `name`
-
-Example of usage:
-
-```
-~ >
-cd trip --index 1
-
-~ >
-cd --n my trip
-```
-
-Special case for changing to the root directory `cd ..`
 
 ### Adding new activity
 
@@ -180,31 +146,33 @@ add transportation --name airplane --mode air --budget 350 --start 1 --end 2
 add --n airplane --b 350 --m air --s 1 --e 2
 ```
 
-## Accommodation
-Note that for all operations related to accommodation, you should ensure that you are in the directory/trip 
-which you want to make these operations in, or else you should first change directory to the trip. For example, 
-if you want to add/delete accommodation in your 2nd trip named 'Another Trip', and your current directory is 
-not starting by ~/Another Trip/, please change directory by `cd trip --i 2` or `cd trip --n Another Trip`.
 
-### Adding new accommodation
+## Modifying
 
-Action: `add`
+Generally speaking, modify the item specified by index. The argument that are not index are the parameters to be changed to. Day number is also required for modifying activity. User do not need to specify the trip index if they are already in the trip they want to modify.
 
-Target: `accommodation`
+### Modifying the trip
 
-Required arguments: `name`, `budget`, `start` (start day of accommodation), `end` (end day of accommodation)
+Target: `trip`
 
-The start day should be at least 1 and the end day should not be over the 
-total no. of days of the trip.
+Action: `modify`
 
-Example of usage:
+Required arguments: `index`
+
+Arguments: `name`, `start`, `end` and `budget`
+
+start date and end date should be in the format `d-M-yyyy` or `d-M` if the year is the current year.
+
+Note that the user do not need to specify the index of the trip if they want to modify the current trip they are in.
+
+Example of usage: changing the current trip name to "new my trip" and the total budget to 1200
 
 ```
-~/My Trip/Accommodation >
-add accommodation --name Hilton Hotel --budget 500 --start 1 --end 4
+~ >
+modify trip --index 1 --name new my trip --budget 1200
 
-~/My Trip/Accommodation >
-add --n Hilton Hotel --b 500 --s 1 --e 4
+~/my trip/itinerary >
+modify trip --n new my trip --b 1200
 ```
 
 ### Modifying the accommodation
@@ -228,6 +196,27 @@ accommodation name to "Lotte Hotel" and the days of accommodation to day 3 to 6
 modify accom --index 1 --n Lotte Hotel --s 3 --e 6
 ```
 
+
+## Deleting
+
+### Deleting a trip
+
+Target: `trip`
+
+Action: `delete`
+
+Required arguments: `index` or `name`
+
+Example of usage:
+
+```
+~ >
+delete trip --index 1
+
+~ >
+delete --n my trip
+```
+
 ### Deleting an accommodation
 
 Action: `delete`
@@ -245,6 +234,7 @@ delete accom --index 1
 ~/My Trip/Accommodation >
 delete --n Hilton Hotel
 ```
+
 ## Listing
 
 ### Listing accommodation(s)
@@ -310,7 +300,7 @@ list transportation --n all
 
 ### Exiting the program
 
-Action: `exit`
+Action: `exit` or `quit` or `bye`
 
 ## FAQ
 
@@ -325,6 +315,10 @@ Action: `exit`
 **Q**: Do the arguments have a specific order to follow?
 
 **A**: No, the arguments can be arranged in any order as long as it is after the command action and target.
+
+**Q**: Why enter only `cd` do not give error? That is, why `cd` is a valid command?
+
+**A**: By entering only the command action `cd` and omitting the command target, the program will use the default target. So input `cd` means asking to program to "change the directory to the current directory".
 
 ## Command Summary
 
