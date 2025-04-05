@@ -36,9 +36,19 @@ public class Message {
     static final String LIST_ALL_ACCOMMODATIONS_MESSAGE = "Here are all the accommodations under your trip: ";
 
     // exception
-    static final String TRIP_NOT_FOUND_MESSAGE = "Trip not found. Please try again.";
+    static final String INVALID_ARGUMENT_KEYWORD_MESSAGE = "Invalid argument keyword. Please try again.";
+    static final String INVALID_ARGUMENT_VALUE_MESSAGE = "Invalid argument value. Please try again.";
     static final String INVALID_COMMAND_MESSAGE = "Invalid command. Please try again.";
-    static final String INDEX_OUT_OF_BOUNDS_MESSAGE = "Invalid index. Please try again.";
+    static final String INVALID_COMMAND_ACTION_MESSAGE = "Invalid command action. Please try again.";
+    static final String INVALID_COMMAND_TARGET_MESSAGE = "Invalid command target. Please try again.";
+    static final String INVALID_DATE_FORMAT_MESSAGE = "Invalid date format. Please try again.";
+    static final String INVALID_INDEX_MESSAGE = "Invalid index. Please try again.";
+    static final String INVALID_NUMBER_FORMAT_MESSAGE = "Invalid number format. Please try again.";
+    static final String INVALID_SCOPE_MESSAGE = "Invalid command scope. Please try again";
+    static final String MISSING_ARGUMENT_MESSAGE = "Missing argument. Please try again.";
+    static final String MISSING_COMMAND_KEYWORD_MESSAGE = "Missing command keyword. Please try again.";
+    static final String TRIP_NOT_FOUND_MESSAGE = "Trip not found. Please try again.";
+
 
     // Getters
     public static String getWelcomeMessage() {
