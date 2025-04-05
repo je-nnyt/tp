@@ -17,6 +17,17 @@ public abstract class Command {
         this.commandTarget = commandTarget;
     }
 
+    /**
+     * Match the arguments with the keywords and put them into the corresponding fields.
+     * Throws exceptions if the arguments are invalid.
+     *
+     * @param arguments List of arguments.
+     * @throws InvalidArgumentKeyword If the argument keyword is invalid.
+     * @throws InvalidArgumentValue If the argument value is invalid.
+     * @throws InvalidDateFormat If the date format is invalid.
+     * @throws InvalidNumberFormat If the number format is invalid.
+     * @throws MissingArgument If there is missing argument.
+     */
     protected void processRawArgument(ArrayList<String> arguments)
             throws InvalidArgumentKeyword,
             InvalidArgumentValue,
