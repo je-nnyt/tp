@@ -11,15 +11,7 @@ VoyaTrip is a command-line application for managing trips.
 1. Ensure that you have Java 17 or above installed.
 2. Download the latest version of `VoyaTrip` from  [Placeholder](https://).
 
-## Features 
-
-{Give detailed description of each feature}
-
-### Directory
-
-Since there are multiple trips, what is currently being worked on is stored by the mean of directory. Everytime the program starts at the `root`, shown in the program as: `~ >`. When working within a trip, the trip name and the target name is shown as: `~/TRIP_NAME/TARGET_NAME >`. For example: `~/My Trip/Itinerary >`.
-
-### Commands
+## Commands
 
 The commands are usually composed of three main elements:
 - Action
@@ -58,13 +50,18 @@ List of arguments:
 
 Note that extra arguments that are not necessary or duplicated will be ignored. 
 
-# Uncategorized
+### Directory
 
-## Accommodation
-Note that for all operations related to accommodation, you should ensure that you are in the directory/trip
+Since there are multiple trips, what is currently being worked on is stored by the mean of directory. Everytime the program starts at the `root`, shown in the program as: `~ >`. When working within a trip, the trip name and the target name is shown as: `~/TRIP_NAME/TARGET_NAME >`. For example: `~/My Trip/ITINERARY >`.
+
+Note that for all operations related to item within a trip, you should ensure that you are in the directory/trip
 which you want to make these operations in, or else you should first change directory to the trip. For example,
-if you want to add/delete accommodation in your 2nd trip named 'Another Trip', and your current directory is
+if you want to add an accommodation in your 2nd trip named 'Another Trip', and your current directory is
 not starting by ~/Another Trip/, please change directory by `cd trip --i 2` or `cd trip --n Another Trip`.
+
+## Features
+
+{Give detailed description of each feature}
 
 ## Changing Directory
 
@@ -76,7 +73,7 @@ Action: `cd`
 
 Required arguments: `index` or `name`
 
-Special case for changing to the root directory `cd ..`
+Special case for changing to the root directory `cd ..`, `cd trip` or `cd trip --n root`
 
 Example of usage:
 
@@ -86,6 +83,9 @@ cd trip --index 1
 
 ~ >
 cd --n my trip
+
+~/my trip/ITINERARY >
+cd ..
 ```
 
 ## Adding
@@ -121,10 +121,10 @@ Required arguments: `name`, `time`, `day`
 Example of usage:
 
 ```
-~/My Trip/Itinerary >
+~/My Trip/ITINERARY >
 add activity --name activity 1 --time 10:00 --day 1
 
-~/My Trip/Itinerary >
+~/My Trip/ITINERARY >
 add --d 1 --t 10:00 --n my activity 1
 ```
 
