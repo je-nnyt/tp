@@ -501,7 +501,9 @@ public class VoyaTrip {
 
             Ui.printModifyTripMessage(trip.abbrInfo());
             // Show the user information about the current trip budget status if it is updated
-            trip.printBudgetStatus();
+            if (budgetIsModified) {
+                trip.printBudgetStatus();
+            }
             Ui.printNextCommandMessage();
 
         } catch (TripNotFoundException e) {
