@@ -103,6 +103,7 @@ public class TripsCommand extends Command {
             case "budget", "b" -> totalBudget = Integer.parseInt(argumentValue);
             case "index", "i" -> index = Integer.parseInt(argumentValue);
             case "all" -> name = "all";
+            case "root" -> name = "root";
             default -> throw new InvalidArgumentKeyword();
             }
         } catch (NumberFormatException e) {
@@ -152,7 +153,7 @@ public class TripsCommand extends Command {
 
         boolean isInvalidBudget = totalBudget != null && totalBudget < 0;
         boolean isInvalidName = !isList && name != null && Arrays.asList(INVALID_NAMES).contains(name);
-        boolean isInvalidDate = startDate != null && endDate != null && startDate.isAfter(endDate);
+        boolean isInvalidDate = startDate != null && endDate != null && endDate.isBefore(startDate);
 
         if (isInvalidBudget || isInvalidName || isInvalidDate) {
             throw new InvalidArgumentValue();

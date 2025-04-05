@@ -100,6 +100,9 @@ public class VoyaTrip {
         } catch (InvalidDateFormat e) {
             logger.log(Level.WARNING, "Invalid date format");
             Ui.printInvalidDateFormat();
+        } catch (InvalidIndex e) {
+            logger.log(Level.WARNING, "Invalid index");
+            Ui.printInvalidIndex();
         } catch (InvalidNumberFormat e) {
             logger.log(Level.WARNING, "Invalid number format");
             Ui.printInvalidNumberFormat();

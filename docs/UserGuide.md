@@ -130,6 +130,8 @@ Action: `cd`
 
 Required arguments: `index` or `name`
 
+Special case for changing to the root directory `cd ..`, `cd trip`, `cd --root` or `cd trip --n root`
+
 Example of usage:
 
 ```
@@ -139,8 +141,6 @@ cd trip --index 1
 ~ >
 cd --n my trip
 ```
-
-Special case for changing to the root directory `cd ..`
 
 ### Adding new activity
 
