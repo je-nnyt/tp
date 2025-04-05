@@ -7,9 +7,14 @@ plugins {
 
 repositories {
     mavenCentral()
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 dependencies {
+    implementation group: 'org.json', name: 'json', version: '20250107'
+    //implementation files('libs/json-20250107.jar') // for offline building only
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.10.0'
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.10.0'
 }
