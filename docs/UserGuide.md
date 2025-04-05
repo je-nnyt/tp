@@ -27,12 +27,12 @@ The commands are usually composed of three main elements:
 - Argument(s)
 
 A command action is what the command does. Examples are:
-- Adding: `add`
-- Deleting: `delete`
-- Modifying: `modify`
-- Listing: `list`
+- Adding: `add` or `a` or `make` or `mk`
+- Deleting: `delete` or `d` or `remove` or `rm`
+- Modifying: `modify` or `mod` or `m`
+- Listing: `list` or `l`
 - Changing directory: `cd`
-- Exiting the program: `exit`
+- Exiting the program: `exit` or `quit` or `bye`
 
 A command target is what the command affects. Examples are:
 - `trip`
@@ -56,6 +56,8 @@ List of arguments:
 - `--time <time>` or `--t`
 - `--mode <transportation mode>` or `--m`
 
+## Adding
+
 ### Adding new trip
 
 Target: `trip`
@@ -64,7 +66,7 @@ Action: `add`
 
 Required arguments: `name`, `start`, `end` and `budget`
 
-start date and end date should be in the format `d-M-yyyy` or `d-M` if the year is the current year.
+start date and end date should be in the format `d-M-yyyy` or `d-M` if the year is the current year. Note that entering 2-29 if the year is not leap year, the program will assume it means the last day of the month which is 2-28.
 
 Example of usage: 
 
@@ -243,6 +245,7 @@ delete accom --index 1
 ~/My Trip/Accommodation >
 delete --n Hilton Hotel
 ```
+## Listing
 
 ### Listing accommodation(s)
 
@@ -252,7 +255,7 @@ Target: `accommodation`
 
 Required arguments: `index` or `name`
 
-Special case for listing all accommodations of the current trip `list accommodation --n all`
+Special case for listing all accommodations of the current trip `list accommodation --all` or `list accommodation --n all`
 
 Example of usage:
 
@@ -263,8 +266,6 @@ list accom --index 1
 ~/My Trip/Accommodation >
 list --n Hilton Hotel
 ```
-
-## Listing
 
 ### Listing trips
 
@@ -315,7 +316,7 @@ Action: `exit`
 
 **Q**: Will extra spaces be ignored?
 
-**A**: Yes, unless those extra spaces are within the argument.
+**A**: Yes, unless those extra spaces are within the argument value.
 
 **Q**: Are the commands case-sensitive?
 
@@ -329,5 +330,19 @@ Action: `exit`
 
 {Give a 'cheat sheet' of commands here}
 
-* Add todo `todo n/TODO_NAME d/DEADLINE`
 * Add transportation `add transportaion --n NAME --m MODE --b BUDGET --s START_DAY_NUMBER --e END_DAY_NUMBER`
+
+## Command Error Summary
+
+Note that when there are multiple possible errors in the same command, one of them will be shown.
+
+| Error message            | Description                        |
+|--------------------------|------------------------------------|
+| Invalid argument keyword | Given argument keyword is invalid. |
+| Invalid argument value   | Given argument value is invalid.   |
+| Invalid command action   | Given command action is invalid.   |
+| Invalid command target   | Given command target is invalid.   |
+| Invalid date format      | Given date format is invalid.      |
+| Invalid number format    | Given number format is invalid.    |
+| Missing argument         | There is missing argument.         |
+| Missing command keyword  | There is missing command keyword.  |
