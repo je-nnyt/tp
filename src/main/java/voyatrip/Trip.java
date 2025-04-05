@@ -141,7 +141,7 @@ public class Trip {
     }
 
     public void modifyTransportation(String transportName, String transportMode, Integer transportBudget,
-                                     Integer startDay, Integer endDay, Integer index) throws InvalidCommand {
+                                     Integer startDay, Integer endDay, Integer index)  {
         logger.log(Level.INFO, "Modifying transportation");
 
         if (transportName != null) {
