@@ -2,13 +2,17 @@ package voyatrip;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import voyatrip.command.exceptions.InvalidArgumentValue;
 import voyatrip.command.exceptions.InvalidIndex;
+
+import java.util.ArrayList;
 
 public class DayTest {
 
@@ -51,5 +55,41 @@ public class DayTest {
     @Test
     void deleteActivityByName_failure() {
         assertThrowsExactly(InvalidArgumentValue.class, () -> day.deleteActivity("Visit nothing"));
+    }
+
+    @Test
+    void equals_differentObjectWithActivity_success() {
+        ArrayList<Activity> activities = new ArrayList<>();
+        activities.add(new Activity("Visit the beach", "10:00"));
+
+        Day day1 = new Day(100.0f);
+        Day day2 = new Day(100.0f);
+
+        day1.setActivities(activities);
+        day2.setActivities(activities);
+
+        assertEquals(day1, day2);
+    }
+
+    @Test
+    void equals_differentObjectWithoutActivity_success() {
+        Day day1 = new Day(100.0f);
+        Day day2 = new Day(100.0f);
+
+        assertEquals(day1, day2);
+    }
+
+    @Test
+    void toFromJson_withMultipleActivity_returnSameDayObject() {
+        Day day = new Day(100.0f);
+        ArrayList<Activity> activities = new ArrayList<>();
+        activities.add(new Activity("Visit the beach", "10:00"));
+        activities.add(new Activity("Visit the restaurant", "12:00"));
+        day.setActivities(activities);
+
+        JSONObject json = day.toJson();
+        Day dayFromJson = Day.fromJson(json);
+
+        assertEquals(day, dayFromJson);
     }
 }

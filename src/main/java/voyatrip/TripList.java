@@ -2,9 +2,12 @@ package voyatrip;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import voyatrip.command.exceptions.InvalidCommand;
 import voyatrip.command.exceptions.InvalidIndex;
 import voyatrip.command.exceptions.TripNotFoundException;
@@ -95,6 +98,22 @@ public class TripList {
         return sb.toString();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof TripList)) {
+            return false;
+        }
+        for (int i = 0; i < trips.size(); i++) {
+            if (!trips.get(i).equals(((TripList) obj).trips.get(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void listTrip(Integer index) {
         logger.log(Level.INFO, "Listing trip");
         try {
@@ -104,5 +123,49 @@ public class TripList {
             Ui.printIndexOutOfBounds();
         }
         logger.log(Level.INFO, "Finished listing trip");
+    }
+
+    // the following methods are for loading and saving the trip data
+
+    // Serialize the trip list to JSON format
+    public Optional<JSONObject> toJson() {
+        // early return if trip list is empty
+        if (trips.isEmpty()) {
+            return Optional.empty();
+        }
+
+        JSONObject json = new JSONObject();
+        JSONArray tripsArray = new JSONArray();
+        for (Trip trip : trips) {
+            tripsArray.put(trip.toJson());
+        }
+        json.put("trips", tripsArray);
+
+        return Optional.of(json);
+    }
+
+    // Deserialize the trip list from JSON format
+    public static TripList fromJson(String jsonStr) {
+        JSONObject tripListJson = new JSONObject(jsonStr);
+
+        // early return if trip list JSON is empty
+        if (tripListJson.isEmpty()) {
+            return new TripList();
+        }
+
+        TripList tripList = new TripList();
+        JSONArray tripsArray = tripListJson.getJSONArray("trips");
+        for (int i = 0; i < tripsArray.length(); i++) {
+            JSONObject tripJson = tripsArray.getJSONObject(i);
+            Trip trip = Trip.fromJson(tripJson);
+            tripList.trips.add(trip);
+        }
+        return tripList;
+    }
+
+
+    // setters
+    public void setTrips(ArrayList<Trip> trips) {
+        this.trips = new ArrayList<>(trips);
     }
 }
