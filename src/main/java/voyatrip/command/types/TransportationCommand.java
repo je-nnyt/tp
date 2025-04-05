@@ -120,14 +120,13 @@ public class TransportationCommand extends Command {
         boolean isInvalidBudget = budget != null && budget < 0;
         boolean isInvalidName = !isList && name != null && Arrays.asList(INVALID_NAMES).contains(name);
         boolean hasStartEndDay = startDay != null && endDay != null;
-        boolean isInvalidStartEndDay = hasStartEndDay && (startDay < 0 || endDay < 0 || startDay > endDay);
+        boolean isInvalidStartEndDay = hasStartEndDay && (startDay <= 0 || endDay <= 0 || startDay > endDay);
 
         if (isInvalidBudget || isInvalidName || isInvalidStartEndDay) {
             throw new InvalidArgumentValue();
         }
 
     }
-
 
     public String getTrip() {
         return trip;
