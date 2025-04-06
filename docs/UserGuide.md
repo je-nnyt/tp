@@ -248,6 +248,22 @@ delete trip --index 1
 rm --n my trip
 ```
 
+### Deleting an activity
+
+Target: `activity`
+
+Required arguments: `index` or `name`, and `day`
+
+Example of usage: deleting trip named "my trip" with index 1
+
+```
+~ >
+delete trip --index 1
+
+~ >
+rm --n my trip
+```
+
 ### Deleting an accommodation
 
 Target: `accommodation`
