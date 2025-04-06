@@ -19,7 +19,7 @@ public class Transportation {
     private Logger logger = Logger.getLogger(Transportation.class.getName());
 
     public Transportation(String name, String mode, Integer budget, Integer startDay, Integer endDay) {
-        assert budget > 0;
+        assert budget >= 0;
         logger.log(Level.INFO, "Creating Transportation");
         this.name = name;
         this.mode = mode;

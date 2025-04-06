@@ -551,5 +551,9 @@ public class Trip {
     public Integer getItinerarySize() {
         return itineraries.size();
     }
+
+   public Integer getNumDays() {
+        return numDays;
+   }
 }
 

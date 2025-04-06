@@ -13,6 +13,7 @@ import voyatrip.command.exceptions.InvalidCommand;
 import voyatrip.command.exceptions.InvalidCommandAction;
 import voyatrip.command.exceptions.InvalidCommandTarget;
 import voyatrip.command.exceptions.InvalidDateFormat;
+import voyatrip.command.exceptions.InvalidDay;
 import voyatrip.command.exceptions.InvalidNumberFormat;
 import voyatrip.command.exceptions.InvalidScope;
 import voyatrip.command.exceptions.MissingArgument;
@@ -135,6 +136,9 @@ public class VoyaTrip {
         } catch (TripNotFoundException e) {
             logger.log(Level.WARNING, "Trip not found");
             Ui.printTripNotFound();
+        } catch (InvalidDay e){
+            logger.log(Level.WARNING, "Invalid day");
+            Ui.printInvalidDay();
         } catch (InvalidCommand e) {
             logger.log(Level.WARNING, "Invalid command");
             Ui.printInvalidCommand();
@@ -253,9 +257,22 @@ public class VoyaTrip {
     private static void executeAddTransportation(TransportationCommand command)
             throws InvalidCommand, TripNotFoundException {
         logger.log(Level.INFO, "Starting executeAddTransportation");
+        validateTransportationDuration(command);
+
         trips.get(command.getTrip()).addTransportation(command.getName(), command.getMode(), command.getBudget(),
                 command.getStartDay(), command.getEndDay());
         logger.log(Level.INFO, "Finished executeAddTransportation");
+    }
+
+    private static void validateTransportationDuration(TransportationCommand command) throws TripNotFoundException, InvalidDay {
+        Trip trip = trips.get(command.getTrip());
+        Integer startDay = command.getStartDay();
+        Integer endDay = command.getEndDay();
+        Integer transportationDuration = endDay - startDay;
+
+        if (transportationDuration > trip.getNumDays()){
+            throw new InvalidDay();
+        }
     }
 
     private static void executeDeleteTripByIndex(TripsCommand command) throws InvalidCommand {
