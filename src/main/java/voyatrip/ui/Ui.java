@@ -97,6 +97,26 @@ public class Ui {
         }
     }
 
+    public static void printSameTripNameMessage() {
+        System.out.println(Message.SAME_TRIP_NAME_MESSAGE);
+    }
+
+    public static void printSameTripDatesMessage() {
+        System.out.println(Message.SAME_TRIP_DATES_MESSAGE);
+    }
+
+    public static void printSameTripNumDaysMessage() {
+        System.out.println(Message.SAME_TRIP_NUM_DAYS_MESSAGE);
+    }
+
+    public static void printSameTripBudgetMessage() {
+        System.out.println(Message.SAME_TRIP_BUDGET_MESSAGE);
+    }
+
+    public static void printSameTripMessage() {
+        System.out.println(Message.SAME_TRIP_MESSAGE);
+    }
+
     public static void printBudgetPerTransportation(ArrayList<Transportation> transportations) {
         if (transportations.isEmpty()) {
             return;
