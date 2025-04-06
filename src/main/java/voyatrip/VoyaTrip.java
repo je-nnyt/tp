@@ -398,8 +398,8 @@ public class VoyaTrip {
     /**
      * Modify the trip with the given command
      * @param command The command to modify the trip
-     * Note that if the size of the modified numsDay is different from the original,
-     * the size of the itinerary will be added or removed at the end accordingly
+     *     Note that if the size of the modified numsDay is different from the original,
+     *     the size of the itinerary will be added or removed at the end accordingly
      */
     private static void executeModifyTrip(TripsCommand command) {
         logger.log(Level.INFO, "Starting executeModifyTrip");
