@@ -50,7 +50,6 @@ public class AccommodationCommand extends Command {
     protected void processRawArgument(ArrayList<String> arguments)
             throws InvalidArgumentKeyword,
             InvalidArgumentValue,
-            InvalidDateFormat,
             InvalidNumberFormat,
             MissingArgument, InvalidTimeFormat {
         super.processRawArgument(arguments);

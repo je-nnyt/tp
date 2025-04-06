@@ -32,8 +32,8 @@ public abstract class Command {
     }
 
     protected abstract void matchArgument(String argument)
-            throws InvalidArgumentKeyword, InvalidDateFormat, InvalidNumberFormat,
-            InvalidArgumentValue, InvalidTimeFormat;
+            throws InvalidArgumentKeyword,
+            InvalidArgumentValue, InvalidTimeFormat,
             InvalidDate, MissingArgument;
 
     protected abstract void validateArgument()
