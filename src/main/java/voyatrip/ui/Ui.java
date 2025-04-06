@@ -155,6 +155,10 @@ public class Ui {
         System.out.println(Message.INVALID_ARGUMENT_VALUE_MESSAGE);
     }
 
+    public static void printInvalidBudget() {
+        System.out.println(Message.INVALID_BUDGET_MESSAGE);
+    }
+
     public static void printInvalidCommand() {
         System.out.println(Message.INVALID_COMMAND_MESSAGE);
     }
@@ -167,12 +171,16 @@ public class Ui {
         System.out.println(Message.INVALID_COMMAND_TARGET_MESSAGE);
     }
 
-    public static void printInvalidDateFormat() {
-        System.out.println(Message.INVALID_DATE_FORMAT_MESSAGE);
+    public static void printInvalidDate() {
+        System.out.println(Message.INVALID_DATE_MESSAGE);
     }
 
     public static void printInvalidDay() {
         System.out.println(Message.INVALID_DAY_MESSAGE);
+    }
+
+    public static void printInvalidName() {
+        System.out.println(Message.INVALID_NAME_MESSAGE);
     }
 
     public static void printInvalidNumberFormat() {
