@@ -4,6 +4,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -85,7 +86,7 @@ public class Trip {
 
     private void validateTransportationDay(Integer day) throws InvalidArgumentValue {
         if (day < 1 || day > numDays) {
-            throw new InvalidArgumentValue();
+            throw new InvalidDay();
         }
     }
 
@@ -210,12 +211,12 @@ public class Trip {
     private void validateAccommodationDays(ArrayList<Integer> days) throws InvalidArgumentValue {
         if (days.get(0) < 1 || days.get(days.size() - 1) > numDays) {
             logger.log(Level.WARNING, "Accommodation days out of range");
-            throw new InvalidArgumentValue();
+            throw new InvalidDay();
         }
 
         if (hasAccommodationOverlap(days)) {
             logger.log(Level.WARNING, "Accommodation overlap");
-            throw new InvalidArgumentValue();
+            throw new InvalidDay();
         }
     }
 
@@ -231,11 +232,12 @@ public class Trip {
     private boolean isDaysOverlap(ArrayList<Integer> days1, ArrayList<Integer> days2) {
         boolean isDay1BeforeDay2 = days1.get(0) < days2.get(0);
         boolean isDay2BeforeDay1 = days2.get(0) < days1.get(0);
-        boolean isDay1EndsBeforeDay2Begins = days1.get(1) < days2.get(0);
-        boolean isDay2EndsBeforeDay1Begins = days2.get(1) < days1.get(0);
+        boolean isDay1Day2StartSame = Objects.equals(days1.get(0), days2.get(0));
+        boolean isDay1EndsBeforeDay2Begins = days1.get(days1.size() - 1) < days2.get(0);
+        boolean isDay2EndsBeforeDay1Begins = days2.get(days2.size() - 1) < days1.get(0);
 
         return (isDay1BeforeDay2 && !isDay1EndsBeforeDay2Begins) ||
-                (isDay2BeforeDay1 && !isDay2EndsBeforeDay1Begins);
+                (isDay2BeforeDay1 && !isDay2EndsBeforeDay1Begins) || isDay1Day2StartSame;
     }
 
     public boolean isContainsAccommodation(String accommodationName) {

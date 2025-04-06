@@ -55,6 +55,9 @@ public class ItineraryCommand extends Command {
         String argumentValue = argument.replaceFirst(argumentKeyword, "").strip();
         argumentKeyword = argumentKeyword.toLowerCase();
 
+        if (argumentKeyword.isEmpty()) {
+            throw new InvalidArgumentKeyword();
+        }
         if (argumentValue.isEmpty()) {
             throw new MissingArgument();
         }

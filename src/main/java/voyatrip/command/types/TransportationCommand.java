@@ -72,6 +72,9 @@ public class TransportationCommand extends Command {
         String argumentValue = argument.replaceFirst(argumentKeyword, "").strip();
         argumentKeyword = argumentKeyword.toLowerCase();
 
+        if (argumentKeyword.isEmpty()) {
+            throw new InvalidArgumentKeyword();
+        }
         if (!argumentKeyword.equals("all") && argumentValue.isEmpty()) {
             throw new MissingArgument();
         }
