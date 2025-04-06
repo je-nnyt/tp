@@ -193,11 +193,9 @@ public class Trip {
     public void addAccommodation(String accommodationName, Integer accommodationBudget,
                                  ArrayList<Integer> accommodationDays) throws InvalidCommand {
         logger.log(Level.INFO, "Adding accommodation");
-        
-        if (isContainsAccommodation(accommodationName)) {
-            logger.log(Level.WARNING, "Accommodation already exists");
-            throw new DuplicatedName();
-        }
+
+        validateAccommodationName(accommodationName);
+
         validateAccommodationDays(accommodationDays);
 
         Accommodation newAccommodation = new Accommodation(accommodationName, accommodationBudget, accommodationDays);
@@ -206,6 +204,13 @@ public class Trip {
         Ui.printAddAccommodationMessage(newAccommodation);
         printBudgetStatus();
         logger.log(Level.INFO, "Finished adding accommodation");
+    }
+
+    private void validateAccommodationName(String accommodationName) throws DuplicatedName {
+        if (isContainsAccommodation(accommodationName)) {
+            logger.log(Level.WARNING, "Accommodation already exists");
+            throw new DuplicatedName();
+        }
     }
 
     private void validateAccommodationDays(ArrayList<Integer> days) throws InvalidArgumentValue {
@@ -221,8 +226,8 @@ public class Trip {
     }
 
     private boolean hasAccommodationOverlap(ArrayList<Integer> days) {
-        for (Accommodation acc : accommodations) {
-            if (isDaysOverlap(days, acc.getDays())) {
+        for (Accommodation accommodation : accommodations) {
+            if (isDaysOverlap(days, accommodation.getDays())) {
                 return true;
             }
         }
@@ -233,8 +238,8 @@ public class Trip {
         boolean isDay1BeforeDay2 = days1.get(0) < days2.get(0);
         boolean isDay2BeforeDay1 = days2.get(0) < days1.get(0);
         boolean isDay1Day2StartSame = Objects.equals(days1.get(0), days2.get(0));
-        boolean isDay1EndsBeforeDay2Begins = days1.get(days1.size() - 1) < days2.get(0);
-        boolean isDay2EndsBeforeDay1Begins = days2.get(days2.size() - 1) < days1.get(0);
+        boolean isDay1EndsBeforeDay2Begins = days1.get(days1.size() - 1) <= days2.get(0);
+        boolean isDay2EndsBeforeDay1Begins = days2.get(days2.size() - 1) <= days1.get(0);
 
         return (isDay1BeforeDay2 && !isDay1EndsBeforeDay2Begins) ||
                 (isDay2BeforeDay1 && !isDay2EndsBeforeDay1Begins) || isDay1Day2StartSame;
@@ -286,6 +291,7 @@ public class Trip {
             boolean budgetIsModified = false;
             if (accommodationName != null) {
                 logger.log(Level.INFO, "Modifying accommodation name");
+                validateAccommodationName(accommodationName);
                 accommodations.get(index - 1).setName(accommodationName);
                 logger.log(Level.INFO, "Finished modifying accommodation name");
             }
