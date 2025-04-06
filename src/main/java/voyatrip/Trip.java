@@ -8,9 +8,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.json.JSONObject;
+
+import voyatrip.command.exceptions.AccommodationNotFound;
+import voyatrip.command.exceptions.DuplicatedName;
 import voyatrip.command.exceptions.InvalidArgumentValue;
 import voyatrip.command.exceptions.InvalidCommand;
+import voyatrip.command.exceptions.InvalidDay;
 import voyatrip.command.exceptions.InvalidIndex;
+import voyatrip.command.exceptions.TransportationNotFound;
 import voyatrip.ui.Ui;
 
 /**
@@ -67,7 +72,7 @@ public class Trip {
         logger.log(Level.INFO, "Adding transportation");
         if (isContainsTransportation(transportName)) {
             logger.log(Level.WARNING, "Transportation already exists");
-            throw new InvalidArgumentValue();
+            throw new DuplicatedName();
         }
         Transportation newTransportation = new Transportation(transportName, transportMode,
                 transportBudget, startDay, endDay);
@@ -112,7 +117,7 @@ public class Trip {
             }
         }
         logger.log(Level.WARNING, "Transportation not found");
-        throw new InvalidArgumentValue();
+        throw new TransportationNotFound();
     }
 
     /**
@@ -141,7 +146,7 @@ public class Trip {
             }
         }
         logger.log(Level.WARNING, "Transportation not found");
-        throw new InvalidArgumentValue();
+        throw new TransportationNotFound();
     }
 
     public void modifyTransportation(String transportName, String transportMode, Integer transportBudget,
@@ -182,7 +187,7 @@ public class Trip {
         logger.log(Level.INFO, "Adding accommodation");
         if (isContainsAccommodation(accommodationName)) {
             logger.log(Level.WARNING, "Accommodation already exists");
-            throw new InvalidArgumentValue();
+            throw new DuplicatedName();
         }
         Accommodation newAccommodation = new Accommodation(accommodationName, accommodationBudget, accommodationDays);
         accommodations.add(newAccommodation);
@@ -228,7 +233,7 @@ public class Trip {
             }
         }
         logger.log(Level.WARNING, "Accommodation not found");
-        throw new InvalidArgumentValue();
+        throw new AccommodationNotFound();
     }
 
     public void modifyAccommodation(String accommodationName, Integer accommodationBudget,
@@ -285,7 +290,7 @@ public class Trip {
             }
         }
         logger.log(Level.WARNING, "Accommodation not found");
-        throw new InvalidArgumentValue();
+        throw new AccommodationNotFound();
     }
 
     public void addActivity(Integer day, String name, String time) throws InvalidCommand {
@@ -296,7 +301,7 @@ public class Trip {
             Ui.printAddActivityMessage(newActivity);
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
-            throw new InvalidIndex();
+            throw new InvalidDay();
         }
         logger.log(Level.INFO, "Finished adding activity");
     }
@@ -307,7 +312,7 @@ public class Trip {
             itineraries.get(day - 1).deleteActivity(index);
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
-            throw new InvalidIndex();
+            throw new InvalidDay();
         }
     }
 
@@ -317,7 +322,7 @@ public class Trip {
             itineraries.get(day - 1).deleteActivity(name);
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
-            throw new InvalidIndex();
+            throw new InvalidDay();
         }
     }
 

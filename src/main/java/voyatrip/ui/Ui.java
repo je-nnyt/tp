@@ -135,6 +135,18 @@ public class Ui {
         System.out.println(abbrTripInfo);
     }
 
+    public static void printAccommodationNotFound() {
+        System.out.println(Message.ACCOMMODATION_NOT_FOUND_MESSAGE);
+    }
+
+    public static void printActivityNotFound() {
+        System.out.println(Message.ACTIVITY_NOT_FOUND_MESSAGE);
+    }
+
+    public static void printDuplicatedName() {
+        System.out.println(Message.DUPLICATED_NAME_MESSAGE);
+    }
+
     public static void printInvalidArgumentKeyword() {
         System.out.println(Message.INVALID_ARGUMENT_KEYWORD_MESSAGE);
     }
@@ -159,6 +171,10 @@ public class Ui {
         System.out.println(Message.INVALID_DATE_FORMAT_MESSAGE);
     }
 
+    public static void printInvalidDay() {
+        System.out.println(Message.INVALID_DAY_MESSAGE);
+    }
+
     public static void printInvalidNumberFormat() {
         System.out.println(Message.INVALID_NUMBER_FORMAT_MESSAGE);
     }
@@ -173,6 +189,10 @@ public class Ui {
 
     public static void printMissingCommandKeyword() {
         System.out.println(Message.MISSING_COMMAND_KEYWORD_MESSAGE);
+    }
+
+    public static void printTransportationNotFound() {
+        System.out.println(Message.TRANSPORTATION_NOT_FOUND_MESSAGE);
     }
 
     public static void printTripNotFound() {

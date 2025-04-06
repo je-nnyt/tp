@@ -7,10 +7,13 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
+import voyatrip.command.exceptions.AccommodationNotFound;
+import voyatrip.command.exceptions.ActivityNotFound;
+import voyatrip.command.exceptions.DuplicatedName;
 import voyatrip.command.exceptions.InvalidArgumentKeyword;
 import voyatrip.command.exceptions.InvalidArgumentValue;
 import voyatrip.command.exceptions.InvalidCommand;
-import voyatrip.command.exceptions.InvalidDayDuration;
+import voyatrip.command.exceptions.InvalidDay;
 import voyatrip.command.exceptions.InvalidCommandAction;
 import voyatrip.command.exceptions.InvalidCommandTarget;
 import voyatrip.command.exceptions.InvalidDateFormat;
@@ -19,6 +22,7 @@ import voyatrip.command.exceptions.InvalidScope;
 import voyatrip.command.exceptions.MissingArgument;
 import voyatrip.command.exceptions.MissingCommandKeyword;
 import voyatrip.command.exceptions.InvalidIndex;
+import voyatrip.command.exceptions.TransportationNotFound;
 import voyatrip.command.exceptions.TripNotFoundException;
 import voyatrip.command.types.AccommodationCommand;
 import voyatrip.command.types.Command;
@@ -106,6 +110,15 @@ public class VoyaTrip {
             Command command = PARSER.parse(input);
             handleCommand(command);
             logger.log(Level.INFO, "Finished handleInput");
+        } catch (AccommodationNotFound e) {
+            logger.log(Level.WARNING, "Accommodation not found");
+            Ui.printAccommodationNotFound();
+        } catch (ActivityNotFound e) {
+            logger.log(Level.WARNING, "Activity not found");
+            Ui.printActivityNotFound();
+        } catch (DuplicatedName e) {
+            logger.log(Level.WARNING, "Duplicated name");
+            Ui.printDuplicatedName();
         } catch (InvalidArgumentKeyword e) {
             logger.log(Level.WARNING, "Invalid argument keyword");
             Ui.printInvalidArgumentKeyword();
@@ -121,6 +134,9 @@ public class VoyaTrip {
         } catch (InvalidDateFormat e) {
             logger.log(Level.WARNING, "Invalid date format");
             Ui.printInvalidDateFormat();
+        } catch (InvalidDay e) {
+            logger.log(Level.WARNING, "Invalid day");
+            Ui.printInvalidDay();
         } catch (InvalidNumberFormat e) {
             logger.log(Level.WARNING, "Invalid number format");
             Ui.printInvalidNumberFormat();
@@ -133,6 +149,9 @@ public class VoyaTrip {
         } catch (MissingCommandKeyword e) {
             logger.log(Level.WARNING, "Missing command keyword");
             Ui.printMissingCommandKeyword();
+        } catch (TransportationNotFound e) {
+            logger.log(Level.WARNING, "Trip not found");
+            Ui.printTransportationNotFound();
         } catch (TripNotFoundException e) {
             logger.log(Level.WARNING, "Trip not found");
             Ui.printTripNotFound();
@@ -538,14 +557,14 @@ public class VoyaTrip {
             logger.log(Level.WARNING, "Index out of bounds");
             throw new InvalidIndex();
 
-        } catch (InvalidDayDuration e) {
+        } catch (InvalidDay e) {
             System.out.println(e.getMessage());
             logger.log(Level.WARNING, "Invalid day entered");
         }
         logger.log(Level.INFO, "Finished executeModifyTransportation");
     }
 
-    private static void validateDay(TransportationCommand command, Trip trip) throws InvalidDayDuration {
+    private static void validateDay(TransportationCommand command, Trip trip) throws InvalidDay {
         Integer newStartDay = (getNewStartDay(command) != null) ?
                 getNewStartDay(command) : getCurrentStartDay(command, trip);
         Integer newEndDay = (getNewEndDay(command) != null) ?
@@ -554,7 +573,7 @@ public class VoyaTrip {
 
         if (newDuration > trip.getNumDays() || newDuration < 0) {
             logger.log(Level.WARNING, "The new duration of transportation does not match the trip duration");
-            throw new InvalidDayDuration("The new transportation duration is not within the trip duration");
+            throw new InvalidDay();
         }
     }
 
