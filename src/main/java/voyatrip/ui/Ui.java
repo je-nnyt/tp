@@ -184,9 +184,13 @@ public class Ui {
         System.out.println(Message.INVALID_INDEX_MESSAGE);
     }
 
-    public static void printInvalidTimeFormat() { System.out.println(Message.INVALID_TIME_FORMAT_MESSAGE); }
+    public static void printInvalidTimeFormat() {
+        System.out.println(Message.INVALID_TIME_FORMAT_MESSAGE);
+    }
 
-    public static void printInvalidDuplicateActivity() { System.out.println(Message.INVALID_DUPLICATE_ACTIVITY); }
+    public static void printInvalidDuplicateActivity() {
+        System.out.println(Message.INVALID_DUPLICATE_ACTIVITY);
+    }
 
     public static void printListTransportationMessage(Transportation transportation) {
         System.out.println(Message.LIST_TRANSPORTATION_MESSAGE);

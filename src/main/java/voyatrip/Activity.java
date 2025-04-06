@@ -14,7 +14,10 @@ public class Activity {
     public String getName() {
         return name;
     }
-    public String getTime() { return time; }
+
+    public String getTime() {
+        return time;
+    }
 
     @Override
     public String toString() {
