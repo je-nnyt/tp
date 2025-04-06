@@ -42,7 +42,7 @@ public class VoyaTrip {
     static final Scanner IN = new Scanner(System.in);
     static TripList trips = new TripList();
     static Boolean isExit = false;
-    private static final Logger logger = Logger.getLogger(VoyaTrip.class.getName());
+    private static final Logger logger = Logger.getLogger(voyatrip.VoyaTrip.class.getName());
 
     /*
      * This method is used to check if the application is running in end user mode.
@@ -272,8 +272,8 @@ public class VoyaTrip {
 
     private static void executeAddTransportation(TransportationCommand command) throws InvalidCommand{
         logger.log(Level.INFO, "Starting executeAddTransportation");
-        getCurrentTrip(command).addTransportation(command.getName(), command.getMode(),
-                getNewBudget(command), getNewStartDay(command), getNewEndDay(command));
+        trips.get(command.getTrip()).addTransportation(command.getName(), command.getMode(), command.getBudget(),
+                command.getDay());
         logger.log(Level.INFO, "Finished executeAddTransportation");
     }
 
@@ -538,91 +538,17 @@ public class VoyaTrip {
 
     /*
      * Execute modifyTransportation method with the given command
+     *
      * @param command The command to modify the trip
      */
     private static void executeModifyTransportation(TransportationCommand command) throws InvalidCommand {
         logger.log(Level.INFO, "Starting executeModifyTransportation");
-        try {
-            Trip trip = getCurrentTrip(command);
-
-            //validate commands with trip information
-            validateBudget(command, trip);
-            validateDay(command, trip);
-
-            //modify transportation
-            getCurrentTrip(command).modifyTransportation(command.getName(), command.getMode(), getNewBudget(command),
-                    getNewStartDay(command), getNewEndDay(command), command.getIndex() - 1);
-
-        } catch (IndexOutOfBoundsException e) {
-            logger.log(Level.WARNING, "Index out of bounds");
-            throw new InvalidIndex();
-
-        } catch (InvalidDay e) {
-            System.out.println(e.getMessage());
-            logger.log(Level.WARNING, "Invalid day entered");
-        }
+        getCurrentTrip(command).modifyTransportation(command.getName(), command.getMode(), command.getBudget(),
+                command.getDay(), command.getIndex());
         logger.log(Level.INFO, "Finished executeModifyTransportation");
-    }
-
-    private static void validateDay(TransportationCommand command, Trip trip) throws InvalidDay {
-        Integer newStartDay = (getNewStartDay(command) != null) ?
-                getNewStartDay(command) : getCurrentStartDay(command, trip);
-        Integer newEndDay = (getNewEndDay(command) != null) ?
-                getNewEndDay(command) : getCurrentEndDay(command, trip);
-        Integer newDuration = getNewDuration(newEndDay, newStartDay);
-
-        if (newDuration > trip.getNumDays() || newDuration < 0) {
-            logger.log(Level.WARNING, "The new duration of transportation does not match the trip duration");
-            throw new InvalidDay();
-        }
-    }
-
-    private static void validateBudget(TransportationCommand command, Trip trip) {
-        if (getNewBudget(command) != null && getNewBudget(command) >= 0) {
-            Transportation transportation = getTransportation(command, trip);
-            Integer currentTripBudget = trip.getTotalBudget();
-            Integer currentTransportationBudget = transportation.getBudget();
-            Integer newTransportationBudget = getNewBudget(command);
-            Integer difference = newTransportationBudget - currentTransportationBudget;
-
-            setNewTotalTripBudget(trip, currentTripBudget, difference);
-        }
-    }
-
-    private static void setNewTotalTripBudget(Trip trip, Integer currentTripBudget, Integer difference) {
-        trip.setTotalBudget(currentTripBudget + difference);
-    }
-
-    private static Transportation getTransportation(TransportationCommand command, Trip trip) {
-        return trip.getTransportations().get(command.getIndex() - 1);
-    }
-
-    private static Integer getNewBudget(TransportationCommand command) {
-        return command.getBudget();
-    }
-
-    private static int getNewDuration(Integer newEndDay, Integer newStartDay) {
-        return newEndDay - newStartDay;
     }
 
     private static Trip getCurrentTrip(TransportationCommand command) throws TripNotFoundException {
         return trips.get(command.getTrip());
     }
-
-    private static Integer getNewEndDay(TransportationCommand command) {
-        return command.getEndDay();
-    }
-
-    private static Integer getNewStartDay(TransportationCommand command) {
-        return command.getStartDay();
-    }
-
-    private static Integer getCurrentEndDay(TransportationCommand command, Trip trip) {
-        return getTransportation(command, trip).getEndDay();
-    }
-
-    private static Integer getCurrentStartDay(TransportationCommand command, Trip trip) {
-        return getTransportation(command, trip).getStartDay();
-    }
-
 }

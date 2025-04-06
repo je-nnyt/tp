@@ -16,7 +16,7 @@ In VoyaTrip, you may store multiple trips. Do note that the name of each trip ha
 Each trip have a budget, starting date and ending date.
  The total budget will be divided equally to all days by default for the creation of the trip. There are three components: `itinerary`, `transportation` and `accommodation`.
 
-The `itinerary` contains lists of activities for all the days. This is for you to plan what to do during the trip. Each day will have a budget for you to adjust and keep track of.
+The `itinerary` contains lists of activities for all the days. This is for you to plan what to do during the trip. Each day will have a budget for you to keep track of.
 
 The `transportation` contain a list of transportation. This is for you to keep track of any important transportation during the trip like the flight. Each transportation will have a budget for you to adjust and keep track of.
 
@@ -120,6 +120,7 @@ add trip --name my trip --start 1-5 --end 7-5 --budget 1000
 mk --n my trip --b 1000 --s 1-5 --e 7-5
 ```
 
+> ⚠️ Note that the trip's duration should be smaller than 366 days.
 ### Adding new activity
 
 Target: `activity`
@@ -140,7 +141,7 @@ add --d 1 --t 10:00 --n my activity 1
 
 Target: `transportation`
 
-Required arguments: `name`, `mode`, `budget`, `start day number`, `end day number`
+Required arguments: `name`, `mode`, `budget`, `day`
 
 Name cannot be "all".
 
@@ -148,18 +149,11 @@ Example of usage:
 
 ```
 ~/My Trip/Transportation >
-add transportation --name airplane --mode air --budget 350 --start 1 --end 2
+add transportation --name airplane --mode air --budget 350 --day 1
 
 ~/My Trip/Transportation >
-add --n airplane --b 350 --m air --s 1 --e 2
+add --n airplane --b 350 --m air --d 1
 ```
-
-## Accommodation
-Note that for all operations related to accommodation, you should ensure that you are in the directory/trip 
-which you want to make these operations in, or else you should first change directory to the trip. For example, 
-if you want to add/delete accommodation in your 2nd trip named 'Another Trip', and your current directory is 
-not starting by ~/Another Trip/, please change directory by `cd trip --i 2` or `cd trip --n Another Trip`.
-
 
 ## Modifying
 
@@ -218,7 +212,7 @@ Action: `modify`
 
 Required arguments: `index`
 
-Arguments: `name`, `budget`, `start` (start day of transportation), `end` (end day of transportation)
+Arguments: `name`, `budget`, `day` (day of transportation)
 
 Note: The start and end day is expressed as a single integer and  must be a number greater than 0
 
@@ -226,11 +220,10 @@ Example of usage:
 
 ```
 ~/My Trip/Itinerary >
-modify transportation --index 1  --budget 1200 --start 3 --end 6 
+modify transportation --index 1 --budget 1200 --day 3
 
 ~/My Trip/Itinerary >
-modify transportation --i 1  --s 3
-
+modify transportation --i 1 --d 3 --b 1200
 ```
 
 ## Deleting
