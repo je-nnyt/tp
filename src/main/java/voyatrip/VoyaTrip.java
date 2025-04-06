@@ -7,17 +7,24 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
+import voyatrip.command.exceptions.AccommodationNotFound;
+import voyatrip.command.exceptions.ActivityNotFound;
+import voyatrip.command.exceptions.DuplicatedName;
 import voyatrip.command.exceptions.InvalidArgumentKeyword;
 import voyatrip.command.exceptions.InvalidArgumentValue;
+import voyatrip.command.exceptions.InvalidBudget;
 import voyatrip.command.exceptions.InvalidCommand;
+import voyatrip.command.exceptions.InvalidDay;
 import voyatrip.command.exceptions.InvalidCommandAction;
 import voyatrip.command.exceptions.InvalidCommandTarget;
-import voyatrip.command.exceptions.InvalidDateFormat;
+import voyatrip.command.exceptions.InvalidDate;
+import voyatrip.command.exceptions.InvalidName;
 import voyatrip.command.exceptions.InvalidNumberFormat;
 import voyatrip.command.exceptions.InvalidScope;
 import voyatrip.command.exceptions.MissingArgument;
 import voyatrip.command.exceptions.MissingCommandKeyword;
 import voyatrip.command.exceptions.InvalidIndex;
+import voyatrip.command.exceptions.TransportationNotFound;
 import voyatrip.command.exceptions.TripNotFoundException;
 import voyatrip.command.types.AccommodationCommand;
 import voyatrip.command.types.Command;
@@ -105,21 +112,39 @@ public class VoyaTrip {
             Command command = PARSER.parse(input);
             handleCommand(command);
             logger.log(Level.INFO, "Finished handleInput");
+        } catch (AccommodationNotFound e) {
+            logger.log(Level.WARNING, "Accommodation not found");
+            Ui.printAccommodationNotFound();
+        } catch (ActivityNotFound e) {
+            logger.log(Level.WARNING, "Activity not found");
+            Ui.printActivityNotFound();
+        } catch (DuplicatedName e) {
+            logger.log(Level.WARNING, "Duplicated name");
+            Ui.printDuplicatedName();
         } catch (InvalidArgumentKeyword e) {
             logger.log(Level.WARNING, "Invalid argument keyword");
             Ui.printInvalidArgumentKeyword();
-        } catch (InvalidArgumentValue e) {
-            logger.log(Level.WARNING, "Invalid argument value");
-            Ui.printInvalidArgumentValue();
+        } catch (InvalidBudget e) {
+            logger.log(Level.WARNING, "Invalid budget");
+            Ui.printInvalidBudget();
         } catch (InvalidCommandAction e) {
             logger.log(Level.WARNING, "Invalid command action");
             Ui.printInvalidCommandAction();
         } catch (InvalidCommandTarget e) {
             logger.log(Level.WARNING, "Invalid command target");
             Ui.printInvalidCommandTarget();
-        } catch (InvalidDateFormat e) {
-            logger.log(Level.WARNING, "Invalid date format");
-            Ui.printInvalidDateFormat();
+        } catch (InvalidDate e) {
+            logger.log(Level.WARNING, "Invalid date");
+            Ui.printInvalidDate();
+        } catch (InvalidDay e) {
+            logger.log(Level.WARNING, "Invalid day");
+            Ui.printInvalidDay();
+        } catch (InvalidIndex e) {
+            logger.log(Level.WARNING, "Invalid index");
+            Ui.printInvalidIndex();
+        } catch (InvalidName e) {
+            logger.log(Level.WARNING, "Invalid name");
+            Ui.printInvalidName();
         } catch (InvalidNumberFormat e) {
             logger.log(Level.WARNING, "Invalid number format");
             Ui.printInvalidNumberFormat();
@@ -132,9 +157,15 @@ public class VoyaTrip {
         } catch (MissingCommandKeyword e) {
             logger.log(Level.WARNING, "Missing command keyword");
             Ui.printMissingCommandKeyword();
+        } catch (TransportationNotFound e) {
+            logger.log(Level.WARNING, "Trip not found");
+            Ui.printTransportationNotFound();
         } catch (TripNotFoundException e) {
             logger.log(Level.WARNING, "Trip not found");
             Ui.printTripNotFound();
+        } catch (InvalidArgumentValue e) {
+            logger.log(Level.WARNING, "Invalid argument value");
+            Ui.printInvalidArgumentValue();
         } catch (InvalidCommand e) {
             logger.log(Level.WARNING, "Invalid command");
             Ui.printInvalidCommand();

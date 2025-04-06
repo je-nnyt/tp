@@ -4,13 +4,19 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.json.JSONObject;
+
+import voyatrip.command.exceptions.AccommodationNotFound;
+import voyatrip.command.exceptions.DuplicatedName;
 import voyatrip.command.exceptions.InvalidArgumentValue;
 import voyatrip.command.exceptions.InvalidCommand;
+import voyatrip.command.exceptions.InvalidDay;
 import voyatrip.command.exceptions.InvalidIndex;
+import voyatrip.command.exceptions.TransportationNotFound;
 import voyatrip.ui.Ui;
 
 /**
@@ -67,7 +73,7 @@ public class Trip {
 
         if (isContainsTransportation(transportName)) {
             logger.log(Level.WARNING, "Transportation already exists");
-            throw new InvalidArgumentValue();
+            throw new DuplicatedName();
         }
         validateTransportationDay(day);
 
@@ -80,7 +86,7 @@ public class Trip {
 
     private void validateTransportationDay(Integer day) throws InvalidArgumentValue {
         if (day < 1 || day > numDays) {
-            throw new InvalidArgumentValue();
+            throw new InvalidDay();
         }
     }
 
@@ -119,7 +125,7 @@ public class Trip {
             }
         }
         logger.log(Level.WARNING, "Transportation not found");
-        throw new InvalidArgumentValue();
+        throw new TransportationNotFound();
     }
 
     /**
@@ -148,7 +154,7 @@ public class Trip {
             }
         }
         logger.log(Level.WARNING, "Transportation not found");
-        throw new InvalidArgumentValue();
+        throw new TransportationNotFound();
     }
 
     public void modifyTransportation(String transportName, String transportMode, Integer transportBudget,
@@ -190,7 +196,7 @@ public class Trip {
         
         if (isContainsAccommodation(accommodationName)) {
             logger.log(Level.WARNING, "Accommodation already exists");
-            throw new InvalidArgumentValue();
+            throw new DuplicatedName();
         }
         validateAccommodationDays(accommodationDays);
 
@@ -205,12 +211,12 @@ public class Trip {
     private void validateAccommodationDays(ArrayList<Integer> days) throws InvalidArgumentValue {
         if (days.get(0) < 1 || days.get(days.size() - 1) > numDays) {
             logger.log(Level.WARNING, "Accommodation days out of range");
-            throw new InvalidArgumentValue();
+            throw new InvalidDay();
         }
 
         if (hasAccommodationOverlap(days)) {
             logger.log(Level.WARNING, "Accommodation overlap");
-            throw new InvalidArgumentValue();
+            throw new InvalidDay();
         }
     }
 
@@ -226,11 +232,12 @@ public class Trip {
     private boolean isDaysOverlap(ArrayList<Integer> days1, ArrayList<Integer> days2) {
         boolean isDay1BeforeDay2 = days1.get(0) < days2.get(0);
         boolean isDay2BeforeDay1 = days2.get(0) < days1.get(0);
-        boolean isDay1EndsBeforeDay2Begins = days1.get(1) < days2.get(0);
-        boolean isDay2EndsBeforeDay1Begins = days2.get(1) < days1.get(0);
+        boolean isDay1Day2StartSame = Objects.equals(days1.get(0), days2.get(0));
+        boolean isDay1EndsBeforeDay2Begins = days1.get(days1.size() - 1) < days2.get(0);
+        boolean isDay2EndsBeforeDay1Begins = days2.get(days2.size() - 1) < days1.get(0);
 
         return (isDay1BeforeDay2 && !isDay1EndsBeforeDay2Begins) ||
-                (isDay2BeforeDay1 && !isDay2EndsBeforeDay1Begins);
+                (isDay2BeforeDay1 && !isDay2EndsBeforeDay1Begins) || isDay1Day2StartSame;
     }
 
     public boolean isContainsAccommodation(String accommodationName) {
@@ -270,7 +277,7 @@ public class Trip {
             }
         }
         logger.log(Level.WARNING, "Accommodation not found");
-        throw new InvalidArgumentValue();
+        throw new AccommodationNotFound();
     }
 
     public void modifyAccommodation(String accommodationName, Integer accommodationBudget,
@@ -328,7 +335,7 @@ public class Trip {
             }
         }
         logger.log(Level.WARNING, "Accommodation not found");
-        throw new InvalidArgumentValue();
+        throw new AccommodationNotFound();
     }
 
     public void addActivity(Integer day, String name, String time) throws InvalidCommand {
@@ -339,7 +346,7 @@ public class Trip {
             Ui.printAddActivityMessage(newActivity);
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
-            throw new InvalidIndex();
+            throw new InvalidDay();
         }
         logger.log(Level.INFO, "Finished adding activity");
     }
@@ -350,7 +357,7 @@ public class Trip {
             itineraries.get(day - 1).deleteActivity(index);
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
-            throw new InvalidIndex();
+            throw new InvalidDay();
         }
     }
 
@@ -360,7 +367,7 @@ public class Trip {
             itineraries.get(day - 1).deleteActivity(name);
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
-            throw new InvalidIndex();
+            throw new InvalidDay();
         }
     }
 
