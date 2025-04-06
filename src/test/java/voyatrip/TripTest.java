@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
@@ -143,5 +144,38 @@ public class TripTest {
             trip.updateItinerarySize();
             Assertions.assertEquals(9, trip.getItinerarySize());
         });
+    }
+
+    @Test
+    void toFromJson_fullMultipleParam_returnSameTrip() {
+        Trip testTrip = new Trip("Vietnam", LocalDate.of(2025, 6, 10),
+                LocalDate.of(2025, 6, 17), 8, 500);
+
+        ArrayList<Transportation> transportations = new ArrayList<>();
+        transportations.add(new Transportation("VietJet Air", "Plane", 200, 2, 4));
+        transportations.add(new Transportation("SBS Transit 170", "bus", 5, 1, 3));
+        testTrip.setTransportations(transportations);
+
+        ArrayList<Accommodation> testAccommodations = new ArrayList<>();
+        testAccommodations.add(new Accommodation("Hotel", 100, new ArrayList<>(java.util.List.of(1, 2, 3))));
+        testAccommodations.add(new Accommodation("Park Hyatt Saigon", 800, new ArrayList<>(java.util.List.of(4, 5))));
+        testTrip.setAccommodations(testAccommodations);
+
+        ArrayList<Day> testItineraries = new ArrayList<>();
+        ArrayList<Activity> testDay1Activities = new ArrayList<>();
+        ArrayList<Activity> testDay2Activities = new ArrayList<>();
+        testDay1Activities.add(new Activity("Visit the beach", "10:00"));
+        testDay1Activities.add(new Activity("Visit the museum", "14:00"));
+        testDay2Activities.add(new Activity("Visit the park", "09:00"));
+        testDay1Activities.add(new Activity("Visit the zoo", "15:00"));
+        Day testDay1 = new Day(100f);
+        testDay1.setActivities(testDay1Activities);
+        Day testDay2 = new Day(200f);
+        testDay2.setActivities(testDay2Activities);
+        testTrip.setItineraries(testItineraries);
+
+        JSONObject json = testTrip.toJson();
+        Trip newTrip = Trip.fromJson(json);
+        Assertions.assertEquals(testTrip, newTrip);
     }
 }
