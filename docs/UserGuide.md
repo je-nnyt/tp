@@ -120,6 +120,7 @@ add trip --name my trip --start 1-5 --end 7-5 --budget 1000
 mk --n my trip --b 1000 --s 1-5 --e 7-5
 ```
 
+> ⚠️ Note that the trip's duration should be smaller than 366 days.
 ### Adding new activity
 
 Target: `activity`
