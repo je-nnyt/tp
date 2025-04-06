@@ -184,13 +184,21 @@ Target: `transportation`
 
 Action: `modify`
 
-Required arguments: `index`, `name`, `budget`, `start` (start day of transportation), `end` (end day of transportation)
+Required arguments: `index`
+
+Arguments: `name`, `budget`, `start` (start day of transportation), `end` (end day of transportation)
+
+Note: The start and end day is expressed as a single integer and  must be a number greater than 0
 
 Example of usage:
 
 ```
 ~/My Trip/Itinerary >
-modify transportation --index 1 --n Flybyme --m Air --b 1200 --s 3 --e 6 
+modify transportation --index 1  --budget 1200 --start 3 --end 6 
+
+~/My Trip/Itinerary >
+modify transportation --i 1  --s 3
+
 ```
 
 ## Accommodation
