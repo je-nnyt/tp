@@ -54,8 +54,8 @@ public class Day {
     }
 
     private boolean isContain(String name) {
-        for (int i = 0; i < activities.size(); i++) {
-            if (activities.get(i).getName().equals(name)) {
+        for (Activity activity : activities) {
+            if (activity.getName().equals(name)) {
                 return true;
             }
         }

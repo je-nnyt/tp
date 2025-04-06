@@ -13,6 +13,7 @@ import voyatrip.command.exceptions.InvalidCommand;
 import voyatrip.command.exceptions.InvalidCommandAction;
 import voyatrip.command.exceptions.InvalidCommandTarget;
 import voyatrip.command.exceptions.InvalidDateFormat;
+import voyatrip.command.exceptions.InvalidDuplicateActivity;
 import voyatrip.command.exceptions.InvalidNumberFormat;
 import voyatrip.command.exceptions.InvalidScope;
 import voyatrip.command.exceptions.InvalidTimeFormat;
@@ -139,6 +140,9 @@ public class VoyaTrip {
         } catch (InvalidTimeFormat e){
             logger.log(Level.WARNING, "Invalid time format");
             Ui.printInvalidTimeFormat();
+        }  catch (InvalidDuplicateActivity e){
+            logger.log(Level.WARNING, "Duplicate activity");
+            Ui.printInvalidDuplicateActivity();
         } catch (InvalidCommand e) {
             logger.log(Level.WARNING, "Invalid command");
             Ui.printInvalidCommand();
