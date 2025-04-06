@@ -121,6 +121,7 @@ mk --n my trip --b 1000 --s 1-5 --e 7-5
 ```
 
 > ⚠️ Note that the trip's duration should be smaller than 366 days.
+
 ### Adding new activity
 
 Target: `activity`
@@ -155,6 +156,22 @@ add transportation --name airplane --mode air --budget 350 --day 1
 add --n airplane --b 350 --m air --d 1
 ```
 
+### Adding new accommodation
+
+Target: `accommodation`
+
+Required arguments: `name` , `budget` , `start` (check-in day of accommodation), `end` (check-out day of accommodation)
+
+Example of usage:
+
+```
+~/My Trip/Accommodation >
+add accommodation --name Hilton Hotel --budget 500 --start 1 --end 4
+
+~/My Trip/Accommodation >
+add --n Hilton Hotel --b 500 --s 1 --e 4
+```
+
 ## Modifying
 
 Generally speaking, modify the item specified by index. The argument that are not index are the parameters to be changed to. Day number is also required for modifying activity. User do not need to specify the trip index if they are already in the trip they want to modify.
@@ -169,9 +186,9 @@ Required arguments: `index`
 
 Arguments: `name`, `start`, `end` and `budget`
 
-start date and end date should be in the format `d-M-yyyy` or `d-M` if the year is the current year.
+Start date and end date should be in the format `d-M-yyyy` or `d-M` if the year is the current year.
 
-Note that the user do not need to specify the index of the trip if they want to modify the current trip they are in.
+Note: the user do not need to specify the index of the trip if they want to modify the current trip they are in.
 
 Example of usage: changing the current trip name to "new my trip" and the total budget to 1200
 
@@ -191,10 +208,10 @@ Target: `accommodation`
 
 Required arguments: `index`
 
-Arguments: `name`, `budget`, `start` (start day of accommodation), `end` (end day of accommodation)
+Arguments: `name`, `budget`, `start` (check-in day of accommodation), `end` (check-out day of accommodation)
 
-Note that if you are changing the days of accommodation of a saved accommodation, 
-you should provide both the new start and end days.
+Note: if you are changing the days of accommodation of a saved accommodation, 
+you should provide both the new check-in and check-out days.
 
 Example of usage: for the 1st accommodation of the current trip, change the 
 accommodation name to "Lotte Hotel" and the days of accommodation to day 3 to 6
@@ -268,24 +285,6 @@ List command will list the item(s) in the target specified by index or name. In 
 
 Note that if you give any argument value for the argument `--all`, the values will be ignored.
 
-### Listing accommodation(s)
-
-Target: `accommodation`
-
-Required arguments: `index` or `name` or `all`
-
-Special case for listing all accommodations of the current trip `list accommodation --all` or `list accommodation --n all`
-
-Example of usage:
-
-```
-~/My Trip/ACCOMMODATION >
-list accom --index 1
-
-~/My Trip/ACCOMMODATION >
-list --n Hilton Hotel
-```
-
 ### Listing trips
 
 Target: `trip`
@@ -302,6 +301,24 @@ list trip --index 1
 
 ~ >
 list --n my trip
+```
+
+### Listing accommodation(s)
+
+Target: `accommodation`
+
+Required arguments: `index` or `name` or `all`
+
+Special case for listing all accommodations of the current trip `list accommodation --all` or `list accommodation --n all`
+
+Example of usage:
+
+```
+~/My Trip/ACCOMMODATION >
+list accom --index 1
+
+~/My Trip/ACCOMMODATION >
+list --n Hilton Hotel
 ```
 
 ### Listing transportations
