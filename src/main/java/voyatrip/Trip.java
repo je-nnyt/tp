@@ -552,8 +552,8 @@ public class Trip {
         return itineraries.size();
     }
 
-   public Integer getNumDays() {
+    public Integer getNumDays() {
         return numDays;
-   }
+    }
 }
 

@@ -184,8 +184,8 @@ public class Ui {
         System.out.println(Message.INVALID_INDEX_MESSAGE);
     }
 
-    public static void printInvalidDay(){ System.out.println(Message.INVALID_DAY_MESSAGE);
-    }
+    public static void printInvalidDay() { System.out.println(Message.INVALID_DAY_MESSAGE); }
+
     public static void printListTransportationMessage(Transportation transportation) {
         System.out.println(Message.LIST_TRANSPORTATION_MESSAGE);
         System.out.println(transportation);

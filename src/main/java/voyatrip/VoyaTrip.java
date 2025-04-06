@@ -264,7 +264,8 @@ public class VoyaTrip {
         logger.log(Level.INFO, "Finished executeAddTransportation");
     }
 
-    private static void validateTransportationDuration(TransportationCommand command) throws TripNotFoundException, InvalidDay {
+    private static void validateTransportationDuration(TransportationCommand command) throws TripNotFoundException,
+            InvalidDay {
         Trip trip = trips.get(command.getTrip());
         Integer startDay = command.getStartDay();
         Integer endDay = command.getEndDay();
