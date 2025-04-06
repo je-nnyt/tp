@@ -25,22 +25,22 @@ public class TripTest {
 
     @Test
     void addTransportation_uniqueTransportationName_success() throws InvalidCommand {
-        trip.addTransportation("VietJet Air", "Plane", 200, 2, 4);
+        trip.addTransportation("VietJet Air", "Plane", 200, 2);
         Assertions.assertTrue(trip.isContainsTransportation("VietJet Air"));
 
     }
 
     @Test
     void addTransportation_duplicateTransportationName_failure() throws InvalidCommand {
-        trip.addTransportation("VietJet Air", "Plane", 200, 1, 3);
+        trip.addTransportation("VietJet Air", "Plane", 200, 1);
         Assertions.assertThrows(InvalidCommand.class, () -> {
-            trip.addTransportation("VietJet Air", "Plane", 200, 1, 3);
+            trip.addTransportation("VietJet Air", "Plane", 200, 1);
         });
     }
 
     @Test
     void deleteTransportationByIndex_indexWithinRange_success() throws InvalidCommand {
-        trip.addTransportation("SBS Transit 170", "bus", 5, 1, 3);
+        trip.addTransportation("SBS Transit 170", "bus", 5, 1);
         trip.deleteTransportation(1);
         Assertions.assertFalse(trip.isContainsTransportation("SBS Transit 170"));
 
@@ -48,7 +48,7 @@ public class TripTest {
 
     @Test
     void deleteTransportationByIndex_indexWithinRange_failure() throws InvalidCommand {
-        trip.addTransportation("SBS Transit 170", "bus", 5, 1, 3);
+        trip.addTransportation("SBS Transit 170", "bus", 5, 1);
         Assertions.assertThrows(InvalidCommand.class, () -> {
             trip.deleteTransportation(2);
         });
@@ -57,14 +57,14 @@ public class TripTest {
 
     @Test
     void deleteTransportationByName_nameExists_success() throws InvalidCommand {
-        trip.addTransportation("SBS Transit 170", "bus", 5, 1, 3);
+        trip.addTransportation("SBS Transit 170", "bus", 5, 1);
         trip.deleteTransportation("SBS Transit 170");
         Assertions.assertFalse(trip.isContainsAccommodation("SBS Transit 170"));
     }
 
     @Test
     void deleteTransportationByName_nameDoesNotExists_failure() throws InvalidCommand {
-        trip.addTransportation("SBS Transit 170", "bus", 5, 1, 3);
+        trip.addTransportation("SBS Transit 170", "bus", 5, 1);
         Assertions.assertThrows(InvalidCommand.class, () -> {
             trip.deleteTransportation("    Transit 170");
         });
@@ -152,8 +152,8 @@ public class TripTest {
                 LocalDate.of(2025, 6, 17), 8, 500);
 
         ArrayList<Transportation> transportations = new ArrayList<>();
-        transportations.add(new Transportation("VietJet Air", "Plane", 200, 2, 4));
-        transportations.add(new Transportation("SBS Transit 170", "bus", 5, 1, 3));
+        transportations.add(new Transportation("VietJet Air", "Plane", 200, 2));
+        transportations.add(new Transportation("SBS Transit 170", "bus", 5, 1));
         testTrip.setTransportations(transportations);
 
         ArrayList<Accommodation> testAccommodations = new ArrayList<>();
