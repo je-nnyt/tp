@@ -154,13 +154,6 @@ add transportation --name airplane --mode air --budget 350 --day 1
 add --n airplane --b 350 --m air --d 1
 ```
 
-## Accommodation
-Note that for all operations related to accommodation, you should ensure that you are in the directory/trip 
-which you want to make these operations in, or else you should first change directory to the trip. For example, 
-if you want to add/delete accommodation in your 2nd trip named 'Another Trip', and your current directory is 
-not starting by ~/Another Trip/, please change directory by `cd trip --i 2` or `cd trip --n Another Trip`.
-
-
 ## Modifying
 
 Generally speaking, modify the item specified by index. The argument that are not index are the parameters to be changed to. Day number is also required for modifying activity. User do not need to specify the trip index if they are already in the trip they want to modify.
