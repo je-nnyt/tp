@@ -69,7 +69,7 @@ public class TripsCommand extends Command {
      * @throws InvalidArgumentValue if the number of days is greater than 365.
      */
     private void validateNumDay() throws InvalidArgumentValue {
-        if (numDay > MAX_NUM_DAYS) {
+        if (numDay != null && numDay > MAX_NUM_DAYS) {
             throw new InvalidArgumentValue();
         }
     }
