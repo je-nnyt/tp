@@ -15,6 +15,7 @@ public class Message {
     static final String DELETE_ACCOMMODATION_MESSAGE = "The following accommodation has been deleted from your list! ";
     static final String DELETE_TRANSPORTATION_MESSAGE = "The following transportation has been deleted from" +
             " your list! ";
+    static final String MODIFY_TRANSPORTATION_MESSAGE = "The following transportation has been modified!";
     static final String MODIFY_ACCOMMODATION_MESSAGE = "The following accommodation has been modified to: ";
     static final String LIST_ACCOMMODATION_MESSAGE = "Here is the accommodation: ";
     static final String LIST_TRANSPORTATION_MESSAGE = "Here is the transportation: ";

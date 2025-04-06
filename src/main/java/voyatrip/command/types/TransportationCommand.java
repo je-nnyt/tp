@@ -17,9 +17,7 @@ public class TransportationCommand extends Command {
     private String mode;
     private Integer budget;
     private Integer index;
-    private Integer startDay;
-    private Integer endDay;
-    private ArrayList<Integer> days;
+    private Integer day;
 
     public TransportationCommand(CommandAction commandAction,
                                  CommandTarget commandTarget,
@@ -36,9 +34,7 @@ public class TransportationCommand extends Command {
         mode = null;
         budget = null;
         index = null;
-        startDay = null;
-        endDay = null;
-        days = new ArrayList<>();
+        day = null;
 
         processRawArgument(arguments);
     }
@@ -84,8 +80,7 @@ public class TransportationCommand extends Command {
             case "mode", "m" -> mode = argumentValue;
             case "budget", "b" -> budget = Integer.parseInt(argumentValue);
             case "index", "i" -> index = Integer.parseInt(argumentValue);
-            case "start", "s" -> startDay = Integer.parseInt(argumentValue);
-            case "end", "e" -> endDay = Integer.parseInt(argumentValue);
+            case "day", "d" -> day = Integer.parseInt(argumentValue);
             case "all" -> name = "all";
             default -> throw new InvalidArgumentKeyword();
             }
@@ -103,10 +98,10 @@ public class TransportationCommand extends Command {
         boolean isList = commandAction == CommandAction.LIST;
 
         boolean isMissingAddArgument =
-                name == null || mode == null || budget == null || startDay == null || endDay == null;
+                name == null || mode == null || budget == null || day == null;
         boolean isMissingDeleteArgument = name == null && index == null;
         boolean isMissingModifyArgument = index == null ||
-                (name == null && mode == null && budget == null && startDay == null && endDay == null);
+                (name == null && mode == null && budget == null && day == null);
         boolean isMissingListArgument = name == null && index == null;
 
         if (isAdd && isMissingAddArgument ||
@@ -118,10 +113,8 @@ public class TransportationCommand extends Command {
 
         boolean isInvalidBudget = budget != null && budget < 0;
         boolean isInvalidName = !isList && name != null && Arrays.asList(INVALID_NAMES).contains(name);
-        boolean hasStartEndDay = startDay != null && endDay != null;
-        boolean isInvalidStartEndDay = hasStartEndDay && (startDay < 0 || endDay < 0 || startDay > endDay);
 
-        if (isInvalidBudget || isInvalidName || isInvalidStartEndDay) {
+        if (isInvalidBudget || isInvalidName) {
             throw new InvalidArgumentValue();
         }
     }
@@ -146,10 +139,7 @@ public class TransportationCommand extends Command {
         return index;
     }
 
-    public Integer getStartDay() {
-        return startDay;
-    }
-    public Integer getEndDay() {
-        return endDay;
+    public Integer getDay() {
+        return day;
     }
 }

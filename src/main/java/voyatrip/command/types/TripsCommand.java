@@ -15,6 +15,7 @@ import voyatrip.command.exceptions.MissingArgument;
 
 public class TripsCommand extends Command {
     static final String[] INVALID_NAMES = {"root", "all"};
+    static final Integer MAX_NUM_DAYS = 366;
 
     private String name;
     private LocalDate startDate;
@@ -52,6 +53,7 @@ public class TripsCommand extends Command {
         super.processRawArgument(arguments);
 
         calculateNumDay();
+        validateNumDay();
 
         processCommandVariation();
     }
@@ -59,6 +61,16 @@ public class TripsCommand extends Command {
     private void calculateNumDay() {
         if (startDate != null) {
             numDay = Math.toIntExact(ChronoUnit.DAYS.between(startDate, endDate) + 1);
+        }
+    }
+
+    /**
+     * Validates the number of days in the trip is within the valid range.
+     * @throws InvalidArgumentValue if the number of days is greater than 365.
+     */
+    private void validateNumDay() throws InvalidArgumentValue {
+        if (numDay != null && numDay > MAX_NUM_DAYS) {
+            throw new InvalidArgumentValue();
         }
     }
 

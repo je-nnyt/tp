@@ -87,7 +87,7 @@ class ParserTest {
             parser.setCurrentTrip("Vietnam");
             parser.setCurrentTarget(CommandTarget.TRANSPORTATION);
             Command command = parser.parse("modify transportation --index 1 --name Flight " +
-                    "--budget 1000 --start 1 --end 2\n");
+                    "--budget 1000 --day 1\n");
             assertEquals(CommandAction.MODIFY, command.getCommandAction());
         });
     }

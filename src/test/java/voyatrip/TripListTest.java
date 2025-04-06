@@ -111,8 +111,8 @@ class TripListTest {
                 LocalDate.of(2025, 6, 17), 8, 500);
 
         ArrayList<Transportation> transportations = new ArrayList<>();
-        transportations.add(new Transportation("VietJet Air", "Plane", 200, 2, 4));
-        transportations.add(new Transportation("SBS Transit 170", "bus", 5, 1, 3));
+        transportations.add(new Transportation("VietJet Air", "Plane", 200, 2));
+        transportations.add(new Transportation("SBS Transit 170", "bus", 5, 1));
         testTrip.setTransportations(transportations);
 
         ArrayList<Accommodation> testAccommodations = new ArrayList<>();

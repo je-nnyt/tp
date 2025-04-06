@@ -62,19 +62,26 @@ public class Trip {
     public void addTransportation(String transportName,
                                   String transportMode,
                                   Integer transportBudget,
-                                  Integer startDay,
-                                  Integer endDay) throws InvalidCommand {
+                                  Integer day) throws InvalidCommand {
         logger.log(Level.INFO, "Adding transportation");
+
         if (isContainsTransportation(transportName)) {
             logger.log(Level.WARNING, "Transportation already exists");
             throw new InvalidArgumentValue();
         }
-        Transportation newTransportation = new Transportation(transportName, transportMode,
-                transportBudget, startDay, endDay);
+        validateTransportationDay(day);
+
+        Transportation newTransportation = new Transportation(transportName, transportMode, transportBudget, day);
         transportations.add(newTransportation);
         Ui.printAddTransportationMessage(newTransportation);
         printBudgetStatus();
         logger.log(Level.INFO, "Finished adding transportation");
+    }
+
+    private void validateTransportationDay(Integer day) throws InvalidArgumentValue {
+        if (day < 1 || day > numDays) {
+            throw new InvalidArgumentValue();
+        }
     }
 
     public boolean isContainsTransportation(String transportName) {
@@ -117,7 +124,6 @@ public class Trip {
 
     /**
      * This method prints the information of the transportation at the given index.
-     *
      * @param index Index input by user
      * @throws InvalidIndex if invalid index
      */
@@ -145,18 +151,86 @@ public class Trip {
         throw new InvalidArgumentValue();
     }
 
+    public void modifyTransportation(String transportName, String transportMode, Integer transportBudget,
+                                     Integer day, Integer index) throws InvalidArgumentValue, InvalidIndex {
+        logger.log(Level.INFO, "Modifying transportation");
+
+        try {
+            if (transportName != null) {
+                logger.log(Level.INFO, "Starting modifying name");
+                transportations.get(index - 1).setName(transportName);
+                logger.log(Level.INFO, "Finishing modifying name");
+            }
+            if (transportMode != null) {
+                logger.log(Level.INFO, "Starting modifying mode");
+                transportations.get(index - 1).setMode(transportMode);
+                logger.log(Level.INFO, "Finishing modifying mode");
+            }
+            if (transportBudget != null) {
+                logger.log(Level.INFO, "Starting modifying budget");
+                transportations.get(index - 1).setBudget(transportBudget);
+                logger.log(Level.INFO, "Finishing modifying budget");
+            }
+            if (day != null) {
+                logger.log(Level.INFO, "Starting modifying day");
+                validateTransportationDay(day);
+                transportations.get(index - 1).setDay(day);
+                logger.log(Level.INFO, "Finishing modifying day");
+            }
+            Ui.printModifyTransportationMessage(transportations.get(index));
+            logger.log(Level.INFO, "Finishing modifying transportation");
+        } catch (IndexOutOfBoundsException e) {
+            throw new InvalidIndex();
+        }
+    }
+
     public void addAccommodation(String accommodationName, Integer accommodationBudget,
                                  ArrayList<Integer> accommodationDays) throws InvalidCommand {
         logger.log(Level.INFO, "Adding accommodation");
+        
         if (isContainsAccommodation(accommodationName)) {
             logger.log(Level.WARNING, "Accommodation already exists");
             throw new InvalidArgumentValue();
         }
+        validateAccommodationDays(accommodationDays);
+
         Accommodation newAccommodation = new Accommodation(accommodationName, accommodationBudget, accommodationDays);
+
         accommodations.add(newAccommodation);
         Ui.printAddAccommodationMessage(newAccommodation);
         printBudgetStatus();
         logger.log(Level.INFO, "Finished adding accommodation");
+    }
+
+    private void validateAccommodationDays(ArrayList<Integer> days) throws InvalidArgumentValue {
+        if (days.get(0) < 1 || days.get(days.size() - 1) > numDays) {
+            logger.log(Level.WARNING, "Accommodation days out of range");
+            throw new InvalidArgumentValue();
+        }
+
+        if (hasAccommodationOverlap(days)) {
+            logger.log(Level.WARNING, "Accommodation overlap");
+            throw new InvalidArgumentValue();
+        }
+    }
+
+    private boolean hasAccommodationOverlap(ArrayList<Integer> days) {
+        for (Accommodation acc : accommodations) {
+            if (isDaysOverlap(days, acc.getDays())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isDaysOverlap(ArrayList<Integer> days1, ArrayList<Integer> days2) {
+        boolean isDay1BeforeDay2 = days1.get(0) < days2.get(0);
+        boolean isDay2BeforeDay1 = days2.get(0) < days1.get(0);
+        boolean isDay1EndsBeforeDay2Begins = days1.get(1) < days2.get(0);
+        boolean isDay2EndsBeforeDay1Begins = days2.get(1) < days1.get(0);
+
+        return (isDay1BeforeDay2 && !isDay1EndsBeforeDay2Begins) ||
+                (isDay2BeforeDay1 && !isDay2EndsBeforeDay1Begins);
     }
 
     public boolean isContainsAccommodation(String accommodationName) {
@@ -218,6 +292,7 @@ public class Trip {
 
             if (accommodationDays != null) {
                 logger.log(Level.INFO, "Modifying accommodation days");
+                validateAccommodationDays(accommodationDays);
                 accommodations.get(index - 1).setDays(accommodationDays);
                 logger.log(Level.INFO, "Finished modifying accommodation days");
             }
@@ -548,8 +623,20 @@ public class Trip {
         return endDate;
     }
 
+    public Integer getNumDays() {
+        return numDays;
+    }
+
+    public Integer getTotalBudget() {
+        return totalBudget;
+    }
+
     public Integer getItinerarySize() {
         return itineraries.size();
+    }
+
+    public ArrayList<Transportation> getTransportations() {
+        return transportations;
     }
 }
 
