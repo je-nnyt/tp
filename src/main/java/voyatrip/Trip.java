@@ -343,42 +343,26 @@ public class Trip {
             tripInfo.append("No accommodations added yet.\n");
         }
 
-        for (Accommodation accommodation : accommodations) {
-            tripInfo.append(accommodation.toString()).append("\n");
+        for (int i = 0; i < accommodations.size(); i++) {
+            tripInfo.append(i + 1).append(". ").append(accommodations.get(i).toString()).append("\n");
         }
     }
 
     public void buildTransportationsInfo(StringBuilder tripInfo) {
         // early return when there are no transportations
-        Integer transportationIndex = 1;
-
         if (transportations.isEmpty()) {
             tripInfo.append("No transportations added yet.\n");
         }
 
-        for (Transportation transportation : transportations) {
-            tripInfo.append(transportationIndex).append(". ").append(transportation.toString()).append("\n");
-            transportationIndex++;
+        for (int i = 0; i < transportations.size(); i++) {
+            tripInfo.append(i + 1).append(". ").append(transportations.get(i).toString()).append("\n");
         }
     }
 
     public void buildItineraryInfo(StringBuilder tripInfo) {
-        boolean hasNoActivity = true;
         for (int i = 0; i < itineraries.size(); i++) {
-            if (itineraries.get(i).getActivities().isEmpty()) {
-                continue;
-            }
-            // print the heading for the first time
-            if (hasNoActivity) {
-                tripInfo.append("Itinerary: \n");
-                hasNoActivity = false;
-            }
             tripInfo.append("Day ").append(i + 1).append("\n");
             tripInfo.append(itineraries.get(i)).append("\n");
-        }
-
-        if (hasNoActivity) {
-            tripInfo.append("No activities added yet.\n");
         }
     }
 
@@ -437,8 +421,14 @@ public class Trip {
         StringBuilder tripInfo = new StringBuilder();
         tripInfo.append(abbrInfo()).append("\n");
 
+        tripInfo.append("Itinerary: \n");
         buildItineraryInfo(tripInfo);
+
+        tripInfo.append("Transportations:\n");
         buildTransportationsInfo(tripInfo);
+        tripInfo.append("\n");
+
+        tripInfo.append("Accommodations:\n");
         buildAccommodationsInfo(tripInfo);
 
         return tripInfo.toString().trim();
