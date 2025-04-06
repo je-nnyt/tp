@@ -36,15 +36,11 @@ A command follows the format: `<action> <target> <argument(s)>`. The keywords ar
 
 A command action is what the command does, such as `add` and `delete`. 
 
-A command target is what group does the command affects, such as `trip` and `transportation`.
+A command target is what group does the command affects, such as `trip` and `transportation`. The target keyword may be omitted if the correct directory is at the corresponding target component. For example, if the current directory is `~/<trip name>/ITINERARY` and if `add` is entered without the target keyword, then since the only thing add can do in the current directory is to add an activity, the command target will be assumed to be `activity`.
 
-An argument consist of a double hyphen (`--`) immediately followed by a keyword and a value: `--<keyword> <value>`. For example: `--name my trip` will have the keyword `name` and the value `my trip`.
+An argument consist of a double hyphen (`--`) immediately followed by a keyword and a value: `--<keyword> <value>`. For example: `--name my trip` will have the keyword `name` and the value `my trip`. The order of the different arguments does not matter.
 
 Note that some commands may not have a target or arguments. Also note that extra arguments that are not necessary or duplicated will be ignored.
-
-The target keyword may be omitted if the correct directory is at the corresponding target component.
-
-For example, if the current directory is `~/<trip name>/ITINERARY` and if `add` is entered without the target keyword, then since the only thing add can do in the current directory is to add an activity, the command target will be assumed to be `activity`.
 
 
 ## Changing Directory
@@ -148,10 +144,10 @@ Name cannot be "all".
 Example of usage:
 
 ```
-~/My Trip/Transportation >
+~/My Trip/TRANSPORTATION >
 add transportation --name airplane --mode air --budget 350 --day 1
 
-~/My Trip/Transportation >
+~/My Trip/TRANSPORTATION >
 add --n airplane --b 350 --m air --d 1
 ```
 
@@ -200,7 +196,7 @@ Example of usage: for the 1st accommodation of the current trip, change the
 accommodation name to "Lotte Hotel" and the days of accommodation to day 3 to 6
 
 ```
-~/My Trip/Accommodation >
+~/My Trip/ACCOMMODATION >
 modify accom --index 1 --n Lotte Hotel --s 3 --e 6
 ```
 
@@ -219,10 +215,10 @@ Note: The start and end day is expressed as a single integer and  must be a numb
 Example of usage:
 
 ```
-~/My Trip/Itinerary >
+~/My Trip/ITINERARY >
 modify transportation --index 1 --budget 1200 --day 3
 
-~/My Trip/Itinerary >
+~/My Trip/ITINERARY >
 modify transportation --i 1 --d 3 --b 1200
 ```
 
@@ -264,27 +260,9 @@ delete --n Hilton Hotel
 
 ## Listing
 
-List command will list the item(s) in the target specified by index or name. In the case of wanting to list all the item in the target, use the special argument `--all` that does not take any argument value or use `all` as the argument value for the argument `name`.
+List command will list the item(s) in the target specified by index or name (except for itinerary). In the case of wanting to list all the item in the target, use the special argument `--all` that does not take any argument value or use `all` as the argument value for the argument `name`.
 
 Note that if you give any argument value for the argument `--all`, the values will be ignored.
-
-### Listing accommodation(s)
-
-Target: `accommodation`
-
-Required arguments: `index` or `name` or `all`
-
-Special case for listing all accommodations of the current trip `list accommodation --all` or `list accommodation --n all`
-
-Example of usage:
-
-```
-~/My Trip/ACCOMMODATION >
-list accom --index 1
-
-~/My Trip/ACCOMMODATION >
-list --n Hilton Hotel
-```
 
 ### Listing trips
 
@@ -302,6 +280,40 @@ list trip --index 1
 
 ~ >
 list --n my trip
+```
+
+### Listing itinerary
+
+Target: `itinerary`
+
+No required arguments.
+
+Example of usage:
+
+```
+~/My Trip/ITINERARY >
+list itinerary
+
+~/My Trip/ITINERARY >
+list
+```
+
+### Listing accommodation(s)
+
+Target: `accommodation`
+
+Required arguments: `index` or `name` or `all`
+
+Special case for listing all accommodations of the current trip `list accommodation --all` or `list accommodation --n all`
+
+Example of usage:
+
+```
+~/My Trip/ACCOMMODATION >
+list accom --index 1
+
+~/My Trip/ACCOMMODATION >
+list --n Hilton Hotel
 ```
 
 ### Listing transportations
@@ -346,6 +358,10 @@ Does not require any target or arguments
 **Q**: Why enter only `cd` do not give error? That is, why `cd` is a valid command?
 
 **A**: By entering only the command action `cd` and omitting the command target, the program will use the default target. So input `cd` means asking to program to "change the directory to the current directory".
+
+**Q**: How can I see the activity I added?
+
+**A**: You can see all the activity added by listing the itinerary. But there is no way to list the activity individually.
 
 ## Command Summary
 
