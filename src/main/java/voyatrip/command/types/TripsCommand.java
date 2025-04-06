@@ -15,7 +15,7 @@ import voyatrip.command.exceptions.MissingArgument;
 
 public class TripsCommand extends Command {
     static final String[] INVALID_NAMES = {"root", "all"};
-    static final Integer MAX_NUM_DAYS = 365;
+    static final Integer MAX_NUM_DAYS = 366;
 
     private String name;
     private LocalDate startDate;
