@@ -62,15 +62,14 @@ public class Trip {
     public void addTransportation(String transportName,
                                   String transportMode,
                                   Integer transportBudget,
-                                  Integer startDay,
-                                  Integer endDay) throws InvalidCommand {
+                                  Integer day) throws InvalidCommand {
         logger.log(Level.INFO, "Adding transportation");
         if (isContainsTransportation(transportName)) {
             logger.log(Level.WARNING, "Transportation already exists");
             throw new InvalidArgumentValue();
         }
         Transportation newTransportation = new Transportation(transportName, transportMode,
-                transportBudget, startDay, endDay);
+                transportBudget, day);
         transportations.add(newTransportation);
         Ui.printAddTransportationMessage(newTransportation);
         printBudgetStatus();

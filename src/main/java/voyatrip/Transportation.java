@@ -5,33 +5,22 @@ import org.json.JSONObject;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
-import java.util.ArrayList;
-
 public class Transportation {
     private String name;
     private String mode;
     private Integer budget;
-    private Integer startDay;
-    private Integer endDay;
-    private ArrayList<Integer> days;
+    private Integer day;
 
 
     private Logger logger = Logger.getLogger(Transportation.class.getName());
 
-    public Transportation(String name, String mode, Integer budget, Integer startDay, Integer endDay) {
+    public Transportation(String name, String mode, Integer budget, Integer day) {
         assert budget > 0;
         logger.log(Level.INFO, "Creating Transportation");
         this.name = name;
         this.mode = mode;
         this.budget = budget;
-        this.days = new ArrayList<>();
-        this.startDay = startDay;
-        this.endDay = endDay;
-
-        //add days to list
-        for (int i = startDay; i <= endDay; i++) {
-            days.add(i);
-        }
+        this.day = day;
 
         logger.log(Level.INFO, "Transportation created");
     }
@@ -62,8 +51,7 @@ public class Transportation {
 
     @Override
     public String toString() {
-        return "Transportation by " + mode + " " + name + " from day " + startDay
-                + " to day " + endDay + " with budget $" + budget;
+        return "Transportation by " + mode + " " + name + " on day " + day + " with budget $" + budget;
     }
 
     @Override
@@ -79,16 +67,9 @@ public class Transportation {
         boolean nameEquals = name.equals(((Transportation) obj).name);
         boolean budgetEquals = budget.equals(((Transportation) obj).budget);
         boolean modeEquals = mode.equals(((Transportation) obj).mode);
+        boolean dayEquals = day.equals(((Transportation) obj).day);
 
-        boolean daysEquals = true;
-        for (int i = 0; i < days.size(); i++) {
-            if (!days.get(i).equals(((Transportation) obj).days.get(i))) {
-                daysEquals = false;
-                break;
-            }
-        }
-
-        return nameEquals && budgetEquals && modeEquals && daysEquals;
+        return nameEquals && budgetEquals && modeEquals && dayEquals;
     }
 
     // the following methods are for loading and saving the transportation data
@@ -102,8 +83,7 @@ public class Transportation {
         json.put("name", name);
         json.put("mode", mode);
         json.put("budget", budget);
-        json.put("startDay", startDay);
-        json.put("endDay", endDay);
+        json.put("day", day);
 
         return json;
     }
@@ -117,14 +97,8 @@ public class Transportation {
         String name = json.getString("name");
         String mode = json.getString("mode");
         Integer budget = json.getInt("budget");
-        Integer startDay = json.getInt("startDay");
-        Integer endDay = json.getInt("endDay");
+        Integer day = json.getInt("day");
 
-        return new Transportation(name, mode, budget, startDay, endDay);
-    }
-
-
-    public void setDays(ArrayList<Integer> days) {
-        this.days = days;
+        return new Transportation(name, mode, budget, day);
     }
 }
