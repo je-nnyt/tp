@@ -5,6 +5,7 @@ package voyatrip.ui;
  */
 public class Message {
     public static final String INVALID_TIME_FORMAT_MESSAGE = "Invalid time format. Please try again.";
+    public static final String INVALID_DUPLICATE_ACTIVITY = "The activity already exists. Pleas try again.";
     // user message
     static final String WELCOME_MESSAGE = "Welcome to VoyaTrip! How can I help you today?";
     static final String GOODBYE_MESSAGE = "Goodbye! Wish you have a lovely trip!";
