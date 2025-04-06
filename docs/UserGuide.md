@@ -7,7 +7,7 @@ VoyaTrip is a command-line application for managing trips. It also includes a bu
 ## Quick Start
 
 1. Ensure that you have Java 17 or above installed.
-2. Download the latest version of `VoyaTrip` from  [Placeholder](https://).
+2. Download the latest version of `VoyaTrip` from our [release page](https://github.com/AY2425S2-CS2113-F14-3/tp/releases).
 
 ## Features
 
