@@ -59,7 +59,25 @@ public class VoyaTrip {
 
     public static void main(String[] args) {
         setLogger(args);
+        load_json();
         run();
+        save_json();
+    }
+
+    /**
+     * This method is used to load the json file for the application.
+     */
+    public static void load_json() {
+        Storage.load().ifPresent(tripList -> {
+            trips = tripList;
+        });
+    }
+
+    /**
+     * This method is used to save the json file for the application.
+     */
+    public static void save_json() {
+        Storage.save(trips);
     }
 
     /**
@@ -479,7 +497,9 @@ public class VoyaTrip {
 
             Ui.printModifyTripMessage(trip.abbrInfo());
             // Show the user information about the current trip budget status if it is updated
-            trip.printBudgetStatus();
+            if (budgetIsModified) {
+                trip.printBudgetStatus();
+            }
             Ui.printNextCommandMessage();
 
         } catch (TripNotFoundException e) {
