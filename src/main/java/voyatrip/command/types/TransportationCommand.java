@@ -74,23 +74,23 @@ public class TransportationCommand extends Command {
         String argumentValue = argument.replaceFirst(argumentKeyword, "").strip();
         argumentKeyword = argumentKeyword.toLowerCase();
 
+        if (!argumentKeyword.equals("all") && argumentValue.isEmpty()) {
+            throw new InvalidArgumentValue();
+        }
+
         try {
             switch (argumentKeyword) {
             case "name", "n" -> name = argumentValue;
             case "mode", "m" -> mode = argumentValue;
             case "budget", "b" -> budget = Integer.parseInt(argumentValue);
             case "index", "i" -> index = Integer.parseInt(argumentValue);
-            case "all" -> name = "all";
             case "start", "s" -> startDay = Integer.parseInt(argumentValue);
             case "end", "e" -> endDay = Integer.parseInt(argumentValue);
+            case "all" -> name = "all";
             default -> throw new InvalidArgumentKeyword();
             }
         } catch (NumberFormatException e) {
             throw new InvalidNumberFormat();
-        }
-
-        if (!argumentKeyword.equals("all") && argumentValue.isEmpty()) {
-            throw new InvalidArgumentValue();
         }
     }
 
