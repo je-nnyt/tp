@@ -15,7 +15,7 @@ class Logic
 
 class Main
 
-User --> Ui : interacts
+User --> Ui : interacts >
 
 Ui -> Model
 Ui --> Logic

@@ -1,39 +1,80 @@
 @startuml
-Main -> Storage: load()
-activate Storage
-activate TripList
+participant Main as ":Main"
+participant Storage as ":Storage"
+participant TripList as ":TripList"
+participant Trip as ":Trip"
+participant Day as ":Day"
+participant Activity as ":Activity"
+participant Transportation as ":Transportation"
+participant Accommodation as ":Accommodation"
+
+Main -> Storage:load()
 alt if file exists and nonempty
-    loop for each trip in file
-        Storage -> Storage: read file line
-        Storage -> TripList: addTrip()
-        TripList --> Trip
-        activate Trip
-        Trip -> TripList
-        TripList --> Storage: getTrip()
-        Storage -> Trip: addItinerary()
-        Trip --> Storage
-        Storage -> Trip: addAccommodation()
-        Trip --> Storage
-        Storage -> Trip: addTransportation()
-        Trip --> Storage
-    end
-    Storage --> Main
+    Storage -> TripList: fromJson()
+    activate TripList
+        loop for each trip in file
+            TripList -> Trip: fromJson()
+            activate Trip
+            loop for each day
+                Trip -> Day: fromJson()
+                activate Day
+                loop for each activity
+                    Day -> Activity: fromJson()
+                    activate Activity
+                    Activity --> Day: new Activity()
+                end
+                Day --> Trip: new Day()
+            end
+            loop for each transportation
+                Trip -> Transportation: fromJson()
+                activate Transportation
+                Transportation --> Trip: new Transportation()
+            end
+            loop for each accommodation
+                Trip -> Accommodation: fromJson()
+                activate Accommodation
+                Accommodation --> Trip: new Accommodation
+            end
+            Trip --> TripList: new Trip()
+        end
+        TripList --> Storage: new TripList()
+    Storage --> Main: Optional.of(new TripList())
 else else
-Storage --> Main
+Storage --> Main: Optional.empty()
 end
 
 Main -> Storage: save()
 alt if trip exists
-Storage --> Main
-loop for each trip
-    Storage -> TripList: getTrip()
-    TripList --> Storage: getTrip()
-    Storage -> Trip: save()
-    Trip --> Storage
-    Storage --> Storage: write trip to file
-end
+Storage -> TripList: toJson()
+activate TripList
+    loop for each trip
+        TripList -> Trip: toJson()
+        activate Trip
+        loop for each day
+            Trip -> Day: toJson()
+            activate Day
+            loop for each activity
+                Day -> Activity: toJson()
+                activate Activity
+                Activity --> Day: new JSONObject()
+            end
+            Day --> Trip: new JSONObject()
+        end
+        loop for each transportation
+            Trip -> Transportation: toJson()
+            activate Transportation
+            Transportation --> Trip: new JSONObject()
+        end
+        loop for each accommodation
+            Trip -> Accommodation: toJson()
+            activate Accommodation
+            Accommodation --> Trip: new JSONObject()
+        end
+        Trip --> TripList: new JSONObject()
+    end
+    TripList --> Storage: new JSONObject()
+Storage --> Main: new JSONObject()
 else else
 Storage --> Main
 end
-deactivate Storage
 @enduml

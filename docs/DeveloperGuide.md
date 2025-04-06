@@ -1,12 +1,17 @@
-# Developer Guide (4 Apr)
+# Developer Guide (6 Apr)
 
 ## Table of Contents
+- [Acknowledgements (6 Apr)](#acknowledgements)
 - [Get Started (4 Apr)](#get-started)
     - [Setting up (4 Apr)](#setting-up)
 - [Design](#design)
   - [Architecture](#architecture)
 - [Implementation](#implementation)
-    - [Storage [Proposed]](#storage-proposed)
+    - [Storage [Implemented] (6 Apr)](#storage-proposed)
+      - [How it works](#how-it-works)
+        - [Loading](#loading)
+        - [Saving](#saving)
+      - [UML Sequence Diagram](uml-sequence-diagram)
     - [Modify Accommodation [Implemented]](#modify-accommodation-implemented)
 - [Git Workflow (15 Mar)](#git-workflow)
     - [Branch](#branch)
@@ -18,6 +23,11 @@
 - [Appendix](#appendix)
     - [PlantUML](#plantuml)
         - [How to use](#how-to-use)
+
+## Acknowledgements
+
+- [PlantUML](https://plantuml.com/) for the UML diagrams
+- [JSON-java](https://github.com/stleary/JSON-java/tree/master?tab=readme-ov-file) for json formatting
 
 ## Get Started
 
@@ -43,12 +53,49 @@ The interaction for any command is similar to the following, for simplicity, we 
 
 
 <img src="uml/main_flow.png" alt="main-flow-uml"/>
+
 ## Implementation
 This section describes some notable details on how certain features are implemented/going to be implemented.
 
-### Storage [Proposed]
-This is purposed to save the trip data in a file, 
-so that the data can be retrieved when the program is restarted.
+### Storage [Implemented]
+
+- This is implemented by using the `Storage` class, 
+which is responsible for reading and writing data to and from the file system.
+
+- Diagram is included at the end to show the relationship
+between the `Storage` class and other classes in the system.
+
+> ℹ️ The `Storage` class is implemented with external library `org.json`
+> to handle the JSON file format.
+
+#### How it works
+
+##### Loading 
+
+1. The `Storage` class reads the JSON file from the file system.
+2. It parses the JSON data into Java objects using the `org.json` library.
+3. The parsed data is then passed into static fromJson() of 
+`TripList` which then invoke the same methods of related `Trip`, `Day`, `Activity`, `Transportation` and `Accommodation` classes 
+to create the corresponding objects recursively.
+4. The created objects are then returned to the `Main` class,
+and being assigned to the `tripList` variable if needed.
+
+> ⚠️ This method will return a `Optional<TripList>` object 
+> instead of the triplist directly.
+
+##### Saving 
+
+1. `TripList` object is passed into the `Storage` class.
+2. The `Storage` class then calls `toJson()` method of `TripList` class, 
+which again invoke the same methods of the related objects to 
+return a JSON object 
+3. The JSON object is then converted to string 
+with indentation of 4 spaces for better json format
+
+> ⚠️ This method will create/ overwrite the file if it does not exist,
+> and will delete the files if the triplist object is empty.
+
+#### UML Sequence Diagram
 <img src="uml/storage.png"/> 
 
 ### Modify Accommodation [Implemented]
