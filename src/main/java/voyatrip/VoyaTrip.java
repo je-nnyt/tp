@@ -407,7 +407,7 @@ public class VoyaTrip {
             modifyTrip(command, trips.get(command.getIndex()));
         } catch (InvalidIndex e) {
             logger.log(Level.WARNING, "Invalid index");
-            Ui.printInvalidArgumentValue();
+            Ui.printInvalidIndex();
         }
         logger.log(Level.INFO, "Finished executeModifyTrip");
     }
