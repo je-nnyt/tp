@@ -331,6 +331,7 @@ public class VoyaTrip {
         logger.log(Level.INFO, "Finished executeListItinerary");
     }
 
+
     private static void executeListAccommodationByIndex(AccommodationCommand command) throws InvalidCommand {
         logger.log(Level.INFO, "Starting executeListAccommodationByIndex");
         trips.get(command.getTrip()).listAccommodation(command.getIndex());
