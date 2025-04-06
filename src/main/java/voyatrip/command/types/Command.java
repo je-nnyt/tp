@@ -6,6 +6,7 @@ import voyatrip.command.exceptions.InvalidArgumentKeyword;
 import voyatrip.command.exceptions.InvalidArgumentValue;
 import voyatrip.command.exceptions.InvalidDateFormat;
 import voyatrip.command.exceptions.InvalidNumberFormat;
+import voyatrip.command.exceptions.InvalidTimeFormat;
 import voyatrip.command.exceptions.MissingArgument;
 
 public abstract class Command {
@@ -22,7 +23,7 @@ public abstract class Command {
             InvalidArgumentValue,
             InvalidDateFormat,
             InvalidNumberFormat,
-            MissingArgument {
+            MissingArgument, InvalidTimeFormat{
         for (String argument : arguments) {
             matchArgument(argument);
         }
@@ -31,7 +32,7 @@ public abstract class Command {
     }
 
     protected abstract void matchArgument(String argument)
-            throws InvalidArgumentKeyword, InvalidDateFormat, InvalidNumberFormat, InvalidArgumentValue;
+            throws InvalidArgumentKeyword, InvalidDateFormat, InvalidNumberFormat, InvalidArgumentValue, InvalidTimeFormat;
 
     protected abstract void validateArgument()
             throws InvalidArgumentValue, MissingArgument;

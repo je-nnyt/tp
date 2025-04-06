@@ -15,6 +15,7 @@ import voyatrip.command.exceptions.InvalidCommandTarget;
 import voyatrip.command.exceptions.InvalidDateFormat;
 import voyatrip.command.exceptions.InvalidNumberFormat;
 import voyatrip.command.exceptions.InvalidScope;
+import voyatrip.command.exceptions.InvalidTimeFormat;
 import voyatrip.command.exceptions.MissingArgument;
 import voyatrip.command.exceptions.MissingCommandKeyword;
 import voyatrip.command.exceptions.InvalidIndex;
@@ -135,6 +136,9 @@ public class VoyaTrip {
         } catch (TripNotFoundException e) {
             logger.log(Level.WARNING, "Trip not found");
             Ui.printTripNotFound();
+        } catch (InvalidTimeFormat e){
+            logger.log(Level.WARNING, "Invalid time format");
+            Ui.printInvalidTimeFormat();
         } catch (InvalidCommand e) {
             logger.log(Level.WARNING, "Invalid command");
             Ui.printInvalidCommand();
@@ -207,7 +211,7 @@ public class VoyaTrip {
         }
     }
 
-    private static void handleTransportation(TransportationCommand command) throws InvalidCommand{
+    private static void handleTransportation(TransportationCommand command) throws InvalidCommand {
         logger.log(Level.INFO, "Starting handleTransportation");
         switch (command.getCommandAction()) {
         case ADD -> executeAddTransportation(command);

@@ -4,6 +4,7 @@ package voyatrip.ui;
  * This class store all the user interface messages that will be displayed to the user.
  */
 public class Message {
+    public static final String INVALID_TIME_FORMAT_MESSAGE = "Invalid time format. Please try again.";
     // user message
     static final String WELCOME_MESSAGE = "Welcome to VoyaTrip! How can I help you today?";
     static final String GOODBYE_MESSAGE = "Goodbye! Wish you have a lovely trip!";
