@@ -49,6 +49,10 @@ public class Transportation {
         this.mode = mode;
     }
 
+    public void setDay(Integer day) {
+        this.day = day;
+    }
+
     @Override
     public String toString() {
         return "Transportation by " + mode + " " + name + " on day " + day + " with budget $" + budget;

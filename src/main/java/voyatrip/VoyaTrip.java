@@ -207,8 +207,7 @@ public class VoyaTrip {
         }
     }
 
-    private static void handleTransportation(TransportationCommand command)
-            throws InvalidCommand, TripNotFoundException {
+    private static void handleTransportation(TransportationCommand command) throws InvalidCommand{
         logger.log(Level.INFO, "Starting handleTransportation");
         switch (command.getCommandAction()) {
         case ADD -> executeAddTransportation(command);
@@ -216,6 +215,7 @@ public class VoyaTrip {
         case DELETE_BY_NAME -> executeDeleteTransportationByName(command);
         case LIST_BY_INDEX -> executeListTransportationByIndex(command);
         case LIST_BY_NAME -> executeListTransportationByName(command);
+        case MODIFY -> executeModifyTransportation(command);
         case CHANGE_DIRECTORY -> executeChangeDirectoryTransportation(command);
         default -> {
             logger.log(Level.WARNING, "Unknown command action: " + command.getCommandAction());
@@ -250,8 +250,7 @@ public class VoyaTrip {
         logger.log(Level.INFO, "Finished executeAddAccommodation");
     }
 
-    private static void executeAddTransportation(TransportationCommand command)
-            throws InvalidCommand, TripNotFoundException {
+    private static void executeAddTransportation(TransportationCommand command) throws InvalidCommand{
         logger.log(Level.INFO, "Starting executeAddTransportation");
         trips.get(command.getTrip()).addTransportation(command.getName(), command.getMode(), command.getBudget(),
                 command.getDay());
@@ -282,31 +281,27 @@ public class VoyaTrip {
         logger.log(Level.INFO, "Finished executeDeleteActivityByName");
     }
 
-    private static void executeDeleteAccommodationByIndex(AccommodationCommand command)
-            throws InvalidCommand, TripNotFoundException {
+    private static void executeDeleteAccommodationByIndex(AccommodationCommand command) throws InvalidCommand {
         logger.log(Level.INFO, "Starting executeDeleteAccommodationByIndex");
         trips.get(command.getTrip()).deleteAccommodation(command.getIndex());
         logger.log(Level.INFO, "Finished executeDeleteAccommodationByIndex");
     }
 
-    private static void executeDeleteAccommodationByName(AccommodationCommand command)
-            throws InvalidCommand, TripNotFoundException {
+    private static void executeDeleteAccommodationByName(AccommodationCommand command) throws InvalidCommand {
         logger.log(Level.INFO, "Starting executeDeleteAccommodationByName");
         trips.get(command.getTrip()).deleteAccommodation(command.getName());
         logger.log(Level.INFO, "Finished executeDeleteAccommodationByName");
     }
 
-    private static void executeDeleteTransportationByIndex(TransportationCommand command)
-            throws InvalidCommand, TripNotFoundException {
+    private static void executeDeleteTransportationByIndex(TransportationCommand command) throws InvalidCommand {
         logger.log(Level.INFO, "Starting executeDeleteTransportationByIndex");
-        trips.get(command.getTrip()).deleteTransportation(command.getIndex());
+        getCurrentTrip(command).deleteTransportation(command.getIndex());
         logger.log(Level.INFO, "Finished executeDeleteTransportationByIndex");
     }
 
-    private static void executeDeleteTransportationByName(TransportationCommand command)
-            throws InvalidCommand, TripNotFoundException {
+    private static void executeDeleteTransportationByName(TransportationCommand command) throws InvalidCommand {
         logger.log(Level.INFO, "Starting executeDeleteTransportationByName");
-        trips.get(command.getTrip()).deleteTransportation(command.getName());
+        getCurrentTrip(command).deleteTransportation(command.getName());
         logger.log(Level.INFO, "Finished executeDeleteTransportationByName");
     }
 
@@ -346,16 +341,16 @@ public class VoyaTrip {
 
     private static void executeListTransportationByIndex(TransportationCommand command) throws InvalidCommand {
         logger.log(Level.INFO, "Starting executeListTransportationByIndex");
-        trips.get(command.getTrip()).listTransportation(command.getIndex());
+        getCurrentTrip(command).listTransportation(command.getIndex());
         logger.log(Level.INFO, "Finished executeListTransportationByIndex");
     }
 
     private static void executeListTransportationByName(TransportationCommand command) throws InvalidCommand {
         logger.log(Level.INFO, "Starting executeListTransportation");
         if ("all".equals(String.valueOf(command.getName()))) {
-            Ui.printTransportationList(trips.get(command.getTrip()));
+            Ui.printTransportationList(getCurrentTrip(command));
         } else {
-            trips.get(command.getTrip()).listTransportation(command.getName());
+            getCurrentTrip(command).listTransportation(command.getName());
         }
         logger.log(Level.INFO, "Finished executeListTransportation");
     }
@@ -519,5 +514,21 @@ public class VoyaTrip {
         trips.get(command.getTrip()).modifyAccommodation(command.getName(), command.getBudget(),
                 command.getDays(), command.getIndex());
         logger.log(Level.INFO, "Finished executeModifyAccommodation");
+    }
+
+    /*
+     * Execute modifyTransportation method with the given command
+     *
+     * @param command The command to modify the trip
+     */
+    private static void executeModifyTransportation(TransportationCommand command) throws InvalidCommand {
+        logger.log(Level.INFO, "Starting executeModifyTransportation");
+        getCurrentTrip(command).modifyTransportation(command.getName(), command.getMode(), command.getBudget(),
+                command.getDay(), command.getIndex());
+        logger.log(Level.INFO, "Finished executeModifyTransportation");
+    }
+
+    private static Trip getCurrentTrip(TransportationCommand command) throws TripNotFoundException {
+        return trips.get(command.getTrip());
     }
 }

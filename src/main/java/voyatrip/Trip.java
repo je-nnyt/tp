@@ -124,7 +124,6 @@ public class Trip {
 
     /**
      * This method prints the information of the transportation at the given index.
-     *
      * @param index Index input by user
      * @throws InvalidIndex if invalid index
      */
@@ -150,6 +149,39 @@ public class Trip {
         }
         logger.log(Level.WARNING, "Transportation not found");
         throw new InvalidArgumentValue();
+    }
+
+    public void modifyTransportation(String transportName, String transportMode, Integer transportBudget,
+                                     Integer day, Integer index) throws InvalidArgumentValue, InvalidIndex {
+        logger.log(Level.INFO, "Modifying transportation");
+
+        try {
+            if (transportName != null) {
+                logger.log(Level.INFO, "Starting modifying name");
+                transportations.get(index - 1).setName(transportName);
+                logger.log(Level.INFO, "Finishing modifying name");
+            }
+            if (transportMode != null) {
+                logger.log(Level.INFO, "Starting modifying mode");
+                transportations.get(index - 1).setMode(transportMode);
+                logger.log(Level.INFO, "Finishing modifying mode");
+            }
+            if (transportBudget != null) {
+                logger.log(Level.INFO, "Starting modifying budget");
+                transportations.get(index - 1).setBudget(transportBudget);
+                logger.log(Level.INFO, "Finishing modifying budget");
+            }
+            if (day != null) {
+                logger.log(Level.INFO, "Starting modifying day");
+                validateTransportationDay(day);
+                transportations.get(index - 1).setDay(day);
+                logger.log(Level.INFO, "Finishing modifying day");
+            }
+            Ui.printModifyTransportationMessage(transportations.get(index));
+            logger.log(Level.INFO, "Finishing modifying transportation");
+        } catch (IndexOutOfBoundsException e) {
+            throw new InvalidIndex();
+        }
     }
 
     public void addAccommodation(String accommodationName, Integer accommodationBudget,
@@ -591,8 +623,20 @@ public class Trip {
         return endDate;
     }
 
+    public Integer getNumDays() {
+        return numDays;
+    }
+
+    public Integer getTotalBudget() {
+        return totalBudget;
+    }
+
     public Integer getItinerarySize() {
         return itineraries.size();
+    }
+
+    public ArrayList<Transportation> getTransportations() {
+        return transportations;
     }
 }
 
