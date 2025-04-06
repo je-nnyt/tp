@@ -73,6 +73,7 @@ public class Trip {
                 transportBudget, startDay, endDay);
         transportations.add(newTransportation);
         Ui.printAddTransportationMessage(newTransportation);
+        printBudgetStatus();
         logger.log(Level.INFO, "Finished adding transportation");
     }
 
@@ -91,6 +92,7 @@ public class Trip {
             logger.log(Level.INFO, "Deleting transportation");
             Ui.printDeleteTransportationMessage(transportations.get(index - 1));
             transportations.remove(index - 1);
+            printBudgetStatus();
             logger.log(Level.INFO, "Finished deleting transportation");
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
@@ -104,6 +106,7 @@ public class Trip {
             if (transportation.getName().equals(transportName)) {
                 Ui.printDeleteTransportationMessage(transportation);
                 transportations.remove(transportation);
+                printBudgetStatus();
                 logger.log(Level.INFO, "Finished deleting transportation");
                 return;
             }
@@ -152,6 +155,7 @@ public class Trip {
         Accommodation newAccommodation = new Accommodation(accommodationName, accommodationBudget, accommodationDays);
         accommodations.add(newAccommodation);
         Ui.printAddAccommodationMessage(newAccommodation);
+        printBudgetStatus();
         logger.log(Level.INFO, "Finished adding accommodation");
     }
 
@@ -172,6 +176,7 @@ public class Trip {
             logger.log(Level.INFO, "Deleting accommodation");
             Ui.printDeleteAccommodationMessage(accommodations.get(index - 1));
             accommodations.remove(index - 1);
+            printBudgetStatus();
             logger.log(Level.INFO, "Finished deleting accommodation");
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
@@ -183,8 +188,9 @@ public class Trip {
         logger.log(Level.INFO, "Deleting accommodation");
         for (Accommodation accommodation : accommodations) {
             if (accommodation.getName().equals(accommodationName)) {
-                accommodations.remove(accommodation);
                 Ui.printDeleteAccommodationMessage(accommodation);
+                accommodations.remove(accommodation);
+                printBudgetStatus();
                 logger.log(Level.INFO, "Finished deleting accommodation");
                 return;
             }
@@ -196,6 +202,7 @@ public class Trip {
     public void modifyAccommodation(String accommodationName, Integer accommodationBudget,
                                     ArrayList<Integer> accommodationDays, Integer index) throws InvalidCommand {
         try {
+            boolean budgetIsModified = false;
             if (accommodationName != null) {
                 logger.log(Level.INFO, "Modifying accommodation name");
                 accommodations.get(index - 1).setName(accommodationName);
@@ -205,6 +212,7 @@ public class Trip {
             if (accommodationBudget != null) {
                 logger.log(Level.INFO, "Modifying accommodation budget");
                 accommodations.get(index - 1).setBudget(accommodationBudget);
+                budgetIsModified = true;
                 logger.log(Level.INFO, "Finished modifying accommodation budget");
             }
 
@@ -215,6 +223,9 @@ public class Trip {
             }
 
             Ui.printModifyAccommodationMessage(accommodations.get(index - 1));
+            if (budgetIsModified) {
+                printBudgetStatus();
+            }
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
             throw new InvalidIndex();
@@ -380,10 +391,20 @@ public class Trip {
             budgetSum += day.getBudget();
         }
 
+        for (Transportation transportation : transportations) {
+            budgetSum += transportation.getBudget();
+        }
+
+        for (Accommodation accommodation : accommodations) {
+            budgetSum += accommodation.getBudget();
+        }
+
         Ui.printTotalBudgetStatus(totalBudget, budgetSum);
         if (budgetSum > totalBudget) {
             Ui.printExceedTotalBudget();
             Ui.printBudgetPerDay(itineraries);
+            Ui.printBudgetPerTransportation(transportations);
+            Ui.printBudgetPerAccommodation(accommodations);
         }
     }
 
