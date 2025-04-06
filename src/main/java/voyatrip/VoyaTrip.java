@@ -395,7 +395,7 @@ public class VoyaTrip {
 
     // The following methods are for modifying trips
 
-    /*
+    /**
      * Modify the trip with the given command
      * @param command The command to modify the trip
      * Note that if the size of the modified numsDay is different from the original,
@@ -404,113 +404,116 @@ public class VoyaTrip {
     private static void executeModifyTrip(TripsCommand command) {
         logger.log(Level.INFO, "Starting executeModifyTrip");
         try {
-            Trip trip = trips.get(command.getIndex());
-
-            assert (trip != null
-                    && (command.getName() != null
-                    || command.getStartDate() != null
-                    || command.getEndDate() != null
-                    || command.getTotalBudget() != null));
-
-            if (command.getName() != null) {
-                logger.log(Level.INFO, "Modifying trip name");
-                trip.setName(command.getName());
-            }
-
-            // Checking for the validity of the date modification
-            LocalDate newStartDate = (command.getStartDate() != null) ? command.getStartDate() : trip.getStartDate();
-            LocalDate newEndDate = (command.getEndDate() != null) ? command.getEndDate() : trip.getEndDate();
-            Integer newNumDays = command.getNumDay();
-            if (newNumDays != null && newNumDays != ChronoUnit.DAYS.between(newStartDate, newEndDate) + 1) {
-                logger.log(Level.WARNING, "Number of days does not match the start and end date");
-                Ui.printInvalidModificationOfDate();
-            } else {
-                logger.log(Level.INFO, "Modifying trip dates");
-                trip.setStartDate(newStartDate);
-                trip.setEndDate(newEndDate);
-                if (newNumDays != null) {
-                    trip.setNumDays(newNumDays);
-                }
-                // method is called the correct the actual size of the Days arraylist
-                trip.updateItinerarySize();
-            }
-
-            // Modify the total budget of the trip, and add the budget to each day averagely if not null
-            boolean budgetIsModified = false;
-            if (command.getTotalBudget() != null) {
-                logger.log(Level.INFO, "Modifying trip total budget");
-                budgetIsModified = true;
-                trip.setTotalBudget(command.getTotalBudget());
-            }
-
-            Ui.printModifyTripMessage(trip.abbrInfo());
-            // Show the user information about the current trip budget status if it is updated
-            if (budgetIsModified) {
-                trip.printBudgetStatus();
-            }
-            Ui.printNextCommandMessage();
+            modifyTrip(command, trips.get(command.getIndex()));
         } catch (InvalidIndex e) {
-            logger.log(Level.WARNING, "Index out of bounds");
-            Ui.printInvalidIndex();
+            logger.log(Level.WARNING, "Invalid index");
+            Ui.printInvalidArgumentValue();
         }
         logger.log(Level.INFO, "Finished executeModifyTrip");
     }
 
+    /**
+     * Modify the current trip with the given command
+     * @param command The command to modify the trip
+     */
     private static void executeModifyCurTrip(TripsCommand command) {
         logger.log(Level.INFO, "Starting executeModifyCurTrip");
         try {
-            Trip trip = trips.get(PARSER.getCurrentTrip());
-
-            assert (trip != null
-                    && (command.getName() != null
-                    || command.getStartDate() != null
-                    || command.getEndDate() != null
-                    || command.getTotalBudget() != null));
-
-            if (command.getName() != null) {
-                logger.log(Level.INFO, "Modifying trip name");
-                trip.setName(command.getName());
-            }
-
-            // Checking for the validity of the date modification
-            LocalDate newStartDate = (command.getStartDate() != null) ? command.getStartDate() : trip.getStartDate();
-            LocalDate newEndDate = (command.getEndDate() != null) ? command.getEndDate() : trip.getEndDate();
-            Integer newNumDays = command.getNumDay();
-            if (newNumDays != null && newNumDays != ChronoUnit.DAYS.between(newStartDate, newEndDate) + 1) {
-                logger.log(Level.WARNING, "Number of days does not match the start and end date");
-                Ui.printInvalidModificationOfDate();
-            } else {
-                logger.log(Level.INFO, "Modifying trip dates");
-                trip.setStartDate(newStartDate);
-                trip.setEndDate(newEndDate);
-                if (newNumDays != null) {
-                    trip.setNumDays(newNumDays);
-                }
-                // method is called the correct the actual size of the Days arraylist
-                trip.updateItinerarySize();
-            }
-
-            // Modify the total budget of the trip, and add the budget to each day averagely if not null
-            boolean budgetIsModified = false;
-            if (command.getTotalBudget() != null) {
-                logger.log(Level.INFO, "Modifying trip total budget");
-                budgetIsModified = true;
-                trip.setTotalBudget(command.getTotalBudget());
-
-            }
-
-            Ui.printModifyTripMessage(trip.abbrInfo());
-            // Show the user information about the current trip budget status if it is updated
-            if (budgetIsModified) {
-                trip.printBudgetStatus();
-            }
-            Ui.printNextCommandMessage();
-
+            modifyTrip(command, trips.get(PARSER.getCurrentTrip()));
         } catch (TripNotFoundException e) {
             logger.log(Level.WARNING, "Trip not found");
             Ui.printTripNotFound();
         }
         logger.log(Level.INFO, "Finished executeModifyCurTrip");
+    }
+
+    /**
+     * Helper function for exeucuteModifyTrip and executeModifyCurTrip
+     * @param command The command to modify the trip
+     * @param trip The trip to be modified
+     */
+    private static void modifyTrip(TripsCommand command, Trip trip) {
+        Boolean isNameSame = false;
+        Boolean isDatesSame = false;
+        Boolean isInvalidDate = false;
+        Boolean isNumDaysSame = false;
+        Boolean isBudgetSame = false;
+
+
+        assert (trip != null
+                && (command.getName() != null
+                || command.getStartDate() != null
+                || command.getEndDate() != null
+                || command.getTotalBudget() != null));
+
+        if (command.getName() != null) {
+            // check if the trip name is the same as the original
+            if (trip.getName().equals(command.getName())) {
+                logger.log(Level.WARNING, "Trip name is the same");
+                isNameSame = true;
+                Ui.printSameTripNameMessage();
+            } else {
+                logger.log(Level.INFO, "Modifying trip name");
+                trip.setName(command.getName());
+            }
+        }
+
+        // Checking for the validity of the date modification
+        LocalDate newStartDate = (command.getStartDate() != null) ? command.getStartDate() : trip.getStartDate();
+        LocalDate newEndDate = (command.getEndDate() != null) ? command.getEndDate() : trip.getEndDate();
+        Integer newNumDays = command.getNumDay();
+
+        if (newNumDays != null && newNumDays != ChronoUnit.DAYS.between(newStartDate, newEndDate) + 1) {
+            logger.log(Level.INFO, "Number of days does not match the start and end date");
+            isInvalidDate = true;
+            Ui.printInvalidModificationOfDate();
+        }
+
+        if (trip.getStartDate().equals(newStartDate)
+                && trip.getEndDate().equals(newEndDate)) {
+            logger.log(Level.INFO, "Trip dates are the same");
+            isDatesSame = true;
+            Ui.printSameTripDatesMessage();
+        }
+        if (trip.getNumDays() == newNumDays) {
+            logger.log(Level.WARNING, "Trip number of days is the same");
+            isNumDaysSame = true;
+            Ui.printSameTripNumDaysMessage();
+        }
+        if (!isInvalidDate && (!isDatesSame || !isNumDaysSame)) {
+            logger.log(Level.INFO, "Modifying trip dates");
+            trip.setStartDate(newStartDate);
+            trip.setEndDate(newEndDate);
+            if (newNumDays != null) {
+                trip.setNumDays(newNumDays);
+            }
+            // method is called the correct the actual size of the Days arraylist
+            trip.updateItinerarySize();
+        }
+
+        // Modify the total budget of the trip, and add the budget to each day averagely if not null
+        if (command.getTotalBudget() != null) {
+            if (trip.getTotalBudget().equals(command.getTotalBudget())) {
+                logger.log(Level.WARNING, "Trip budget is the same");
+                isBudgetSame = true;
+                Ui.printSameTripBudgetMessage();
+            }
+            logger.log(Level.INFO, "Modifying trip total budget");
+            trip.setTotalBudget(command.getTotalBudget());
+        }
+
+        if (isNameSame && isDatesSame && isNumDaysSame && isBudgetSame) {
+            logger.log(Level.WARNING, "Trip modification is the same");
+            Ui.printSameTripMessage();
+        } else {
+            Ui.printModifyTripMessage(trip.abbrInfo());
+        }
+
+        // Show the user information about the current trip budget status if it is updated
+        if (!isBudgetSame) {
+            trip.printBudgetStatus();
+        }
+        Ui.printNextCommandMessage();
     }
 
     private static void executeModifyAccommodation(AccommodationCommand command)

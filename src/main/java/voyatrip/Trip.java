@@ -548,6 +548,14 @@ public class Trip {
         return endDate;
     }
 
+    public Integer getNumDays() {
+        return numDays;
+    }
+
+    public Integer getTotalBudget() {
+        return totalBudget;
+    }
+
     public Integer getItinerarySize() {
         return itineraries.size();
     }
