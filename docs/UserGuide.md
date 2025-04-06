@@ -154,6 +154,12 @@ add transportation --name airplane --mode air --budget 350 --start 1 --end 2
 add --n airplane --b 350 --m air --s 1 --e 2
 ```
 
+## Accommodation
+Note that for all operations related to accommodation, you should ensure that you are in the directory/trip 
+which you want to make these operations in, or else you should first change directory to the trip. For example, 
+if you want to add/delete accommodation in your 2nd trip named 'Another Trip', and your current directory is 
+not starting by ~/Another Trip/, please change directory by `cd trip --i 2` or `cd trip --n Another Trip`.
+
 
 ## Modifying
 
@@ -204,6 +210,28 @@ accommodation name to "Lotte Hotel" and the days of accommodation to day 3 to 6
 modify accom --index 1 --n Lotte Hotel --s 3 --e 6
 ```
 
+### Modifying the transportation
+
+Target: `transportation`
+
+Action: `modify`
+
+Required arguments: `index`
+
+Arguments: `name`, `budget`, `start` (start day of transportation), `end` (end day of transportation)
+
+Note: The start and end day is expressed as a single integer and  must be a number greater than 0
+
+Example of usage:
+
+```
+~/My Trip/Itinerary >
+modify transportation --index 1  --budget 1200 --start 3 --end 6 
+
+~/My Trip/Itinerary >
+modify transportation --i 1  --s 3
+
+```
 
 ## Deleting
 
