@@ -52,6 +52,8 @@ public class Message {
     static final String MISSING_ARGUMENT_MESSAGE = "Missing argument. Please try again.";
     static final String MISSING_COMMAND_KEYWORD_MESSAGE = "Missing command keyword. Please try again.";
     static final String TRIP_NOT_FOUND_MESSAGE = "Trip not found. Please try again.";
+    static final String INVALID_DAY_MESSAGE = "Invalid day. The duration is not within the trip duration. " +
+            "\nPlease try again.";
 
 
     // Getters
