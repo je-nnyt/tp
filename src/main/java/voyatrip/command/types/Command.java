@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import voyatrip.command.exceptions.InvalidArgumentKeyword;
 import voyatrip.command.exceptions.InvalidArgumentValue;
-import voyatrip.command.exceptions.InvalidDateFormat;
+import voyatrip.command.exceptions.InvalidDate;
 import voyatrip.command.exceptions.InvalidNumberFormat;
 import voyatrip.command.exceptions.InvalidTimeFormat;
 import voyatrip.command.exceptions.MissingArgument;
@@ -21,7 +21,7 @@ public abstract class Command {
     protected void processRawArgument(ArrayList<String> arguments)
             throws InvalidArgumentKeyword,
             InvalidArgumentValue,
-            InvalidDateFormat,
+            InvalidDate,
             InvalidNumberFormat,
             MissingArgument, InvalidTimeFormat{
         for (String argument : arguments) {
@@ -34,6 +34,7 @@ public abstract class Command {
     protected abstract void matchArgument(String argument)
             throws InvalidArgumentKeyword, InvalidDateFormat, InvalidNumberFormat,
             InvalidArgumentValue, InvalidTimeFormat;
+            InvalidDate, MissingArgument;
 
     protected abstract void validateArgument()
             throws InvalidArgumentValue, MissingArgument;

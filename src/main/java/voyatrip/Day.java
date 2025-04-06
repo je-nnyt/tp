@@ -9,7 +9,9 @@ import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import voyatrip.command.exceptions.InvalidArgumentValue;
+
+import voyatrip.command.exceptions.ActivityNotFound;
+import voyatrip.command.exceptions.DuplicatedName;
 import voyatrip.command.exceptions.InvalidCommand;
 import voyatrip.command.exceptions.InvalidIndex;
 import voyatrip.ui.Ui;
@@ -26,7 +28,7 @@ public class Day {
     public void addActivity(Activity activity) throws InvalidCommand {
         if (isContain(activity.getName())) {
             logger.log(Level.WARNING, "Activity already exists");
-            throw new InvalidArgumentValue();
+            throw new DuplicatedName();
         }
         activities.add(activity);
     }
@@ -52,7 +54,7 @@ public class Day {
             }
         }
         logger.log(Level.WARNING, "activity not found");
-        throw new InvalidArgumentValue();
+        throw new ActivityNotFound();
     }
 
     private boolean isContain(String name) {
