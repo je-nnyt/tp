@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import voyatrip.command.exceptions.InvalidArgumentKeyword;
 import voyatrip.command.exceptions.InvalidArgumentValue;
-import voyatrip.command.exceptions.InvalidDateFormat;
+import voyatrip.command.exceptions.InvalidDate;
 import voyatrip.command.exceptions.InvalidNumberFormat;
 import voyatrip.command.exceptions.MissingArgument;
 
@@ -20,7 +20,7 @@ public class ItineraryCommand extends Command {
                             String trip,
                             ArrayList<String> arguments)
             throws InvalidArgumentKeyword,
-            InvalidDateFormat,
+            InvalidDate,
             InvalidArgumentValue,
             InvalidNumberFormat,
             MissingArgument {
@@ -38,7 +38,7 @@ public class ItineraryCommand extends Command {
     protected void processRawArgument(ArrayList<String> arguments)
             throws InvalidArgumentKeyword,
             InvalidArgumentValue,
-            InvalidDateFormat,
+            InvalidDate,
             InvalidNumberFormat,
             MissingArgument {
         super.processRawArgument(arguments);
@@ -50,13 +50,16 @@ public class ItineraryCommand extends Command {
 
     @Override
     protected void matchArgument(String argument)
-            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidArgumentValue {
+            throws InvalidArgumentKeyword, InvalidNumberFormat, MissingArgument {
         String argumentKeyword = argument.split("\\s+")[0];
         String argumentValue = argument.replaceFirst(argumentKeyword, "").strip();
         argumentKeyword = argumentKeyword.toLowerCase();
 
+        if (argumentKeyword.isEmpty()) {
+            throw new InvalidArgumentKeyword();
+        }
         if (argumentValue.isEmpty()) {
-            throw new InvalidArgumentValue();
+            throw new MissingArgument();
         }
 
         try {

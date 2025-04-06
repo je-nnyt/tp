@@ -5,7 +5,9 @@ import java.util.Arrays;
 
 import voyatrip.command.exceptions.InvalidArgumentKeyword;
 import voyatrip.command.exceptions.InvalidArgumentValue;
-import voyatrip.command.exceptions.InvalidDateFormat;
+import voyatrip.command.exceptions.InvalidBudget;
+import voyatrip.command.exceptions.InvalidDay;
+import voyatrip.command.exceptions.InvalidName;
 import voyatrip.command.exceptions.InvalidNumberFormat;
 import voyatrip.command.exceptions.MissingArgument;
 
@@ -25,9 +27,7 @@ public class AccommodationCommand extends Command {
                                 String trip,
                                 ArrayList<String> arguments)
             throws InvalidArgumentKeyword,
-            InvalidDateFormat,
             InvalidArgumentValue,
-            InvalidNumberFormat,
             MissingArgument {
         super(commandAction, commandTarget);
         this.trip = trip;
@@ -48,8 +48,6 @@ public class AccommodationCommand extends Command {
     protected void processRawArgument(ArrayList<String> arguments)
             throws InvalidArgumentKeyword,
             InvalidArgumentValue,
-            InvalidDateFormat,
-            InvalidNumberFormat,
             MissingArgument {
         super.processRawArgument(arguments);
 
@@ -70,13 +68,16 @@ public class AccommodationCommand extends Command {
 
     @Override
     protected void matchArgument(String argument)
-            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidArgumentValue {
+            throws InvalidArgumentKeyword, InvalidNumberFormat, MissingArgument {
         String argumentKeyword = argument.split("\\s+")[0];
         String argumentValue = argument.replaceFirst(argumentKeyword, "").strip();
         argumentKeyword = argumentKeyword.toLowerCase();
 
+        if (argumentKeyword.isEmpty()) {
+            throw new InvalidArgumentKeyword();
+        }
         if (!argumentKeyword.equals("all") && argumentValue.isEmpty()) {
-            throw new InvalidArgumentValue();
+            throw new MissingArgument();
         }
 
         try {
@@ -120,8 +121,14 @@ public class AccommodationCommand extends Command {
         boolean hasStartEndDay = startDay != null && endDay != null;
         boolean isInvalidStartEndDay = hasStartEndDay && (startDay < 0 || endDay < 0 || startDay > endDay);
 
-        if (isInvalidBudget || isInvalidName || isInvalidStartEndDay) {
-            throw new InvalidArgumentValue();
+        if (isInvalidBudget) {
+            throw new InvalidBudget();
+        }
+        if (isInvalidName) {
+            throw new InvalidName();
+        }
+        if (isInvalidStartEndDay) {
+            throw new InvalidDay();
         }
     }
 

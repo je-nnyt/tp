@@ -9,7 +9,9 @@ import java.util.Arrays;
 
 import voyatrip.command.exceptions.InvalidArgumentKeyword;
 import voyatrip.command.exceptions.InvalidArgumentValue;
-import voyatrip.command.exceptions.InvalidDateFormat;
+import voyatrip.command.exceptions.InvalidBudget;
+import voyatrip.command.exceptions.InvalidDate;
+import voyatrip.command.exceptions.InvalidName;
 import voyatrip.command.exceptions.InvalidNumberFormat;
 import voyatrip.command.exceptions.MissingArgument;
 
@@ -29,7 +31,7 @@ public class TripsCommand extends Command {
                         ArrayList<String> arguments)
             throws InvalidArgumentKeyword,
             InvalidArgumentValue,
-            InvalidDateFormat,
+            InvalidDate,
             InvalidNumberFormat,
             MissingArgument {
         super(commandAction, commandTarget);
@@ -47,7 +49,7 @@ public class TripsCommand extends Command {
     protected void processRawArgument(ArrayList<String> arguments)
             throws InvalidArgumentKeyword,
             InvalidArgumentValue,
-            InvalidDateFormat,
+            InvalidDate,
             InvalidNumberFormat,
             MissingArgument {
         super.processRawArgument(arguments);
@@ -101,13 +103,16 @@ public class TripsCommand extends Command {
 
     @Override
     protected void matchArgument(String argument)
-            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidDateFormat, InvalidArgumentValue {
+            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidDate, MissingArgument {
         String argumentKeyword = argument.split("\\s+")[0];
         String argumentValue = argument.replaceFirst(argumentKeyword, "").strip();
         argumentKeyword = argumentKeyword.toLowerCase();
 
+        if (argumentKeyword.isEmpty()) {
+            throw new InvalidArgumentKeyword();
+        }
         if (!argumentKeyword.equals("all") && argumentValue.isEmpty()) {
-            throw new InvalidArgumentValue();
+            throw new MissingArgument();
         }
 
         try {
@@ -127,14 +132,14 @@ public class TripsCommand extends Command {
         }
     }
 
-    private LocalDate parseDate(String date) throws InvalidDateFormat {
+    private LocalDate parseDate(String date) throws InvalidDate {
         try {
             if (date.split("-").length == 2) {
                 date = date + "-" + LocalDate.now().getYear();
             }
             return LocalDate.parse(date, DateTimeFormatter.ofPattern("d-M-yyyy"));
         } catch (DateTimeParseException e) {
-            throw new InvalidDateFormat();
+            throw new InvalidDate();
         }
     }
 
@@ -167,8 +172,14 @@ public class TripsCommand extends Command {
         boolean isInvalidName = !isList && name != null && Arrays.asList(INVALID_NAMES).contains(name);
         boolean isInvalidDate = startDate != null && endDate != null && endDate.isBefore(startDate);
 
-        if (isInvalidBudget || isInvalidName || isInvalidDate) {
-            throw new InvalidArgumentValue();
+        if (isInvalidBudget) {
+            throw new InvalidBudget();
+        }
+        if (isInvalidName) {
+            throw new InvalidName();
+        }
+        if (isInvalidDate) {
+            throw new InvalidDate();
         }
     }
 

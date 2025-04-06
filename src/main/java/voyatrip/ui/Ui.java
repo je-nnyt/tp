@@ -97,6 +97,26 @@ public class Ui {
         }
     }
 
+    public static void printSameTripNameMessage() {
+        System.out.println(Message.SAME_TRIP_NAME_MESSAGE);
+    }
+
+    public static void printSameTripDatesMessage() {
+        System.out.println(Message.SAME_TRIP_DATES_MESSAGE);
+    }
+
+    public static void printSameTripNumDaysMessage() {
+        System.out.println(Message.SAME_TRIP_NUM_DAYS_MESSAGE);
+    }
+
+    public static void printSameTripBudgetMessage() {
+        System.out.println(Message.SAME_TRIP_BUDGET_MESSAGE);
+    }
+
+    public static void printSameTripMessage() {
+        System.out.println(Message.SAME_TRIP_MESSAGE);
+    }
+
     public static void printBudgetPerTransportation(ArrayList<Transportation> transportations) {
         if (transportations.isEmpty()) {
             return;
@@ -135,12 +155,28 @@ public class Ui {
         System.out.println(abbrTripInfo);
     }
 
+    public static void printAccommodationNotFound() {
+        System.out.println(Message.ACCOMMODATION_NOT_FOUND_MESSAGE);
+    }
+
+    public static void printActivityNotFound() {
+        System.out.println(Message.ACTIVITY_NOT_FOUND_MESSAGE);
+    }
+
+    public static void printDuplicatedName() {
+        System.out.println(Message.DUPLICATED_NAME_MESSAGE);
+    }
+
     public static void printInvalidArgumentKeyword() {
         System.out.println(Message.INVALID_ARGUMENT_KEYWORD_MESSAGE);
     }
 
     public static void printInvalidArgumentValue() {
         System.out.println(Message.INVALID_ARGUMENT_VALUE_MESSAGE);
+    }
+
+    public static void printInvalidBudget() {
+        System.out.println(Message.INVALID_BUDGET_MESSAGE);
     }
 
     public static void printInvalidCommand() {
@@ -155,8 +191,16 @@ public class Ui {
         System.out.println(Message.INVALID_COMMAND_TARGET_MESSAGE);
     }
 
-    public static void printInvalidDateFormat() {
-        System.out.println(Message.INVALID_DATE_FORMAT_MESSAGE);
+    public static void printInvalidDate() {
+        System.out.println(Message.INVALID_DATE_MESSAGE);
+    }
+
+    public static void printInvalidDay() {
+        System.out.println(Message.INVALID_DAY_MESSAGE);
+    }
+
+    public static void printInvalidName() {
+        System.out.println(Message.INVALID_NAME_MESSAGE);
     }
 
     public static void printInvalidNumberFormat() {
@@ -169,6 +213,10 @@ public class Ui {
 
     public static void printMissingCommandKeyword() {
         System.out.println(Message.MISSING_COMMAND_KEYWORD_MESSAGE);
+    }
+
+    public static void printTransportationNotFound() {
+        System.out.println(Message.TRANSPORTATION_NOT_FOUND_MESSAGE);
     }
 
     public static void printTripNotFound() {

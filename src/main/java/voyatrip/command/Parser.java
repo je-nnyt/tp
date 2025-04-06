@@ -6,7 +6,7 @@ import voyatrip.command.exceptions.InvalidArgumentKeyword;
 import voyatrip.command.exceptions.InvalidArgumentValue;
 import voyatrip.command.exceptions.InvalidCommandAction;
 import voyatrip.command.exceptions.InvalidCommandTarget;
-import voyatrip.command.exceptions.InvalidDateFormat;
+import voyatrip.command.exceptions.InvalidDate;
 import voyatrip.command.exceptions.InvalidNumberFormat;
 import voyatrip.command.exceptions.MissingArgument;
 import voyatrip.command.exceptions.MissingCommandKeyword;
@@ -68,7 +68,7 @@ public class Parser {
      * @throws InvalidArgumentValue If the argument value is invalid.
      * @throws InvalidCommandTarget If the command target is invalid.
      * @throws InvalidCommandAction If the command action is invalid.
-     * @throws InvalidDateFormat If the date format is invalid.
+     * @throws InvalidDate If the date format is invalid.
      * @throws InvalidNumberFormat If the number format is invalid.
      * @throws MissingArgument If there is missing argument.
      * @throws MissingCommandKeyword If there is missing command keyword.
@@ -78,7 +78,7 @@ public class Parser {
             InvalidArgumentValue,
             InvalidCommandTarget,
             InvalidCommandAction,
-            InvalidDateFormat,
+            InvalidDate,
             InvalidNumberFormat,
             MissingArgument,
             MissingCommandKeyword {
@@ -184,7 +184,7 @@ public class Parser {
             throws InvalidArgumentKeyword,
             InvalidArgumentValue,
             InvalidCommandTarget,
-            InvalidDateFormat,
+            InvalidDate,
             InvalidNumberFormat,
             MissingArgument {
         return switch (commandTarget) {
