@@ -1,5 +1,8 @@
 package voyatrip;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,6 +51,67 @@ public class Accommodation {
     @Override
     public String toString() {
         return "Accommodation at " + name + " from day " + days.get(0) + " to day "
-                + days.get(days.size() - 1) + " with budget $" + budget ;
+                + days.get(days.size() - 1) + " with budget $" + budget;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof Accommodation)) {
+            return false;
+        }
+
+        boolean nameEquals = name.equals(((Accommodation) obj).name);
+        boolean budgetEquals = budget.equals(((Accommodation) obj).budget);
+
+        boolean daysEquals = true;
+        for (int i = 0; i < days.size(); i++) {
+            if (!days.get(i).equals(((Accommodation) obj).days.get(i))) {
+                daysEquals = false;
+                break;
+            }
+        }
+
+        return nameEquals && budgetEquals && daysEquals;
+    }
+
+    // the following methods are for JSON serialization
+
+    /**
+     * Converts the Accommodation object to a JSON object.
+     * @return JSON object representing the Accommodation.
+     */
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("budget", budget);
+
+        JSONArray daysArray = new JSONArray();
+        for (Integer day : days) {
+            daysArray.put(day);
+        }
+        json.put("days", daysArray);
+
+        return json;
+    }
+
+    /**
+     * Converts a JSON object to an Accommodation object.
+     * @param json JSON object representing the Accommodation.
+     * @return Accommodation object.
+     */
+    public static Accommodation fromJson(JSONObject json) {
+        String name = json.getString("name");
+        Integer budget = json.getInt("budget");
+        ArrayList<Integer> days = new ArrayList<>();
+
+        for (Object day : json.getJSONArray("days")) {
+            days.add((Integer) day);
+        }
+
+        return new Accommodation(name, budget, days);
     }
 }

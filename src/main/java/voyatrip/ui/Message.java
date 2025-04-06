@@ -15,6 +15,7 @@ public class Message {
     static final String DELETE_ACCOMMODATION_MESSAGE = "The following accommodation has been deleted from your list! ";
     static final String DELETE_TRANSPORTATION_MESSAGE = "The following transportation has been deleted from" +
             " your list! ";
+    static final String MODIFY_TRANSPORTATION_MESSAGE = "The following transportation has been modified!";
     static final String MODIFY_ACCOMMODATION_MESSAGE = "The following accommodation has been modified to: ";
     static final String LIST_ACCOMMODATION_MESSAGE = "Here is the accommodation: ";
     static final String LIST_TRANSPORTATION_MESSAGE = "Here is the transportation: ";
@@ -24,12 +25,16 @@ public class Message {
 
     // Trip Modification
     static final String MODIFY_TRIP_MESSAGE = "The following trip has been modified to: ";
-    static final String BUDGET_PER_DAY_MESSAGE = "The budget for each day is: ";
+    static final String INVALID_MODIFICATION_DATES_MESSAGE = "Invalid modification dates. Please try again.";
+
+    // budget
     static final String EXCEED_TOTAL_BUDGET_MESSAGE = "Please checkout your total budget."
             + "It seems like you have exceeded your total budget.";
     static final String TOTAL_BUDGET_AGAINST_BUDGET_SUM_MESSAGE
             = "The current budget sum percentage against the total budget is: ";
-    static final String INVALID_MODIFICATION_DATES_MESSAGE = "Invalid modification dates. Please try again.";
+    static final String BUDGET_PER_DAY_MESSAGE = "The budget for each day is: ";
+    static final String BUDGET_PER_TRANSPORTATION_MESSAGE = "The budget for each transportation is: ";
+    static final String BUDGET_PER_ACCOMMODATION_MESSAGE = "The budget for each accommodation is: ";
 
     // list
     static final String LIST_ALL_TRANSPORTATIONS_MESSAGE = "Here are all the transportations under your trip: ";

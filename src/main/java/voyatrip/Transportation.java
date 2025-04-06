@@ -1,5 +1,7 @@
 package voyatrip;
 
+import org.json.JSONObject;
+
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
@@ -11,6 +13,7 @@ public class Transportation {
     private Integer budget;
     private Integer startDay;
     private Integer endDay;
+    private Integer numDays;
     private ArrayList<Integer> days;
 
 
@@ -23,6 +26,7 @@ public class Transportation {
         this.mode = mode;
         this.budget = budget;
         this.days = new ArrayList<>();
+        this.numDays = 0;
         this.startDay = startDay;
         this.endDay = endDay;
 
@@ -31,8 +35,12 @@ public class Transportation {
             days.add(i);
         }
 
+        //calculate numDays
+        calculateNumDay();
+
         logger.log(Level.INFO, "Transportation created");
     }
+
 
     public Integer getBudget() {
         return budget;
@@ -58,9 +66,101 @@ public class Transportation {
         this.mode = mode;
     }
 
+    public Integer getStartDay() {
+        return startDay;
+    }
+
+    public void setStartDay(Integer startDay) {
+        this.startDay = startDay;
+    }
+
+    public Integer getEndDay() {
+        return endDay;
+    }
+
+    public void setEndDay(Integer endDay) {
+        this.endDay = endDay;
+    }
+
+    public Integer getNumDays() {
+        return numDays;
+    }
+
+    public void setNumDays(Integer numDays) {
+        this.numDays = numDays;
+    }
+
     @Override
     public String toString() {
-        return "Transportation by " + mode + " " + name + " from day " + startDay
-                + " to day " + endDay + " with budget $" + budget;
+        return "Transportation by " + mode + " " + name + " from day " + startDay +
+                " to day " + endDay + " with budget $" + budget;
+    }
+
+    private void calculateNumDay() {
+        if (startDay != null && endDay != null) {
+            numDays = endDay - startDay;
+        }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof Transportation)) {
+            return false;
+        }
+
+        boolean nameEquals = name.equals(((Transportation) obj).name);
+        boolean budgetEquals = budget.equals(((Transportation) obj).budget);
+        boolean modeEquals = mode.equals(((Transportation) obj).mode);
+
+        boolean daysEquals = true;
+        for (int i = 0; i < days.size(); i++) {
+            if (!days.get(i).equals(((Transportation) obj).days.get(i))) {
+                daysEquals = false;
+                break;
+            }
+        }
+
+        return nameEquals && budgetEquals && modeEquals && daysEquals;
+    }
+
+    // the following methods are for loading and saving the transportation data
+
+    /**
+     * The method is used to convert the transportation object to a JSON object.
+     * @return JSON object that represents the transportation object.
+     */
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("mode", mode);
+        json.put("budget", budget);
+        json.put("startDay", startDay);
+        json.put("endDay", endDay);
+
+        return json;
+    }
+
+    /**
+     * The method is used to convert the JSON object to a transportation object.
+     * @param json JSON object that represents the transportation object.
+     * @return Transportation object that represents the JSON object.
+     */
+    public static Transportation fromJson(JSONObject json) {
+        String name = json.getString("name");
+        String mode = json.getString("mode");
+        Integer budget = json.getInt("budget");
+        Integer startDay = json.getInt("startDay");
+        Integer endDay = json.getInt("endDay");
+
+        return new Transportation(name, mode, budget, startDay, endDay);
+    }
+
+
+    public void setDays(ArrayList<Integer> days) {
+        this.days = days;
     }
 }

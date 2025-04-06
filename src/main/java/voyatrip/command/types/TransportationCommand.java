@@ -105,8 +105,8 @@ public class TransportationCommand extends Command {
         boolean isMissingAddArgument =
                 name == null || mode == null || budget == null || startDay == null || endDay == null;
         boolean isMissingDeleteArgument = name == null && index == null;
-        boolean isMissingModifyArgument = index == null ||
-                (name == null && mode == null && budget == null && startDay == null && endDay == null);
+        boolean isMissingModifyArgument = index == null || (name == null && mode == null && budget == null
+                && startDay == null && endDay == null);
         boolean isMissingListArgument = name == null && index == null;
 
         if (isAdd && isMissingAddArgument ||
@@ -119,11 +119,12 @@ public class TransportationCommand extends Command {
         boolean isInvalidBudget = budget != null && budget < 0;
         boolean isInvalidName = !isList && name != null && Arrays.asList(INVALID_NAMES).contains(name);
         boolean hasStartEndDay = startDay != null && endDay != null;
-        boolean isInvalidStartEndDay = hasStartEndDay && (startDay < 0 || endDay < 0 || startDay > endDay);
+        boolean isInvalidStartEndDay = hasStartEndDay && (startDay <= 0 || endDay <= 0 || startDay > endDay);
 
         if (isInvalidBudget || isInvalidName || isInvalidStartEndDay) {
             throw new InvalidArgumentValue();
         }
+
     }
 
     public String getTrip() {

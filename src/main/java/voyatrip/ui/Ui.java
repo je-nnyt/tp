@@ -90,10 +90,30 @@ public class Ui {
     }
 
     // Methods for trip modification
-    public static void printBudgetPerDay(ArrayList<Day> itinerary) {
+    public static void printBudgetPerDay(ArrayList<Day> itineraries) {
         System.out.println(Message.BUDGET_PER_DAY_MESSAGE);
-        for (int i = 0; i < itinerary.size(); i++) {
-            System.out.println("Day " + (i + 1) + ": $" + itinerary.get(i).getBudget());
+        for (int i = 0; i < itineraries.size(); i++) {
+            System.out.println("Day " + (i + 1) + ": $" + itineraries.get(i).getBudget());
+        }
+    }
+
+    public static void printBudgetPerTransportation(ArrayList<Transportation> transportations) {
+        if (transportations.isEmpty()) {
+            return;
+        }
+        System.out.println(Message.BUDGET_PER_TRANSPORTATION_MESSAGE);
+        for (int i = 0; i < transportations.size(); i++) {
+            System.out.println((i + 1) + ": $" + transportations.get(i).getBudget());
+        }
+    }
+
+    public static void printBudgetPerAccommodation(ArrayList<Accommodation> accommodations) {
+        if (accommodations.isEmpty()) {
+            return;
+        }
+        System.out.println(Message.BUDGET_PER_ACCOMMODATION_MESSAGE);
+        for (int i = 0; i < accommodations.size(); i++) {
+            System.out.println((i + 1) + ": $" + accommodations.get(i).getBudget());
         }
     }
 
@@ -196,4 +216,10 @@ public class Ui {
         System.out.println(tripInfo.toString().trim());
         System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
+
+    public static void printModifyTransportationMessage(Transportation transportation) {
+        System.out.println(Message.MODIFY_TRANSPORTATION_MESSAGE);
+        System.out.println(transportation);
+    }
+
 }

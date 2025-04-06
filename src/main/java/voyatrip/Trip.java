@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.json.JSONObject;
 import voyatrip.command.exceptions.InvalidArgumentValue;
 import voyatrip.command.exceptions.InvalidCommand;
 import voyatrip.command.exceptions.InvalidIndex;
@@ -23,7 +24,7 @@ public class Trip {
     private Integer numDays;
     private ArrayList<Transportation> transportations;
     private ArrayList<Accommodation> accommodations;
-    private ArrayList<Day> itinerary;
+    private ArrayList<Day> itineraries;
     private Logger logger = Logger.getLogger(Trip.class.getName());
 
     /**
@@ -45,11 +46,11 @@ public class Trip {
         this.totalBudget = totalBudget;
         this.transportations = new ArrayList<>();
         this.accommodations = new ArrayList<>();
-        this.itinerary = new ArrayList<>();
+        this.itineraries = new ArrayList<>();
 
         Float budgetPerDay = (float) totalBudget / numDays;
         for (int i = 0; i < numDays; i++) {
-            itinerary.add(new Day(budgetPerDay));
+            itineraries.add(new Day(budgetPerDay));
         }
         logger.log(Level.INFO, "Finished creating new trip");
     }
@@ -72,6 +73,7 @@ public class Trip {
                 transportBudget, startDay, endDay);
         transportations.add(newTransportation);
         Ui.printAddTransportationMessage(newTransportation);
+        printBudgetStatus();
         logger.log(Level.INFO, "Finished adding transportation");
     }
 
@@ -90,6 +92,7 @@ public class Trip {
             logger.log(Level.INFO, "Deleting transportation");
             Ui.printDeleteTransportationMessage(transportations.get(index - 1));
             transportations.remove(index - 1);
+            printBudgetStatus();
             logger.log(Level.INFO, "Finished deleting transportation");
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
@@ -103,6 +106,7 @@ public class Trip {
             if (transportation.getName().equals(transportName)) {
                 Ui.printDeleteTransportationMessage(transportation);
                 transportations.remove(transportation);
+                printBudgetStatus();
                 logger.log(Level.INFO, "Finished deleting transportation");
                 return;
             }
@@ -113,7 +117,6 @@ public class Trip {
 
     /**
      * This method prints the information of the transportation at the given index.
-     *
      * @param index Index input by user
      * @throws InvalidIndex if invalid index
      */
@@ -141,6 +144,39 @@ public class Trip {
         throw new InvalidArgumentValue();
     }
 
+    public void modifyTransportation(String transportName, String transportMode, Integer transportBudget,
+                                     Integer startDay, Integer endDay, Integer index)  {
+        logger.log(Level.INFO, "Modifying transportation");
+
+        if (transportName != null) {
+            logger.log(Level.INFO, "Starting modifying name");
+            transportations.get(index).setName(transportName);
+            logger.log(Level.INFO, "Finishing modifying name");
+        }
+        if (transportMode != null) {
+            logger.log(Level.INFO, "Starting modifying mode");
+            transportations.get(index).setMode(transportMode);
+            logger.log(Level.INFO, "Finishing modifying mode");
+        }
+        if (transportBudget != null) {
+            logger.log(Level.INFO, "Starting modifying budget");
+            transportations.get(index).setBudget(transportBudget);
+            logger.log(Level.INFO, "Finishing modifying budget");
+        }
+        if (startDay != null) {
+            logger.log(Level.INFO, "Starting modifying startDay");
+            transportations.get(index).setStartDay(startDay);
+            logger.log(Level.INFO, "Finishing modifying startDay");
+        }
+        if (endDay != null) {
+            logger.log(Level.INFO, "Starting modifying endDay");
+            transportations.get(index).setEndDay(endDay);
+            logger.log(Level.INFO, "Finishing modifying endDay");
+        }
+        Ui.printModifyTransportationMessage(transportations.get(index));
+        logger.log(Level.INFO, "Finishing modifying transportation");
+    }
+
     public void addAccommodation(String accommodationName, Integer accommodationBudget,
                                  ArrayList<Integer> accommodationDays) throws InvalidCommand {
         logger.log(Level.INFO, "Adding accommodation");
@@ -151,6 +187,7 @@ public class Trip {
         Accommodation newAccommodation = new Accommodation(accommodationName, accommodationBudget, accommodationDays);
         accommodations.add(newAccommodation);
         Ui.printAddAccommodationMessage(newAccommodation);
+        printBudgetStatus();
         logger.log(Level.INFO, "Finished adding accommodation");
     }
 
@@ -171,6 +208,7 @@ public class Trip {
             logger.log(Level.INFO, "Deleting accommodation");
             Ui.printDeleteAccommodationMessage(accommodations.get(index - 1));
             accommodations.remove(index - 1);
+            printBudgetStatus();
             logger.log(Level.INFO, "Finished deleting accommodation");
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
@@ -182,8 +220,9 @@ public class Trip {
         logger.log(Level.INFO, "Deleting accommodation");
         for (Accommodation accommodation : accommodations) {
             if (accommodation.getName().equals(accommodationName)) {
-                accommodations.remove(accommodation);
                 Ui.printDeleteAccommodationMessage(accommodation);
+                accommodations.remove(accommodation);
+                printBudgetStatus();
                 logger.log(Level.INFO, "Finished deleting accommodation");
                 return;
             }
@@ -195,6 +234,7 @@ public class Trip {
     public void modifyAccommodation(String accommodationName, Integer accommodationBudget,
                                     ArrayList<Integer> accommodationDays, Integer index) throws InvalidCommand {
         try {
+            boolean budgetIsModified = false;
             if (accommodationName != null) {
                 logger.log(Level.INFO, "Modifying accommodation name");
                 accommodations.get(index - 1).setName(accommodationName);
@@ -204,6 +244,7 @@ public class Trip {
             if (accommodationBudget != null) {
                 logger.log(Level.INFO, "Modifying accommodation budget");
                 accommodations.get(index - 1).setBudget(accommodationBudget);
+                budgetIsModified = true;
                 logger.log(Level.INFO, "Finished modifying accommodation budget");
             }
 
@@ -214,6 +255,9 @@ public class Trip {
             }
 
             Ui.printModifyAccommodationMessage(accommodations.get(index - 1));
+            if (budgetIsModified) {
+                printBudgetStatus();
+            }
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
             throw new InvalidIndex();
@@ -248,7 +292,7 @@ public class Trip {
         logger.log(Level.INFO, "Adding activity");
         try {
             Activity newActivity = new Activity(name, time);
-            itinerary.get(day - 1).addActivity(newActivity);
+            itineraries.get(day - 1).addActivity(newActivity);
             Ui.printAddActivityMessage(newActivity);
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
@@ -260,7 +304,7 @@ public class Trip {
     public void deleteActivity(Integer day, Integer index) throws InvalidCommand {
         logger.log(Level.INFO, "Deleting activity");
         try {
-            itinerary.get(day - 1).deleteActivity(index);
+            itineraries.get(day - 1).deleteActivity(index);
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
             throw new InvalidIndex();
@@ -270,7 +314,7 @@ public class Trip {
     public void deleteActivity(Integer day, String name) throws InvalidCommand {
         logger.log(Level.INFO, "Deleting activity");
         try {
-            itinerary.get(day - 1).deleteActivity(name);
+            itineraries.get(day - 1).deleteActivity(name);
         } catch (IndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "Index out of bounds");
             throw new InvalidIndex();
@@ -290,7 +334,39 @@ public class Trip {
             return false;
         }
 
-        return this.name.equals(((Trip) obj).name);
+        Trip trip = (Trip) obj;
+        boolean transportationsEqual = true;
+        for (int i = 0; i < transportations.size(); i++) {
+            if (!(this.transportations.get(i).equals(trip.transportations.get(i)))) {
+                transportationsEqual = false;
+                break;
+            }
+        }
+
+        boolean accommodationsEqual = true;
+        for (int i = 0; i < accommodations.size(); i++) {
+            if (!(this.accommodations.get(i).equals(trip.accommodations.get(i)))) {
+                accommodationsEqual = false;
+                break;
+            }
+        }
+
+        boolean itinerariesEqual = true;
+        for (int i = 0; i < itineraries.size(); i++) {
+            if (!(this.itineraries.get(i).equals(trip.itineraries.get(i)))) {
+                itinerariesEqual = false;
+                break;
+            }
+        }
+
+        return this.name.equals(trip.name)
+                && this.startDate.equals(trip.startDate)
+                && this.endDate.equals(trip.endDate)
+                && this.totalBudget.equals(trip.totalBudget)
+                && this.numDays.equals(trip.numDays)
+                && transportationsEqual
+                && accommodationsEqual
+                && itinerariesEqual;
     }
 
     public void buildAccommodationsInfo(StringBuilder tripInfo) {
@@ -299,42 +375,26 @@ public class Trip {
             tripInfo.append("No accommodations added yet.\n");
         }
 
-        for (Accommodation accommodation : accommodations) {
-            tripInfo.append(accommodation.toString()).append("\n");
+        for (int i = 0; i < accommodations.size(); i++) {
+            tripInfo.append(i + 1).append(". ").append(accommodations.get(i).toString()).append("\n");
         }
     }
 
     public void buildTransportationsInfo(StringBuilder tripInfo) {
         // early return when there are no transportations
-        Integer transportationIndex = 1;
-
         if (transportations.isEmpty()) {
             tripInfo.append("No transportations added yet.\n");
         }
 
-        for (Transportation transportation : transportations) {
-            tripInfo.append(transportationIndex).append(". ").append(transportation.toString()).append("\n");
-            transportationIndex++;
+        for (int i = 0; i < transportations.size(); i++) {
+            tripInfo.append(i + 1).append(". ").append(transportations.get(i).toString()).append("\n");
         }
     }
 
     public void buildItineraryInfo(StringBuilder tripInfo) {
-        boolean hasNoActivity = true;
-        for (int i = 0; i < itinerary.size(); i++) {
-            if (itinerary.get(i).getActivities().isEmpty()) {
-                continue;
-            }
-            // print the heading for the first time
-            if (hasNoActivity) {
-                tripInfo.append("Itinerary: \n");
-                hasNoActivity = false;
-            }
+        for (int i = 0; i < itineraries.size(); i++) {
             tripInfo.append("Day ").append(i + 1).append("\n");
-            tripInfo.append(itinerary.get(i)).append("\n");
-        }
-
-        if (hasNoActivity) {
-            tripInfo.append("No activities added yet.\n");
+            tripInfo.append(itineraries.get(i)).append("\n");
         }
     }
 
@@ -343,14 +403,24 @@ public class Trip {
      */
     public void printBudgetStatus() {
         float budgetSum = 0;
-        for (Day day : itinerary) {
+        for (Day day : itineraries) {
             budgetSum += day.getBudget();
+        }
+
+        for (Transportation transportation : transportations) {
+            budgetSum += transportation.getBudget();
+        }
+
+        for (Accommodation accommodation : accommodations) {
+            budgetSum += accommodation.getBudget();
         }
 
         Ui.printTotalBudgetStatus(totalBudget, budgetSum);
         if (budgetSum > totalBudget) {
             Ui.printExceedTotalBudget();
-            Ui.printBudgetPerDay(itinerary);
+            Ui.printBudgetPerDay(itineraries);
+            Ui.printBudgetPerTransportation(transportations);
+            Ui.printBudgetPerAccommodation(accommodations);
         }
     }
 
@@ -358,17 +428,17 @@ public class Trip {
      * This method is used to correct the size of the day objects according to the number of days in the trip.
      */
     public void updateItinerarySize() {
-        assert(ChronoUnit.DAYS.between(startDate, endDate) + 1 >= 0);
-        int curSize = itinerary.size();
+        assert (ChronoUnit.DAYS.between(startDate, endDate) + 1 >= 0);
+        int curSize = itineraries.size();
         int curNumDays = (int) ChronoUnit.DAYS.between(startDate, endDate) + 1;
 
         if (curSize < curNumDays) {
             for (int i = curSize; i < curNumDays; i++) {
-                itinerary.add(new Day((float) 0));
+                itineraries.add(new Day((float) 0));
             }
         } else if (curSize > curNumDays) {
             for (int i = curSize; i > curNumDays; i--) {
-                itinerary.remove(i - 1);
+                itineraries.remove(i - 1);
             }
         }
     }
@@ -383,11 +453,88 @@ public class Trip {
         StringBuilder tripInfo = new StringBuilder();
         tripInfo.append(abbrInfo()).append("\n");
 
+        tripInfo.append("Itinerary: \n");
         buildItineraryInfo(tripInfo);
+
+        tripInfo.append("Transportations:\n");
         buildTransportationsInfo(tripInfo);
+        tripInfo.append("\n");
+
+        tripInfo.append("Accommodations:\n");
         buildAccommodationsInfo(tripInfo);
 
         return tripInfo.toString().trim();
+    }
+
+    // the following methods are for loading and saving the trip data
+
+    /**
+     * This method is used to convert the trip object to a JSON object.
+     *
+     * @return JSON object representation of the trip.
+     */
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("startDate", startDate.toString());
+        json.put("endDate", endDate.toString());
+        json.put("numDays", numDays);
+        json.put("totalBudget", totalBudget);
+
+        for (Transportation transportation : transportations) {
+            json.append("transportations", transportation.toJson());
+        }
+
+        for (Accommodation accommodation : accommodations) {
+            json.append("accommodations", accommodation.toJson());
+        }
+
+        for (Day day : itineraries) {
+            json.append("itineraries", day.toJson());
+        }
+
+        return json;
+    }
+
+    /**
+     * This method is used to convert the JSON object to a trip object.
+     *
+     * @param jsonObject JSON object representation of the trip.
+     */
+    public static Trip fromJson(JSONObject jsonObject) {
+        String name = jsonObject.getString("name");
+        LocalDate startDate = LocalDate.parse(jsonObject.getString("startDate"));
+        LocalDate endDate = LocalDate.parse(jsonObject.getString("endDate"));
+        Integer numDays = jsonObject.getInt("numDays");
+        Integer totalBudget = jsonObject.getInt("totalBudget");
+
+        Trip trip = new Trip(name, startDate, endDate, numDays, totalBudget);
+
+        if (jsonObject.has("transportations")) {
+            ArrayList<Transportation> transportations = new ArrayList<>();
+            for (Object obj : jsonObject.getJSONArray("transportations")) {
+                transportations.add(Transportation.fromJson((JSONObject) obj));
+            }
+            trip.setTransportations(transportations);
+        }
+
+        if (jsonObject.has("accommodations")) {
+            ArrayList<Accommodation> accommodations = new ArrayList<>();
+            for (Object obj : jsonObject.getJSONArray("accommodations")) {
+                accommodations.add(Accommodation.fromJson((JSONObject) obj));
+            }
+            trip.setAccommodations(accommodations);
+        }
+
+        if (jsonObject.has("itineraries")) {
+            ArrayList<Day> itineraries = new ArrayList<>();
+            for (Object obj : jsonObject.getJSONArray("itineraries")) {
+                itineraries.add(Day.fromJson((JSONObject) obj));
+            }
+            trip.setItineraries(itineraries);
+        }
+
+        return trip;
     }
 
     // setters
@@ -412,6 +559,18 @@ public class Trip {
         this.totalBudget = totalBudget;
     }
 
+    public void setTransportations(ArrayList<Transportation> transportations) {
+        this.transportations = transportations;
+    }
+
+    public void setAccommodations(ArrayList<Accommodation> accommodations) {
+        this.accommodations = accommodations;
+    }
+
+    public void setItineraries(ArrayList<Day> itineraries) {
+        this.itineraries = itineraries;
+    }
+
     // getters
     public LocalDate getStartDate() {
         return startDate;
@@ -421,8 +580,20 @@ public class Trip {
         return endDate;
     }
 
+    public Integer getNumDays() {
+        return numDays;
+    }
+
+    public Integer getTotalBudget() {
+        return totalBudget;
+    }
+
     public Integer getItinerarySize() {
-        return itinerary.size();
+        return itineraries.size();
+    }
+
+    public ArrayList<Transportation> getTransportations() {
+        return transportations;
     }
 }
 
