@@ -62,7 +62,7 @@ public class ItineraryCommand extends Command {
         try {
             switch (argumentKeyword) {
             case "name", "n" -> name = argumentValue;
-            case "time", "t" -> time = LocalTime.parse(argumentValue, DateTimeFormatter.ofPattern("HH:mm"));
+            case "time", "t" -> time = LocalTime.parse(argumentValue, DateTimeFormatter.ofPattern("H:mm"));
             case "day", "d" -> day = Integer.parseInt(argumentValue);
             case "index", "i" -> index = Integer.parseInt(argumentValue);
             default -> throw new InvalidArgumentKeyword();
