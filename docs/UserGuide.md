@@ -127,14 +127,16 @@ Target: `activity`
 
 Required arguments: `name`, `time`, `day`
 
+time must be in the `H:mm` format, where `H` can be 1 or 2 digits from 0 to 23 and `mm` must be 2 digits from 00-59
+
 Example of usage:
 
 ```
 ~/My Trip/ITINERARY >
-add activity --name activity 1 --time 10:00 --day 1
+add activity --name activity 1 --time 9:00 --day 1
 
 ~/My Trip/ITINERARY >
-add --d 1 --t 10:00 --n my activity 1
+add --d 1 --t 9:00 --n my activity 1
 ```
 
 ### Adding new transportation
