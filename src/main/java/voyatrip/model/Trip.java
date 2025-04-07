@@ -342,10 +342,8 @@ public class Trip {
     public void addActivity(Integer day, String name, String time) throws InvalidCommand {
         logger.log(Level.INFO, "Adding activity");
 
-        //verify if duplicate activity
-        validateDuplicateActivity(day, name, time);
-
         try {
+            validateDuplicateActivity(day, name, time);
             Activity newActivity = new Activity(name, time);
             itineraries.get(day - 1).addActivity(newActivity);
             Ui.printAddActivityMessage(newActivity);
@@ -467,7 +465,7 @@ public class Trip {
      * This method print the information of the current trip budget status, ie budget per day and remaining budget.
      */
     public void printBudgetStatus() {
-        final double EPSILON = 1e-2;
+        final double epsilon = 1e-2;
         float budgetSum = 0;
         for (Day day : itineraries) {
             budgetSum += day.getBudget();
@@ -482,7 +480,7 @@ public class Trip {
         }
 
         Ui.printTotalBudgetStatus(totalBudget, budgetSum);
-        if (Math.abs(budgetSum - totalBudget) > EPSILON) {
+        if (Math.abs(budgetSum - totalBudget) > epsilon) {
             Ui.printExceedTotalBudget();
             Ui.printBudgetPerDay(itineraries);
             Ui.printBudgetPerTransportation(transportations);
