@@ -165,7 +165,8 @@ Target: `accommodation`
 Required arguments: `name` , `budget` , `start` (check-in day of accommodation), `end` (check-out day of accommodation)
 
 > ⚠️ Note that checking-in and checking-out at an accommodation on the same day is considered invalid, but checking-out at Hotel A 
-and checking-in at Hotel B on the same day is valid.
+and checking-in at Hotel B on the same day is valid. If users are to stay at the same accommodation in two (or more) different/separated 
+time periods, they are advised to add symbols like (2) for distinguishing purpose, otherwise it would be classified as having duplicate names for accommodations.
 
 Example of usage:
 
@@ -215,10 +216,10 @@ Required arguments: `index`
 
 Arguments: `name`, `budget`, `start` (check-in day of accommodation), `end` (check-out day of accommodation)
 
-> ⚠️ Note that changing the name of an accommodation to the same name it had is considered as having duplicate names, which is invalid.
+> ⚠️ Note that changing the name of an accommodation to the same name it had is considered as having duplicate names, no modification(s) will be done.
 
 > ⚠️ Note that if you are changing the days of accommodation of a saved accommodation, 
-you should provide both the new check-in and check-out days.
+you should provide both the new check-in and check-out days, even if one of them stays the same.
 
 > ⚠️ See the special note at listing accommodation(s) for more details about accommodation indexes.
 
@@ -255,6 +256,8 @@ modify transportation --i 1 --d 3 --b 1200
 ## Deleting
 
 The `delete` or `remove` command will delete the item specified with the argument `index` or `name` in the specified target. Maybe shorten as `d` or `rm`.
+
+Note that if you give argument values for both argument `--index` and `--name`, the priority will be given to `--name`, i.e. delete by name.
 
 ### Deleting a trip
 
@@ -313,6 +316,8 @@ delete --n Hilton Hotel
 ## Listing
 
 List command will list the item(s) in the target specified by index or name. In the case of wanting to list all the item in the target, use the special argument `--all` that does not take any argument value or use `all` as the argument value for the argument `name`.
+
+Note that if you give argument values for both argument `--index` and `--name`, the priority will be given to `--name`, i.e. list by name.
 
 Note that if you give any argument value for the argument `--all`, the values will be ignored.
 
