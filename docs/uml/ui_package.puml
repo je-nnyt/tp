@@ -1,0 +1,19 @@
+@startuml
+hide circle
+
+package "UI" {
+  class Ui {
+  {static}-IN: Scanner
+  {static}+readInput(): String
+  {static}+printMessage(Object): void
+  }
+
+  class Message {
+  {static}+Message: String
+  }
+
+  Ui ..> Message
+}
+
+Logic ..> Ui
+@enduml
