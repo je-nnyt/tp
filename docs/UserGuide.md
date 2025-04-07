@@ -2,7 +2,9 @@
 
 ## Introduction
 
-VoyaTrip is a command-line application for managing trips. It also includes a budget system for keeping track of the budget of the trip.
+VoyaTrip is a command-line application for managing trips optimized for users that can type fast on a keyboard.
+It also includes a budget system for keeping track of the budget of the trip.
+
 
 ## Quick Start
 
@@ -10,7 +12,7 @@ VoyaTrip is a command-line application for managing trips. It also includes a bu
 2. Download the latest version of `VoyaTrip` from  [Placeholder](https://).
 3. Open a terminal and `cd` to where the jar file is located
 4. Run the following command:  `java -jar JAR_FILE_NAME`
-5. Enter any command listed below
+5. Enter any command listed from the features section
 
 ## Features
 
