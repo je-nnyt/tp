@@ -2,6 +2,7 @@ package voyatrip;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
+import voyatrip.model.Transportation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

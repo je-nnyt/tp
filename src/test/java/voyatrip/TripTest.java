@@ -11,11 +11,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 
 
-import voyatrip.command.exceptions.AccommodationNotFound;
-import voyatrip.command.exceptions.DuplicatedName;
-import voyatrip.command.exceptions.InvalidCommand;
-import voyatrip.command.exceptions.InvalidDay;
-import voyatrip.command.exceptions.InvalidIndex;
+import voyatrip.logic.command.exceptions.AccommodationNotFound;
+import voyatrip.logic.command.exceptions.DuplicatedName;
+import voyatrip.logic.command.exceptions.InvalidCommand;
+import voyatrip.logic.command.exceptions.InvalidDay;
+import voyatrip.logic.command.exceptions.InvalidIndex;
+
+import voyatrip.model.Accommodation;
+import voyatrip.model.Activity;
+import voyatrip.model.Day;
+import voyatrip.model.Transportation;
+import voyatrip.model.Trip;
 
 public class TripTest {
 
