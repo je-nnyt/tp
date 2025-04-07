@@ -67,8 +67,7 @@ public class TransportationCommand extends Command {
     }
 
     @Override
-    protected void matchArgument(String argument)
-            throws InvalidArgumentKeyword, InvalidNumberFormat, MissingArgument {
+    protected void matchArgument(String argument) throws InvalidArgumentKeyword, InvalidArgumentValue {
         String argumentKeyword = argument.split("\\s+")[0];
         String argumentValue = argument.replaceFirst(argumentKeyword, "").strip();
         argumentKeyword = argumentKeyword.toLowerCase();
@@ -77,7 +76,7 @@ public class TransportationCommand extends Command {
             throw new InvalidArgumentKeyword();
         }
         if (!argumentKeyword.equals("all") && argumentValue.isEmpty()) {
-            throw new MissingArgument();
+            throw new InvalidArgumentValue();
         }
 
         try {
