@@ -133,14 +133,16 @@ Required arguments:
 
 Name of the activity should be unique among the activities of the same day.
 
+time must be in the `H:mm` format, where `H` can be 1 or 2 digits from 0 to 23 and `mm` must be 2 digits from 00-59
+
 Example of usage:
 
 ```
 ~/My Trip/ITINERARY >
-add activity --name activity 1 --time 10:00 --day 1
+add activity --name activity 1 --time 9:00 --day 1
 
 ~/My Trip/ITINERARY >
-add --d 1 --t 10:00 --n my activity 1
+add --d 1 --t 9:00 --n my activity 1
 ```
 
 ### Adding new transportation
@@ -277,6 +279,22 @@ Target: `trip`
 
 Required arguments: 
 - `index` or `name`
+
+Example of usage: deleting trip named "my trip" with index 1
+
+```
+~ >
+delete trip --index 1
+
+~ >
+rm --n my trip
+```
+
+### Deleting an activity
+
+Target: `activity`
+
+Required arguments: `index` or `name`, and `day`
 
 Example of usage: deleting trip named "my trip" with index 1
 

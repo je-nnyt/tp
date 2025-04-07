@@ -3,10 +3,11 @@ package voyatrip.command;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import voyatrip.command.types.Command;
-import voyatrip.command.types.CommandAction;
-import voyatrip.command.types.CommandTarget;
-import voyatrip.command.types.TripsCommand;
+import voyatrip.logic.command.Parser;
+import voyatrip.logic.command.types.Command;
+import voyatrip.logic.command.types.CommandAction;
+import voyatrip.logic.command.types.CommandTarget;
+import voyatrip.logic.command.types.TripsCommand;
 
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -28,7 +29,7 @@ class ParserTest {
             Command command = parser.parse("add trip --name Vietnam --start 1-5 --end 7-5 --budget 1000\n");
             assertEquals(CommandAction.ADD, command.getCommandAction());
             assertEquals(CommandTarget.TRIP, command.getCommandTarget());
-            TripsCommand tripsCommand = (voyatrip.command.types.TripsCommand) command;
+            TripsCommand tripsCommand = (TripsCommand) command;
             assertEquals("Vietnam", tripsCommand.getName());
             assertEquals(tripsCommand.getStartDate(), LocalDate.of(LocalDate.now().getYear(), 5, 1));
             assertEquals(tripsCommand.getEndDate(), LocalDate.of(LocalDate.now().getYear(), 5, 7));
@@ -42,7 +43,7 @@ class ParserTest {
             Command command = parser.parse("add --name Vietnam --start 1-5 --end 7-5 --budget 1000\n");
             assertEquals(CommandAction.ADD, command.getCommandAction());
             assertEquals(CommandTarget.TRIP, command.getCommandTarget());
-            TripsCommand tripsCommand = (voyatrip.command.types.TripsCommand) command;
+            TripsCommand tripsCommand = (TripsCommand) command;
             assertEquals("Vietnam", tripsCommand.getName());
             assertEquals(tripsCommand.getStartDate(), LocalDate.of(LocalDate.now().getYear(), 5, 1));
             assertEquals(tripsCommand.getEndDate(), LocalDate.of(LocalDate.now().getYear(), 5, 7));

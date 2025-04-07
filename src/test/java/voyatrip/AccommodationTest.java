@@ -3,6 +3,7 @@ package voyatrip;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
+import voyatrip.model.Accommodation;
 
 import java.util.ArrayList;
 import java.util.List;
