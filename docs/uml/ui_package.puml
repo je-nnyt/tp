@@ -3,7 +3,7 @@ hide circle
 
 package "UI" {
   class Ui {
-  {static}-IN: Scanner
+  {static}IN: Scanner
   {static}+readInput(): String
   {static}+printMessage(Object): void
   }

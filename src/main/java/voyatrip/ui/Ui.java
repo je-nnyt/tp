@@ -14,7 +14,7 @@ import java.util.Scanner;
  * This class contains all the methods to access the user interface messages that will be displayed to the user.
  */
 public class Ui {
-    static private final Scanner IN = new Scanner(System.in);
+    static final Scanner IN = new Scanner(System.in);
 
     public static String readInput() {
         return IN.nextLine();
