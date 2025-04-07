@@ -1,18 +1,24 @@
 package voyatrip.ui;
 
-import voyatrip.Accommodation;
-import voyatrip.Activity;
-import voyatrip.Day;
-import voyatrip.command.Parser;
-import voyatrip.Transportation;
-import voyatrip.Trip;
+import voyatrip.model.Accommodation;
+import voyatrip.model.Activity;
+import voyatrip.model.Day;
+import voyatrip.logic.command.Parser;
+import voyatrip.model.Transportation;
+import voyatrip.model.Trip;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * This class contains all the methods to access the user interface messages that will be displayed to the user.
  */
 public class Ui {
+    static private final Scanner IN = new Scanner(System.in);
+
+    public static String readInput() {
+        return IN.nextLine();
+    }
 
     public static void printWelcomeMessage() {
         System.out.println(Message.WELCOME_MESSAGE);
