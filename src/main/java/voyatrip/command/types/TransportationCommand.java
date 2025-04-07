@@ -96,6 +96,7 @@ public class TransportationCommand extends Command {
                 commandAction == CommandAction.DELETE_BY_NAME;
         boolean isModify = commandAction == CommandAction.MODIFY;
         boolean isList = commandAction == CommandAction.LIST;
+        boolean isChangeDirectory = commandAction == CommandAction.CHANGE_DIRECTORY;
 
         boolean isMissingAddArgument =
                 name == null || mode == null || budget == null || day == null;
@@ -103,6 +104,8 @@ public class TransportationCommand extends Command {
         boolean isMissingModifyArgument = index == null ||
                 (name == null && mode == null && budget == null && day == null);
         boolean isMissingListArgument = name == null && index == null;
+        boolean isInvalidChangeDirectoryArgument = name != null || index != null || mode != null
+                || budget != null || day != null;
 
         if (isAdd && isMissingAddArgument ||
                 isDelete && isMissingDeleteArgument ||
@@ -114,7 +117,7 @@ public class TransportationCommand extends Command {
         boolean isInvalidBudget = budget != null && budget < 0;
         boolean isInvalidName = !isList && name != null && Arrays.asList(INVALID_NAMES).contains(name);
 
-        if (isInvalidBudget || isInvalidName) {
+        if (isInvalidBudget || isInvalidName || isInvalidChangeDirectoryArgument && isChangeDirectory) {
             throw new InvalidArgumentValue();
         }
     }
