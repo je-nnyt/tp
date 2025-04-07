@@ -205,14 +205,17 @@ public class TripTest {
     @Test
     void modifyAccommodation_overlappingAccommodationDays_failure() throws InvalidCommand {
         ArrayList<Integer> days = new ArrayList<>();
+        days.add(5);
+        days.add(6);
+        trip.addAccommodation("Park Hyatt Saigon", 600, days);
+        days.clear();
         days.add(3);
         days.add(4);
         days.add(5);
-        trip.addAccommodation("Park Hyatt Saigon", 600, days);
-        days.remove(0);
+        trip.addAccommodation("Lotte Hotel Saigon", 1200, days);
         days.add(6);
         Assertions.assertThrows(InvalidDay.class, () ->
-                trip.modifyAccommodation("Lotte Hotel Saigon", 1200, days, 1));
+                trip.modifyAccommodation(null, null, days, 1));
     }
 
     @Test

@@ -217,7 +217,8 @@ public class Trip {
         }
     }
 
-    private void validateAccommodationDays(ArrayList<Integer> newAccommodationDays, ArrayList<Integer> oldAccommodationDays) throws InvalidArgumentValue {
+    private void validateAccommodationDays(ArrayList<Integer> newAccommodationDays,
+                                           ArrayList<Integer> oldAccommodationDays) throws InvalidArgumentValue {
         if (newAccommodationDays.size() == 1) {
             logger.log(Level.WARNING, "Check-in and check-out are on the same day");
             throw new InvalidDay();
@@ -234,9 +235,11 @@ public class Trip {
         }
     }
 
-    private boolean hasAccommodationOverlap(ArrayList<Integer> newAccommodationDays, ArrayList<Integer> oldAccommodationDays) {
+    private boolean hasAccommodationOverlap(ArrayList<Integer> newAccommodationDays,
+                                            ArrayList<Integer> oldAccommodationDays) {
         for (Accommodation accommodation : accommodations) {
-            if (!Objects.equals(oldAccommodationDays, accommodation.getDays()) && isDaysOverlap(newAccommodationDays, accommodation.getDays())) {
+            if (!Objects.equals(oldAccommodationDays, accommodation.getDays())
+                    && isDaysOverlap(newAccommodationDays, accommodation.getDays())) {
                 return true;
             }
         }
