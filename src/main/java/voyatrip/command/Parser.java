@@ -9,6 +9,7 @@ import voyatrip.command.exceptions.InvalidCommandTarget;
 import voyatrip.command.exceptions.InvalidDate;
 import voyatrip.command.exceptions.InvalidNumberFormat;
 import voyatrip.command.exceptions.InvalidScope;
+import voyatrip.command.exceptions.InvalidTimeFormat;
 import voyatrip.command.exceptions.MissingArgument;
 import voyatrip.command.exceptions.MissingCommandKeyword;
 import voyatrip.command.types.AccommodationCommand;
@@ -84,7 +85,7 @@ public class Parser {
             InvalidNumberFormat,
             InvalidScope,
             MissingArgument,
-            MissingCommandKeyword {
+            MissingCommandKeyword, InvalidTimeFormat {
         CommandAction commandAction = extractCommandAction(command);
 
         // Exception case: no argument command exit
@@ -184,7 +185,7 @@ public class Parser {
             InvalidCommandTarget,
             InvalidDate,
             InvalidNumberFormat,
-            MissingArgument {
+            MissingArgument, InvalidTimeFormat {
         return switch (commandTarget) {
         case TRIP -> new TripsCommand(commandAction, commandTarget, arguments);
         case ITINERARY, ACTIVITY -> new ItineraryCommand(commandAction, commandTarget, currentTrip, arguments);

@@ -1,17 +1,21 @@
 package voyatrip.command.types;
 
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.time.LocalTime;
 
 import voyatrip.command.exceptions.InvalidArgumentKeyword;
 import voyatrip.command.exceptions.InvalidArgumentValue;
 import voyatrip.command.exceptions.InvalidDate;
 import voyatrip.command.exceptions.InvalidNumberFormat;
+import voyatrip.command.exceptions.InvalidTimeFormat;
 import voyatrip.command.exceptions.MissingArgument;
 
 public class ItineraryCommand extends Command {
     private String trip;
     private String name;
-    private String time;
+    private LocalTime time;
     private Integer day;
     private Integer index;
 
@@ -23,7 +27,7 @@ public class ItineraryCommand extends Command {
             InvalidDate,
             InvalidArgumentValue,
             InvalidNumberFormat,
-            MissingArgument {
+            MissingArgument, InvalidTimeFormat {
         super(commandAction, commandTarget);
         this.trip = trip;
         name = null;
@@ -40,7 +44,7 @@ public class ItineraryCommand extends Command {
             InvalidArgumentValue,
             InvalidDate,
             InvalidNumberFormat,
-            MissingArgument {
+            MissingArgument, InvalidTimeFormat {
         super.processRawArgument(arguments);
 
         if (commandAction == CommandAction.DELETE_BY_INDEX && name != null) {
@@ -50,7 +54,9 @@ public class ItineraryCommand extends Command {
 
     @Override
     protected void matchArgument(String argument)
-            throws InvalidArgumentKeyword, InvalidNumberFormat, MissingArgument {
+            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidArgumentValue, 
+            InvalidTimeFormat, MissingArgument {
+
         String argumentKeyword = argument.split("\\s+")[0];
         String argumentValue = argument.replaceFirst(argumentKeyword, "").strip();
         argumentKeyword = argumentKeyword.toLowerCase();
@@ -65,13 +71,15 @@ public class ItineraryCommand extends Command {
         try {
             switch (argumentKeyword) {
             case "name", "n" -> name = argumentValue;
-            case "time", "t" -> time = argumentValue;
+            case "time", "t" -> time = LocalTime.parse(argumentValue, DateTimeFormatter.ofPattern("H:mm"));
             case "day", "d" -> day = Integer.parseInt(argumentValue);
             case "index", "i" -> index = Integer.parseInt(argumentValue);
             default -> throw new InvalidArgumentKeyword();
             }
         } catch (NumberFormatException e) {
             throw new InvalidNumberFormat();
+        } catch (DateTimeParseException e) {
+            throw new InvalidTimeFormat();
         }
     }
 
@@ -102,7 +110,7 @@ public class ItineraryCommand extends Command {
     }
 
     public String getTime() {
-        return time;
+        return time.format(DateTimeFormatter.ofPattern("HH:mm"));
     }
 
     public Integer getDay() {

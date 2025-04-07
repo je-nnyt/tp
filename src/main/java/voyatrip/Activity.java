@@ -15,6 +15,10 @@ public class Activity {
         return name;
     }
 
+    public String getTime() {
+        return time;
+    }
+
     @Override
     public String toString() {
         return name + " at " + time;

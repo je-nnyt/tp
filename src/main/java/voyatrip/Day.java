@@ -1,5 +1,7 @@
 package voyatrip;
 
+import java.time.LocalTime;
+import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -56,8 +58,8 @@ public class Day {
     }
 
     private boolean isContain(String name) {
-        for (int i = 0; i < activities.size(); i++) {
-            if (activities.get(i).getName().equals(name)) {
+        for (Activity activity : activities) {
+            if (activity.getName().equals(name)) {
                 return true;
             }
         }
@@ -72,8 +74,14 @@ public class Day {
         if (activities.isEmpty()) {
             sb.append("No activities added yet.\n");
         }
-        for (int i = 0; i < activities.size(); i++) {
-            sb.append(i + 1).append(": ").append(activities.get(i)).append("\n");
+
+        //sort activities by time
+        ArrayList<Activity> sortedActivities = new ArrayList<>(activities);
+        sortedActivities.sort(Comparator.comparing(activity -> LocalTime.parse(activity.getTime())));
+
+        //print activities
+        for (int i = 0; i < sortedActivities.size(); i++) {
+            sb.append(i + 1).append(": ").append(sortedActivities.get(i)).append("\n");
         }
         return sb.toString();
     }

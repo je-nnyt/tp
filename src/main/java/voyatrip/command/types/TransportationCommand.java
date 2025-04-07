@@ -9,6 +9,7 @@ import voyatrip.command.exceptions.InvalidBudget;
 import voyatrip.command.exceptions.InvalidDate;
 import voyatrip.command.exceptions.InvalidName;
 import voyatrip.command.exceptions.InvalidNumberFormat;
+import voyatrip.command.exceptions.InvalidTimeFormat;
 import voyatrip.command.exceptions.MissingArgument;
 
 public class TransportationCommand extends Command {
@@ -29,7 +30,7 @@ public class TransportationCommand extends Command {
             InvalidArgumentValue,
             InvalidDate,
             InvalidNumberFormat,
-            MissingArgument {
+            MissingArgument, InvalidTimeFormat {
         super(commandAction, commandTarget);
         this.trip = trip;
         name = null;
@@ -47,7 +48,7 @@ public class TransportationCommand extends Command {
             InvalidArgumentValue,
             InvalidDate,
             InvalidNumberFormat,
-            MissingArgument {
+            MissingArgument, InvalidTimeFormat{
         super.processRawArgument(arguments);
 
         processCommandVariation();

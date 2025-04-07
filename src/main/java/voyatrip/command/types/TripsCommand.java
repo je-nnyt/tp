@@ -13,6 +13,7 @@ import voyatrip.command.exceptions.InvalidBudget;
 import voyatrip.command.exceptions.InvalidDate;
 import voyatrip.command.exceptions.InvalidName;
 import voyatrip.command.exceptions.InvalidNumberFormat;
+import voyatrip.command.exceptions.InvalidTimeFormat;
 import voyatrip.command.exceptions.MissingArgument;
 
 public class TripsCommand extends Command {
@@ -33,7 +34,7 @@ public class TripsCommand extends Command {
             InvalidArgumentValue,
             InvalidDate,
             InvalidNumberFormat,
-            MissingArgument {
+            MissingArgument, InvalidTimeFormat {
         super(commandAction, commandTarget);
         name = null;
         startDate = null;
@@ -51,7 +52,7 @@ public class TripsCommand extends Command {
             InvalidArgumentValue,
             InvalidDate,
             InvalidNumberFormat,
-            MissingArgument {
+            MissingArgument, InvalidTimeFormat {
         super.processRawArgument(arguments);
 
         calculateNumDay();

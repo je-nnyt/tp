@@ -17,10 +17,12 @@ import voyatrip.command.exceptions.InvalidCommand;
 import voyatrip.command.exceptions.InvalidDay;
 import voyatrip.command.exceptions.InvalidCommandAction;
 import voyatrip.command.exceptions.InvalidCommandTarget;
+import voyatrip.command.exceptions.InvalidDuplicateActivity;
 import voyatrip.command.exceptions.InvalidDate;
 import voyatrip.command.exceptions.InvalidName;
 import voyatrip.command.exceptions.InvalidNumberFormat;
 import voyatrip.command.exceptions.InvalidScope;
+import voyatrip.command.exceptions.InvalidTimeFormat;
 import voyatrip.command.exceptions.MissingArgument;
 import voyatrip.command.exceptions.MissingCommandKeyword;
 import voyatrip.command.exceptions.InvalidIndex;
@@ -163,6 +165,12 @@ public class VoyaTrip {
         } catch (TripNotFoundException e) {
             logger.log(Level.WARNING, "Trip not found");
             Ui.printTripNotFound();
+        } catch (InvalidTimeFormat e){
+            logger.log(Level.WARNING, "Invalid time format");
+            Ui.printInvalidTimeFormat();
+        }  catch (InvalidDuplicateActivity e){
+            logger.log(Level.WARNING, "Duplicate activity");
+            Ui.printInvalidDuplicateActivity();
         } catch (InvalidArgumentValue e) {
             logger.log(Level.WARNING, "Invalid argument value");
             Ui.printInvalidArgumentValue();
@@ -238,7 +246,7 @@ public class VoyaTrip {
         }
     }
 
-    private static void handleTransportation(TransportationCommand command) throws InvalidCommand{
+    private static void handleTransportation(TransportationCommand command) throws InvalidCommand {
         logger.log(Level.INFO, "Starting handleTransportation");
         switch (command.getCommandAction()) {
         case ADD -> executeAddTransportation(command);
@@ -353,6 +361,7 @@ public class VoyaTrip {
         Ui.printItinerary(trips.get(command.getTrip()));
         logger.log(Level.INFO, "Finished executeListItinerary");
     }
+
 
     private static void executeListAccommodationByIndex(AccommodationCommand command) throws InvalidCommand {
         logger.log(Level.INFO, "Starting executeListAccommodationByIndex");

@@ -9,6 +9,7 @@ import voyatrip.command.exceptions.InvalidBudget;
 import voyatrip.command.exceptions.InvalidDay;
 import voyatrip.command.exceptions.InvalidName;
 import voyatrip.command.exceptions.InvalidNumberFormat;
+import voyatrip.command.exceptions.InvalidTimeFormat;
 import voyatrip.command.exceptions.MissingArgument;
 
 public class AccommodationCommand extends Command {
@@ -28,7 +29,8 @@ public class AccommodationCommand extends Command {
                                 ArrayList<String> arguments)
             throws InvalidArgumentKeyword,
             InvalidArgumentValue,
-            MissingArgument {
+            InvalidNumberFormat,
+            MissingArgument, InvalidTimeFormat {
         super(commandAction, commandTarget);
         this.trip = trip;
         name = null;
@@ -48,7 +50,8 @@ public class AccommodationCommand extends Command {
     protected void processRawArgument(ArrayList<String> arguments)
             throws InvalidArgumentKeyword,
             InvalidArgumentValue,
-            MissingArgument {
+            InvalidNumberFormat,
+            MissingArgument, InvalidTimeFormat {
         super.processRawArgument(arguments);
 
         processCommandVariation();

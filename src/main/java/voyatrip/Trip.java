@@ -14,6 +14,7 @@ import voyatrip.command.exceptions.AccommodationNotFound;
 import voyatrip.command.exceptions.DuplicatedName;
 import voyatrip.command.exceptions.InvalidArgumentValue;
 import voyatrip.command.exceptions.InvalidCommand;
+import voyatrip.command.exceptions.InvalidDuplicateActivity;
 import voyatrip.command.exceptions.InvalidDay;
 import voyatrip.command.exceptions.InvalidIndex;
 import voyatrip.command.exceptions.TransportationNotFound;
@@ -340,6 +341,10 @@ public class Trip {
 
     public void addActivity(Integer day, String name, String time) throws InvalidCommand {
         logger.log(Level.INFO, "Adding activity");
+
+        //verify if duplicate activity
+        validateDuplicateActivity(day, name, time);
+
         try {
             Activity newActivity = new Activity(name, time);
             itineraries.get(day - 1).addActivity(newActivity);
@@ -350,6 +355,15 @@ public class Trip {
         }
         logger.log(Level.INFO, "Finished adding activity");
     }
+
+    private void validateDuplicateActivity(Integer day, String name, String time) throws InvalidDuplicateActivity {
+        for (Activity activity : itineraries.get(day - 1).getActivities()) {
+            if (activity.getName().equals(name) && activity.getTime().equals(time)) {
+                throw new InvalidDuplicateActivity();
+            }
+        }
+    }
+
 
     public void deleteActivity(Integer day, Integer index) throws InvalidCommand {
         logger.log(Level.INFO, "Deleting activity");
@@ -370,6 +384,7 @@ public class Trip {
             throw new InvalidDay();
         }
     }
+
 
     public String abbrInfo() {
         return name + ": " + startDate + "->" + endDate + " (days: " + numDays + ", budget: " + totalBudget + ")";

@@ -13,6 +13,7 @@ import java.util.ArrayList;
  * This class contains all the methods to access the user interface messages that will be displayed to the user.
  */
 public class Ui {
+
     public static void printWelcomeMessage() {
         System.out.println(Message.WELCOME_MESSAGE);
     }
@@ -229,6 +230,14 @@ public class Ui {
 
     public static void printInvalidIndex() {
         System.out.println(Message.INVALID_INDEX_MESSAGE);
+    }
+
+    public static void printInvalidTimeFormat() {
+        System.out.println(Message.INVALID_TIME_FORMAT_MESSAGE);
+    }
+
+    public static void printInvalidDuplicateActivity() {
+        System.out.println(Message.INVALID_DUPLICATE_ACTIVITY);
     }
 
     public static void printListTransportationMessage(Transportation transportation) {
