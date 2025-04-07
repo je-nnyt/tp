@@ -38,10 +38,8 @@ public class Message {
 
 
     // budget
-    static final String EXCEED_TOTAL_BUDGET_MESSAGE = "Please checkout your total budget."
-            + "It seems like you have exceeded your total budget.";
-    static final String TOTAL_BUDGET_AGAINST_BUDGET_SUM_MESSAGE
-            = "The current budget sum percentage against the total budget is: ";
+    static final String EXCEED_TOTAL_BUDGET_BY_MESSAGE = "Please checkout your total budget."
+            + "It seems like you have exceeded your total budget by: ";
     static final String BUDGET_PER_DAY_MESSAGE = "The budget for each day is: ";
     static final String BUDGET_PER_TRANSPORTATION_MESSAGE = "The budget for each transportation is: ";
     static final String BUDGET_PER_ACCOMMODATION_MESSAGE = "The budget for each accommodation is: ";

@@ -517,9 +517,9 @@ public class Trip {
             budgetSum += accommodation.getBudget();
         }
 
-        Ui.printTotalBudgetStatus(totalBudget, budgetSum);
-        if (budgetSum - totalBudget > EPSILON) {
-            Ui.printExceedTotalBudget();
+        float exceededBudget = budgetSum - totalBudget;
+        if (exceededBudget > EPSILON) {
+            Ui.printExceedTotalBudget(exceededBudget);
             Ui.printBudgetPerDay(itineraries);
             Ui.printBudgetPerTransportation(transportations);
             Ui.printBudgetPerAccommodation(accommodations);
