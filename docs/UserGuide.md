@@ -82,7 +82,9 @@ cd trip
 
 Target: `itinerary`, `transportation` or `accommodation`
 
-No required arguments
+No arguments required
+
+Note: User must be in a trip directory to cd to the desired component
 
 Example of usage: change directory to the `accommodation` component of the current trip
 
