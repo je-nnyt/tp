@@ -67,6 +67,14 @@ public class Trip {
         return name;
     }
 
+    /**
+     * This method adds a transportation to the list of transportation found in the trip
+     *
+     * @param transportName   Name of the transportation
+     * @param transportMode   Name of the transport
+     * @param transportBudget Budget allocated to the transportation
+     * @param day             Day of the trip on which this transportation is used
+     */
     public void addTransportation(String transportName,
                                   String transportMode,
                                   Integer transportBudget,
@@ -84,14 +92,25 @@ public class Trip {
         Ui.printAddTransportationMessage(newTransportation);
         printBudgetStatus();
         logger.log(Level.INFO, "Finished adding transportation");
+
     }
 
+    /**
+     * This method verifies if the day is within the trip duration
+     *
+     * @param day Day associated to the transportation
+     */
     private void validateTransportationDay(Integer day) throws InvalidArgumentValue {
         if (day < 1 || day > numDays) {
             throw new InvalidDay();
         }
     }
 
+    /**
+     * This method verifies if a given transportation exists in the trip
+     *
+     * @param transportName Name of the transportation
+     */
     public boolean isContainsTransportation(String transportName) {
         logger.log(Level.INFO, "Checking if transportation exists");
         for (Transportation transportation : transportations) {
@@ -102,6 +121,11 @@ public class Trip {
         return false;
     }
 
+    /**
+     * This method deletes a transportation from the trip by providing its index
+     *
+     * @param index Associated transportation index to delete from the trip
+     */
     public void deleteTransportation(Integer index) throws InvalidCommand {
         try {
             logger.log(Level.INFO, "Deleting transportation");
@@ -115,6 +139,12 @@ public class Trip {
         }
     }
 
+    /**
+     * This method deletes a transportation from the trip by providing its name.
+     *
+     * @param transportName Associated transportation name to delete from the trip.
+     * @throws TransportationNotFound if invalid name provided.
+     */
     public void deleteTransportation(String transportName) throws InvalidCommand {
         logger.log(Level.INFO, "Deleting transportation");
         for (Transportation transportation : transportations) {
@@ -131,9 +161,9 @@ public class Trip {
     }
 
     /**
-     * This method prints the information of the transportation at the given index.
-     * @param index Index input by user
-     * @throws InvalidIndex if invalid index
+     * This method prints the transportation details by providing its associated index.
+     * @param index Index input by user.
+     * @throws InvalidIndex if invalid index provided.
      */
     public void listTransportation(Integer index) throws InvalidCommand {
         logger.log(Level.INFO, "Listing transportation");
@@ -146,6 +176,11 @@ public class Trip {
         }
     }
 
+    /**
+     * This method prints the transportation details by providing the transportation name.
+     * @param name Transportation Name input by user.
+     * @throws TransportationNotFound if invalid name provided.
+     */
     public void listTransportation(String name) throws InvalidCommand {
         logger.log(Level.INFO, "Listing transportation");
         for (Transportation transportation : transportations) {
@@ -159,6 +194,15 @@ public class Trip {
         throw new TransportationNotFound();
     }
 
+    /**
+     * This method modifies the transportation details.
+     * @param transportName New transportation name.
+     * @param transportMode New transportation mode.
+     * @param transportBudget New transport budget.
+     * @param day New associated day to transportation.
+     * @param index Associated index of the transportation to modify.
+     * @throws InvalidIndex if invalid index provided.
+     */
     public void modifyTransportation(String transportName, String transportMode, Integer transportBudget,
                                      Integer day, Integer index) throws InvalidArgumentValue, InvalidIndex {
         logger.log(Level.INFO, "Modifying transportation");
@@ -350,7 +394,6 @@ public class Trip {
         accommodations.sort(Comparator.comparing(accommodation -> accommodation.getDays().get(0)));
     }
 
-
     public void listAccommodation(Integer index) throws InvalidCommand {
         try {
             logger.log(Level.INFO, "Listing accommodation");
@@ -481,6 +524,10 @@ public class Trip {
         }
     }
 
+    /**
+     * This method appends each transportations' detail to a StringBuilder
+     * @param tripInfo StringBuilder containing details of the trip
+     */
     public void buildTransportationsInfo(StringBuilder tripInfo) {
         // early return when there are no transportations
         if (transportations.isEmpty()) {
@@ -683,20 +730,12 @@ public class Trip {
         return endDate;
     }
 
-    public Integer getNumDays() {
-        return numDays;
-    }
-
     public Integer getTotalBudget() {
         return totalBudget;
     }
 
     public Integer getItinerarySize() {
         return itineraries.size();
-    }
-
-    public ArrayList<Transportation> getTransportations() {
-        return transportations;
     }
 }
 
