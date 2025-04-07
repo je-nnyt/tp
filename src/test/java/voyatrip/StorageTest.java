@@ -2,6 +2,8 @@ package voyatrip;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import voyatrip.model.TripList;
+import voyatrip.storage.Storage;
 
 import java.io.IOException;
 import java.nio.file.Files;
