@@ -480,7 +480,7 @@ public class Trip {
         }
 
         Ui.printTotalBudgetStatus(totalBudget, budgetSum);
-        if (Math.abs(budgetSum - totalBudget) > epsilon) {
+        if (budgetSum - totalBudget > epsilon) {
             Ui.printExceedTotalBudget();
             Ui.printBudgetPerDay(itineraries);
             Ui.printBudgetPerTransportation(transportations);
