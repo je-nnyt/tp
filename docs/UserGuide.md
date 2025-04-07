@@ -520,20 +520,97 @@ List of arguments:
 - `--time <time>` or `--t`
 - `--mode <transportation mode>` or `--m`
 - `--all`
+- `--root`
 
 * Add transportation `add transportaion --n NAME --m MODE --b BUDGET --s START_DAY_NUMBER --e END_DAY_NUMBER`
 
-## Command Error Summary
+## Command Error
 
-Note that when there are multiple possible errors in the same command, one of them will be shown.
+Below are some common error messages. The actual reason might be different from or even not included in those given below. Note that when there are multiple possible errors in the same command, only one of them will be shown.
 
-| Error message            | Description                        |
-|--------------------------|------------------------------------|
-| Invalid argument keyword | Given argument keyword is invalid. |
-| Invalid argument value   | Given argument value is invalid.   |
-| Invalid command action   | Given command action is invalid.   |
-| Invalid command target   | Given command target is invalid.   |
-| Invalid date format      | Given date format is invalid.      |
-| Invalid number format    | Given number format is invalid.    |
-| Missing argument         | There is missing argument.         |
-| Missing command keyword  | There is missing command keyword.  |
+### Accommodation not found
+The given accommodation name is not found in the trip.  Possible reason:
+- the word given in the name argument is misspelled 
+- argument after (if any) has an incorrect format (like extra spaces between the hyphen and the keyword or missing a hyphen)
+
+### Activity not found
+The given activity name is not found in the trip.  Possible reason:
+- the word given in the name argument is misspelled
+- argument after (if any) has an incorrect format (like extra spaces between the hyphen and the keyword or missing a hyphen)
+- 
+### Duplicated name
+The given name is duplicated.
+
+### Invalid argument keyword
+The given argument keyword is incorrect.  Possible reason:
+- the word immediately after the double hyphen "--" is misspelled
+
+### Invalid argument value
+The given argument value is incorrect.  Possible reason:
+- argument value is empty
+
+### Invalid budget
+The given budget is invalid.  Possible reason:
+- budget given is smaller than 0
+- argument after (if any) has an incorrect format (like extra spaces between the hyphen and the keyword or missing a hyphen)
+
+### Invalid command action
+The given command action is incorrect. Possible reason:
+- the first word is misspelled
+- empty command inputted
+
+### Invalid command target
+The given command target is incorrect.  Possible reason:
+- the second word is misspelled
+
+### Invalid date
+The given date is invalid. Possible reasons:
+- format is incorrect, (should be d-M-yyyy or d-M)
+- start date is after the end date.
+- argument after (if any) has an incorrect format (like extra spaces between the hyphen and the keyword or missing a hyphen)
+
+### Invalid day
+The given day is invalid. Possible reasons:
+- input day is not within the range of the day of the current trip
+- start day is after the end day
+- overlapping with other accommodations
+- argument after (if any) has an incorrect format (like extra spaces between the hyphen and the keyword or missing a hyphen)
+
+### The activity already exists
+Duplicated activity name on the same day.
+
+### Invalid index
+The given index is invalid. Possible reasons:
+- the given index is out of range
+- argument after (if any) has an incorrect format (like extra spaces between the hyphen and the keyword or missing a hyphen)
+
+### Invalid name
+The given name is invalid. Possible reasons:
+- the given name is not allowed like "all" or "root" for trip and "all" for accommodation and transportation
+
+### Invalid number format
+The given number is invalid. Possible reasons:
+- the given number is not an integer
+- the given number is too large
+- argument after (if any) has an incorrect format (like extra spaces between the hyphen and the keyword or missing a hyphen)
+
+### Invalid time format
+The given time is invalid. Possible reasons:
+- the given time is not in the format of HH:MM
+- argument after (if any) has an incorrect format (like extra spaces between the hyphen and the keyword or missing a hyphen)
+
+### Missing argument
+There is missing argument. Possible reasons:
+- the required argument is missing
+- the argument input are in incorrect format (like extra spaces between the hyphen and the keyword or missing a hyphen)
+
+### Transportation not found
+The given transportation name is not found in the trip.  Possible reason:
+- the word given in the name argument is misspelled
+- argument after (if any) has an incorrect format (like extra spaces between the hyphen and the keyword or missing a hyphen)
+
+### Trip not found
+The given trip name is not found.  Possible reason:
+- the word given in the name argument is misspelled
+- argument after (if any) has an incorrect format (like extra spaces between the hyphen and the keyword or missing a hyphen)
+
