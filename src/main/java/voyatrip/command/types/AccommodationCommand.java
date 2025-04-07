@@ -106,7 +106,7 @@ public class AccommodationCommand extends Command {
         boolean isMissingAddArgument = name == null || budget == null || startDay == null || endDay == null;
         boolean isMissingDeleteArgument = name == null && index == null;
         boolean isMissingModifyArgument = index == null ||
-                (name == null && budget == null && startDay == null && endDay == null);
+                (name == null && budget == null && (startDay == null || endDay == null));
         boolean isMissingListArgument = name == null && index == null;
 
         if (isAdd && isMissingAddArgument ||

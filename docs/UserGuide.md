@@ -51,7 +51,8 @@ The `cd` command is used to navigate between trips and different components.
 
 Target: `trip`
 
-Required arguments: `index` or `name`
+Required arguments:
+- `index` or `name`
 
 Special case for changing to the root directory `cd ..`, `cd trip` or `cd trip --n root`
 
@@ -100,7 +101,11 @@ Format:
 
 `add trip --name TRIP_NAME --start START_DATE --end END_DATE --budget TOTAL_BUDGET`
 
-Required arguments: `name`, `start`, `end` and `budget`
+Required arguments:
+- `name`
+- `start`
+- `end`
+- `budget`
 
 start date and end date should be in the format `d-M-yyyy` or `d-M` if the year is the current year. Note that entering 2-29 if the year is not leap year, the program will assume it means the last day of the month which is 2-28.
 
@@ -121,7 +126,12 @@ mk --n my trip --b 1000 --s 1-5 --e 7-5
 
 Target: `activity`
 
-Required arguments: `name`, `time`, `day`
+Required arguments:
+- `name`
+- `time`
+- `day`
+
+Name of the activity should be unique among the activities of the same day.
 
 Example of usage:
 
@@ -137,23 +147,49 @@ add --d 1 --t 10:00 --n my activity 1
 
 Target: `transportation`
 
-Required arguments: `name`, `mode`, `budget`, `day`
+Required arguments:
+- `name`
+- `mode`
+- `budget`
+- `day`
 
-Name cannot be "all".
+Name should be unique and cannot be "all".
 
-Example of usage:
+Example of usage: 
 
 ```
-~/My Trip/TRANSPORTATION >
+~/My Trip/ITINERARY >
 add transportation --name airplane --mode air --budget 350 --day 1
 
 ~/My Trip/TRANSPORTATION >
 add --n airplane --b 350 --m air --d 1
 ```
 
+### Adding new accommodation
+
+Target: `accommodation`
+
+Required arguments:
+- `name`
+- `budget`
+- `start`
+- `end`
+
+Name should be unique and cannot be "all".
+
+Example of usage: 
+
+```
+~/My Trip/ITINERARY >
+add accommodation --name hotel ABC  --budget 800 --start 1 --end 3
+
+~/My Trip/ACCOMMODATION >
+add --n hotel ABC --b 800 --s 1 --e 3
+```
+
 ## Modifying
 
-Generally speaking, modify the item specified by index. The argument that are not index are the parameters to be changed to. Day number is also required for modifying activity. User do not need to specify the trip index if they are already in the trip they want to modify.
+The command `modify` modify the item specified by index. The argument that are not index are the parameters to be changed to.
 
 ### Modifying the trip
 
@@ -161,13 +197,16 @@ Target: `trip`
 
 Action: `modify`
 
-Required arguments: `index`
+Required arguments: 
+- `index` if not in the trip to be modified
 
-Arguments: `name`, `start`, `end` and `budget`
+Arguments: 
+- `name`
+- `start`
+- `end`
+- `budget`
 
 start date and end date should be in the format `d-M-yyyy` or `d-M` if the year is the current year.
-
-Note that the user do not need to specify the index of the trip if they want to modify the current trip they are in.
 
 Example of usage: changing the current trip name to "new my trip" and the total budget to 1200
 
@@ -181,16 +220,18 @@ modify trip --n new my trip --b 1200
 
 ### Modifying the accommodation
 
-Action: `modify`
-
 Target: `accommodation`
 
-Required arguments: `index`
+Required arguments: 
+- `index`
 
-Arguments: `name`, `budget`, `start` (start day of accommodation), `end` (end day of accommodation)
+Arguments: 
+- `name`
+- `budget`
+- `start` (start day of accommodation)
+- `end` (end day of accommodation)
 
-Note that if you are changing the days of accommodation of a saved accommodation, 
-you should provide both the new start and end days.
+Note that if you are changing the days of accommodation of a saved accommodation, both the new start and end days should be provided.
 
 Example of usage: for the 1st accommodation of the current trip, change the 
 accommodation name to "Lotte Hotel" and the days of accommodation to day 3 to 6
@@ -206,9 +247,13 @@ Target: `transportation`
 
 Action: `modify`
 
-Required arguments: `index`
+Required arguments: 
+- `index`
 
-Arguments: `name`, `budget`, `day` (day of transportation)
+Arguments: 
+- `name`
+- `budget`
+- `day` (day of transportation)
 
 Note: The start and end day is expressed as a single integer and  must be a number greater than 0
 
@@ -230,7 +275,8 @@ The `delete` or `remove` command will delete the item specified with the argumen
 
 Target: `trip`
 
-Required arguments: `index` or `name`
+Required arguments: 
+- `index` or `name`
 
 Example of usage: deleting trip named "my trip" with index 1
 
@@ -246,7 +292,8 @@ rm --n my trip
 
 Target: `accommodation`
 
-Required arguments: `index` or `name`
+Required arguments:
+- `index` or `name`
 
 Example of usage: deleting accommodation named "Hilton Hotel" with index 1
 
@@ -256,6 +303,41 @@ delete accom --index 1
 
 ~/My Trip/ACCOMMODATION >
 delete --n Hilton Hotel
+```
+
+### Deleting a transportation
+
+Target: `transportation`
+
+Required arguments: 
+- `index` or `name`
+
+Example of usage: deleting transportation named "plane" with index 1
+
+```
+~/My Trip/ITINERARY >
+delete transportation --index 1
+
+~/My Trip/TRANSPORTATION >
+delete --n plane
+```
+
+### Deleting an activity
+
+Target: `activity`
+
+Required arguments: 
+- `day`
+- `index` or `name`
+
+Example of usage: deleting activity named "shopping" in day 1 with index 1
+
+```
+~/My Trip/ACCOMMODATION >
+delete activity --day 1 --index 1
+
+~/My Trip/ITINERARY >
+delete --d 1 --n shopping
 ```
 
 ## Listing
@@ -268,7 +350,8 @@ Note that if you give any argument value for the argument `--all`, the values wi
 
 Target: `trip`
 
-Required arguments: `index` or `name` or `all`
+Required arguments:
+- `index` or `name` or `all`
 
 Special case for listing all trips `list trip --all`
 
@@ -302,7 +385,8 @@ list
 
 Target: `accommodation`
 
-Required arguments: `index` or `name` or `all`
+Required arguments:
+- `index` or `name` or `all`
 
 Special case for listing all accommodations of the current trip `list accommodation --all` or `list accommodation --n all`
 
@@ -316,11 +400,12 @@ list accom --index 1
 list --n Hilton Hotel
 ```
 
-### Listing transportations
+### Listing transportation(s)
 
 Target: `trip`
 
-Required arguments: `index` or `name` or `all`
+Required arguments:
+- `index` or `name` or `all`
 
 Special case for listing all transportations `list transportation --name all` or `list transportation --all`
 
