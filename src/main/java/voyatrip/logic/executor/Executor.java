@@ -58,6 +58,7 @@ public class Executor {
         while (!isExit) {
             Ui.printCurrentPath(PARSER);
             handleInput(readInput());
+            Ui.printNextCommandMessage();
         }
         Ui.printGoodbyeMessage();
     }
@@ -517,7 +518,6 @@ public class Executor {
         if (isBudgetModified) {
             trip.printBudgetStatus();
         }
-        Ui.printNextCommandMessage();
     }
 
     private static void executeModifyAccommodation(AccommodationCommand command)
