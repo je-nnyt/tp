@@ -164,6 +164,9 @@ Target: `accommodation`
 
 Required arguments: `name` , `budget` , `start` (check-in day of accommodation), `end` (check-out day of accommodation)
 
+> ⚠️ Note that checking-in and checking-out at an accommodation on the same day is considered invalid, but checking-out at Hotel A 
+and checking-in at Hotel B on the same day is valid.
+
 Example of usage:
 
 ```
@@ -212,8 +215,12 @@ Required arguments: `index`
 
 Arguments: `name`, `budget`, `start` (check-in day of accommodation), `end` (check-out day of accommodation)
 
-Note: if you are changing the days of accommodation of a saved accommodation, 
+> ⚠️ Note that changing the name of an accommodation to the same name it had is considered as having duplicate names, which is invalid.
+
+> ⚠️ Note that if you are changing the days of accommodation of a saved accommodation, 
 you should provide both the new check-in and check-out days.
+
+> ⚠️ See the special note at listing accommodation(s) for more details about accommodation indexes.
 
 Example of usage: for the 1st accommodation of the current trip, change the 
 accommodation name to "Lotte Hotel" and the days of accommodation to day 3 to 6
@@ -285,9 +292,15 @@ rm --n my trip
 
 Target: `accommodation`
 
-Required arguments: `index` or `name`
+Required arguments: `index` or `name` or `all`
+
+Special case for deleting all accommodations of the current trip `delete accommodation --all` or `delete accommodation --n all`
 
 Example of usage: deleting accommodation named "Hilton Hotel" with index 1
+
+> ⚠️ Note that if you give any argument value for the argument `--all`, the values will be ignored.
+
+> ⚠️ See the special note at listing accommodation(s) for more details about accommodation indexes.
 
 ```
 ~/My Trip/ITINERARY >
@@ -328,6 +341,10 @@ Target: `accommodation`
 Required arguments: `index` or `name` or `all`
 
 Special case for listing all accommodations of the current trip `list accommodation --all` or `list accommodation --n all`
+
+> ⚠️ Note that the accommodations are sorted in ascending order of the check-in days. Therefore, after adding a new 
+accommodation/modifying a saved accommodation, the indexes of the accommodations might update. Users are advised to 
+utilise the 'listing all' feature to check for the most updated accommodations' indexes before deleting/modifying.
 
 Example of usage:
 
