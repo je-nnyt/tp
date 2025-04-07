@@ -57,6 +57,11 @@ public class Ui {
         System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 
+    public static void printDeleteAllAccommodationsMessage() {
+        System.out.println(Message.DELETE_ALL_ACCOMMODATIONS_MESSAGE);
+        System.out.println(Message.NEXT_COMMAND_MESSAGE);
+    }
+
     public static void printAddTransportationMessage(Transportation transportation) {
         System.out.println(Message.ADD_TRANSPORTATION_MESSAGE);
         System.out.println(transportation);
