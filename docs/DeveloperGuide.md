@@ -41,7 +41,7 @@
 > if you are not a developer, please refer to [User Guide](UserGuide.md) instead.
 
 > ℹ️ Logger information is hidden by default,
-> if you wish to unable logger for debugging purpose, 
+> if you wish to enable logger for debugging purpose, 
 > please pass argument `--verbose` when running the jar file.
 > ie java -jar VoyaTrip.jar --verbose
 

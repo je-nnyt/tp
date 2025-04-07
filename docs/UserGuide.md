@@ -24,6 +24,8 @@ The `accommodation` contain a list of accommodations. This is for you to keep tr
 
 The budget of a trip is the maximum budget you expected have for the trip. It is not the sum of all the budgets of all the components. But instead, VoyaTrip will give warning if the total sum of the budgets of all the components is greater than the budget of the trip. So that you can adjust the budgets of the components accordingly.
 
+All budget values entered must be in integer form.
+
 ## The Directory System
 
 The directory system is used to navigate between trips and different components (`ITINERARY`, `TRANSPORTATION` and `ACCOMMODATION`) of a trip. To make changes to the components of a trip, you have to be in the directory of the trip. 
