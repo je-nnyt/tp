@@ -131,7 +131,7 @@ Required arguments:
 - `time`
 - `day`
 
-Name of the activity should be unique among the activities of the same day.
+Name of the activity should be unique among the activities on the same day.
 
 time must be in the `H:mm` format, where `H` can be 1 or 2 digits from 0 to 23 and `mm` must be 2 digits from 00-59
 
