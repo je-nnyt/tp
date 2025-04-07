@@ -15,6 +15,7 @@ public class Message {
     static final String ADD_TRANSPORTATION_MESSAGE = "The following transportation has been added to your list! ";
     static final String DELETE_TRIP_MESSAGE = "The following trip has been deleted from your list! ";
     static final String DELETE_ACCOMMODATION_MESSAGE = "The following accommodation has been deleted from your list! ";
+    static final String DELETE_ALL_ACCOMMODATIONS_MESSAGE = "All accommodations have been deleted.";
     static final String DELETE_TRANSPORTATION_MESSAGE = "The following transportation has been deleted from" +
             " your list! ";
     static final String MODIFY_TRANSPORTATION_MESSAGE = "The following transportation has been modified!";
@@ -37,10 +38,8 @@ public class Message {
 
 
     // budget
-    static final String EXCEED_TOTAL_BUDGET_MESSAGE = "Please checkout your total budget."
-            + "It seems like you have exceeded your total budget.";
-    static final String TOTAL_BUDGET_AGAINST_BUDGET_SUM_MESSAGE
-            = "The current budget sum percentage against the total budget is: ";
+    static final String EXCEED_TOTAL_BUDGET_BY_MESSAGE = "Please checkout your total budget."
+            + "It seems like you have exceeded your total budget by: ";
     static final String BUDGET_PER_DAY_MESSAGE = "The budget for each day is: ";
     static final String BUDGET_PER_TRANSPORTATION_MESSAGE = "The budget for each transportation is: ";
     static final String BUDGET_PER_ACCOMMODATION_MESSAGE = "The budget for each accommodation is: ";

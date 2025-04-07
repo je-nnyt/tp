@@ -36,54 +36,49 @@ public class Ui {
     public static void printAddTripMessage(String abbrTripInfo) {
         System.out.println(Message.ADD_TRIP_MESSAGE);
         System.out.println(abbrTripInfo);
-        System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 
     public static void printDeleteTripMessage(String abbrTripInfo) {
         System.out.println(Message.DELETE_TRIP_MESSAGE);
         System.out.println(abbrTripInfo);
-        System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 
     public static void printAddAccommodationMessage(Accommodation accommodation) {
         System.out.println(Message.ADD_ACCOMMODATION_MESSAGE);
         System.out.println(accommodation);
-        System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 
     public static void printDeleteAccommodationMessage(Accommodation accommodation) {
         System.out.println(Message.DELETE_ACCOMMODATION_MESSAGE);
         System.out.println(accommodation);
-        System.out.println(Message.NEXT_COMMAND_MESSAGE);
+    }
+
+    public static void printDeleteAllAccommodationsMessage() {
+        System.out.println(Message.DELETE_ALL_ACCOMMODATIONS_MESSAGE);
     }
 
     public static void printAddTransportationMessage(Transportation transportation) {
         System.out.println(Message.ADD_TRANSPORTATION_MESSAGE);
         System.out.println(transportation);
-        System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 
     public static void printDeleteTransportationMessage(Transportation transportation) {
         System.out.println(Message.DELETE_TRANSPORTATION_MESSAGE);
         System.out.println(transportation);
-        System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 
     public static void printAddActivityMessage(Activity activity) {
         System.out.println(Message.ADD_ACTIVITY_MESSAGE);
         System.out.println(activity);
-        System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 
     public static void printDeleteActivityMessage(Activity activity) {
         System.out.println(Message.DELETE_ACTIVITY_MESSAGE);
         System.out.println(activity);
-        System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 
     public static void printEmptyTripList() {
         System.out.println(Message.EMPTY_TRIP_LIST_MESSAGE);
-        System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 
     public static void printNextCommandMessage() {
@@ -100,7 +95,7 @@ public class Ui {
     public static void printBudgetPerDay(ArrayList<Day> itineraries) {
         System.out.println(Message.BUDGET_PER_DAY_MESSAGE);
         for (int i = 0; i < itineraries.size(); i++) {
-            System.out.println("Day " + (i + 1) + ": $" + itineraries.get(i).getBudget());
+            System.out.println("Day " + (i + 1) + ": $" + String.format("%.2f", itineraries.get(i).getBudget()));
         }
     }
 
@@ -144,13 +139,8 @@ public class Ui {
         }
     }
 
-    public static void printExceedTotalBudget() {
-        System.out.println(Message.EXCEED_TOTAL_BUDGET_MESSAGE);
-    }
-
-    public static void printTotalBudgetStatus(Integer totalBudget, Float budgetSum) {
-        System.out.println(Message.TOTAL_BUDGET_AGAINST_BUDGET_SUM_MESSAGE
-                + String.format("%.2f%%", (budgetSum / totalBudget) * 100) + "%");
+    public static void printExceedTotalBudget(Float exceededBudget) {
+        System.out.println(Message.EXCEED_TOTAL_BUDGET_BY_MESSAGE + String.format("%.2f", exceededBudget));
     }
 
     public static void printInvalidModificationOfDate() {
@@ -245,7 +235,6 @@ public class Ui {
     public static void printListTransportationMessage(Transportation transportation) {
         System.out.println(Message.LIST_TRANSPORTATION_MESSAGE);
         System.out.println(transportation);
-        System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 
     public static void printTransportationList(Trip trip) {
@@ -253,19 +242,16 @@ public class Ui {
         StringBuilder tripInfo = new StringBuilder();
         trip.buildTransportationsInfo(tripInfo);
         System.out.println(tripInfo.toString().trim());
-        System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 
     public static void printModifyAccommodationMessage(Accommodation accommodation) {
         System.out.println(Message.MODIFY_ACCOMMODATION_MESSAGE);
         System.out.println(accommodation);
-        System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 
     public static void printListAccommodationMessage(Accommodation accommodation) {
         System.out.println(Message.LIST_ACCOMMODATION_MESSAGE);
         System.out.println(accommodation);
-        System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 
     public static void printAccommodationList(Trip trip) {
@@ -273,7 +259,6 @@ public class Ui {
         StringBuilder tripInfo = new StringBuilder();
         trip.buildAccommodationsInfo(tripInfo);
         System.out.println(tripInfo.toString().trim());
-        System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 
     public static void printModifyTransportationMessage(Transportation transportation) {
