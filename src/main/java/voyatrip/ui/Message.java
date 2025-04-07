@@ -30,7 +30,10 @@ public class Message {
     static final String MODIFY_TRIP_MESSAGE = "The following trip has been modified to: ";
     static final String INVALID_MODIFICATION_DATES_MESSAGE = "Invalid modification dates. Please try again.";
     static final String SAME_TRIP_NAME_MESSAGE = "The trip name is the same as the original trip name.";
-    static final String SAME_TRIP_DATES_MESSAGE = "The trip dates are the same as the original trip dates.";
+    static final String SAME_TRIP_START_DATE_MESSAGE =
+            "The trip start date is the same as the original trip start date.";
+    static final String SAME_TRIP_END_DATE_MESSAGE =
+            "The trip end date is the same as the original trip end date.";
     static final String SAME_TRIP_NUM_DAYS_MESSAGE =
             "The trip number of days is the same as the original trip number of days.";
     static final String SAME_TRIP_BUDGET_MESSAGE = "The trip budget is the same as the original trip budget.";

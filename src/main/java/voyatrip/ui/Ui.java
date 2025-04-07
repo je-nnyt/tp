@@ -113,8 +113,12 @@ public class Ui {
         System.out.println(Message.SAME_TRIP_NAME_MESSAGE);
     }
 
-    public static void printSameTripDatesMessage() {
-        System.out.println(Message.SAME_TRIP_DATES_MESSAGE);
+    public static void printSameTripStartDateMessage() {
+        System.out.println(Message.SAME_TRIP_START_DATE_MESSAGE);
+    }
+
+    public static void printSameTripEndDateMessage() {
+        System.out.println(Message.SAME_TRIP_END_DATE_MESSAGE);
     }
 
     public static void printSameTripNumDaysMessage() {

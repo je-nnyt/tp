@@ -529,10 +529,11 @@ public class Trip {
     /**
      * This method is used to correct the size of the day objects according to the number of days in the trip.
      */
-    public void updateItinerarySize() {
+    public void updateItinerarySize() throws InvalidIndex {
         assert (ChronoUnit.DAYS.between(startDate, endDate) + 1 >= 0);
         int curSize = itineraries.size();
         int curNumDays = (int) ChronoUnit.DAYS.between(startDate, endDate) + 1;
+        numDays = curNumDays;
 
         if (curSize < curNumDays) {
             for (int i = curSize; i < curNumDays; i++) {
