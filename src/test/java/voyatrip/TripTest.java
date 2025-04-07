@@ -221,7 +221,11 @@ public class TripTest {
     @Test
     void updateItinerarySize_smallerSize_success() {
         trip.setEndDate(LocalDate.of(2025, 6, 16));
-        trip.updateItinerarySize();
+        try {
+            trip.updateItinerarySize();
+        } catch (InvalidIndex e) {
+            throw new RuntimeException(e);
+        }
         Assertions.assertEquals(7, trip.getItinerarySize());
     }
 

@@ -503,7 +503,7 @@ public class Trip {
      * This method print the information of the current trip budget status, ie budget per day and remaining budget.
      */
     public void printBudgetStatus() {
-        final double EPSILON = 1e-2;
+        final double epsilon = 1e-2;
         float budgetSum = 0;
         for (Day day : itineraries) {
             budgetSum += day.getBudget();
@@ -518,7 +518,7 @@ public class Trip {
         }
 
         float exceededBudget = budgetSum - totalBudget;
-        if (exceededBudget > EPSILON) {
+        if (exceededBudget > epsilon) {
             Ui.printExceedTotalBudget(exceededBudget);
             Ui.printBudgetPerDay(itineraries);
             Ui.printBudgetPerTransportation(transportations);
@@ -529,10 +529,11 @@ public class Trip {
     /**
      * This method is used to correct the size of the day objects according to the number of days in the trip.
      */
-    public void updateItinerarySize() {
+    public void updateItinerarySize() throws InvalidIndex {
         assert (ChronoUnit.DAYS.between(startDate, endDate) + 1 >= 0);
         int curSize = itineraries.size();
         int curNumDays = (int) ChronoUnit.DAYS.between(startDate, endDate) + 1;
+        numDays = curNumDays;
 
         if (curSize < curNumDays) {
             for (int i = curSize; i < curNumDays; i++) {
