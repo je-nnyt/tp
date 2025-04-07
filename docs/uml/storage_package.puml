@@ -1,0 +1,12 @@
+@startuml
+hide circle
+
+package Storage {
+class Storage {
+    +{static}FILE_PATH: String
+    +{static}isFileExistsAndNonEmpty(): Boolean
+    +{static}load(): Optional<TripList>
+    +{static}save(tripList: TripList): void
+}
+}
+@enduml

@@ -8,7 +8,10 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
-import voyatrip.command.exceptions.MissingArgument;
+import voyatrip.logic.command.exceptions.MissingArgument;
+import voyatrip.logic.command.types.CommandAction;
+import voyatrip.logic.command.types.CommandTarget;
+import voyatrip.logic.command.types.TransportationCommand;
 
 public class TransportationCommandTest {
     @Test
