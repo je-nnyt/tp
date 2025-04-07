@@ -101,7 +101,10 @@ public class AccommodationCommand extends Command {
                 commandAction == CommandAction.DELETE_BY_NAME;
         boolean isModify = commandAction == CommandAction.MODIFY;
         boolean isList = commandAction == CommandAction.LIST;
+        boolean isChangeDirectory = commandAction == CommandAction.CHANGE_DIRECTORY;
 
+        boolean isInvalidChangeDirectoryArgument = index != null || startDay != null
+                || endDay != null || budget != null || name != null;
         boolean isMissingAddArgument = name == null || budget == null || startDay == null || endDay == null;
         boolean isMissingDeleteArgument = name == null && index == null;
         boolean isMissingModifyArgument = index == null ||
@@ -120,7 +123,7 @@ public class AccommodationCommand extends Command {
         boolean hasStartEndDay = startDay != null && endDay != null;
         boolean isInvalidStartEndDay = hasStartEndDay && (startDay < 0 || endDay < 0 || startDay > endDay);
 
-        if (isInvalidBudget || isInvalidName || isInvalidStartEndDay) {
+        if (isInvalidBudget || isInvalidName || isInvalidStartEndDay || isInvalidChangeDirectoryArgument && isChangeDirectory) {
             throw new InvalidArgumentValue();
         }
     }
