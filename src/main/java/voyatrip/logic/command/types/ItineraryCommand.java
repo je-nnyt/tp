@@ -54,8 +54,7 @@ public class ItineraryCommand extends Command {
 
     @Override
     protected void matchArgument(String argument)
-            throws InvalidArgumentKeyword, InvalidNumberFormat, InvalidArgumentValue, 
-            InvalidTimeFormat, MissingArgument {
+            throws InvalidArgumentKeyword, InvalidArgumentValue, InvalidTimeFormat {
 
         String argumentKeyword = argument.split("\\s+")[0];
         String argumentValue = argument.replaceFirst(argumentKeyword, "").strip();
@@ -65,7 +64,7 @@ public class ItineraryCommand extends Command {
             throw new InvalidArgumentKeyword();
         }
         if (argumentValue.isEmpty()) {
-            throw new MissingArgument();
+            throw new InvalidArgumentValue();
         }
 
         try {
