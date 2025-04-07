@@ -123,7 +123,8 @@ public class AccommodationCommand extends Command {
         boolean hasStartEndDay = startDay != null && endDay != null;
         boolean isInvalidStartEndDay = hasStartEndDay && (startDay < 0 || endDay < 0 || startDay > endDay);
 
-        if (isInvalidBudget || isInvalidName || isInvalidStartEndDay || isInvalidChangeDirectoryArgument && isChangeDirectory) {
+        if (isInvalidBudget || isInvalidName || isInvalidStartEndDay
+                || isInvalidChangeDirectoryArgument && isChangeDirectory) {
             throw new InvalidArgumentValue();
         }
     }
