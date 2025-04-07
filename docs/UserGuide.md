@@ -86,7 +86,23 @@ No arguments required
 
 Note: User must be in a trip directory to cd to the desired component
 
-Example of usage: change directory to the `accommodation` component of the current trip
+Purpose: Changing the directory to a specific component (e.g., accommodation, transportation) allows the user to omit 
+the target argument when performing operations like add, delete, or modify.
+
+Example:
+```
+~/My Trip/ITINERARY >
+cd accom
+
+~/My Trip/ACCOMMODATION >
+cd accommodation
+
+~/My Trip/ACCOMMODATION >
+add --n Salute Hotel --s 1 --e 1 --b 100
+
+```
+
+Example of usage: change directory to the `accommodation` component of the current trip 
 
 ```
 ~/My Trip/ITINERARY >
