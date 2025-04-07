@@ -152,7 +152,10 @@ Target: `transportation`
 
 Required arguments: `name`, `mode`, `budget`, `day`
 
-Name cannot be "all".
+Note: 
+- Name cannot be "all".
+- Day is an integer greater than 1
+- Duplicate transportation is not allowed
 
 Example of usage:
 
@@ -163,6 +166,7 @@ add transportation --name airplane --mode air --budget 350 --day 1
 ~/My Trip/Transportation >
 add --n airplane --b 350 --m air --d 1
 ```
+
 
 ### Adding new accommodation
 
@@ -235,6 +239,7 @@ accommodation name to "Lotte Hotel" and the days of accommodation to day 3 to 6
 ```
 ~/My Trip/Accommodation >
 modify accom --index 1 --n Lotte Hotel --s 3 --e 6
+
 ```
 
 #### Modifying the transportation
@@ -247,7 +252,7 @@ Required arguments: `index`
 
 Arguments: `name`, `budget`, `day` (day of transportation)
 
-Note: The start and end day is expressed as a single integer and  must be a number greater than 0
+Note: The start and end day is expressed as a single integer and  must be a number greater than 1
 
 Example of usage:
 
@@ -258,6 +263,7 @@ modify transportation --index 1 --budget 1200 --day 3
 ~/My Trip/Itinerary >
 modify transportation --i 1 --d 3 --b 1200
 ```
+
 
 ### Deleting
 
@@ -294,6 +300,22 @@ delete trip --index 1
 
 ~ >
 rm --n my trip
+```
+
+#### Deleting a transportation
+
+Target: `transportation`
+
+Required arguments: `index` or `name`
+
+Example of usage: deleting transportation named "Scoot" with index 1
+
+```
+~/My Trip/ITINERARY >
+delete transportation --index 1
+
+~/My Trip/TRANSPORTATION >
+delete --n Scoot
 ```
 
 #### Deleting an accommodation
@@ -366,31 +388,14 @@ list accom --index 1
 list --n Hilton Hotel
 ```
 
-### Listing trips
-
-Target: `trip`
-
-Required arguments: `index` or `name` or `all`
-
-Special case for listing all trips `list trip --all`
-
-Example of usage:
-
-```
-~ >
-list trip --index 1
-
-~ >
-list --n my trip
-```
-
 ### Listing transportations
 
 Target: `trip`
 
-Required arguments: `index` or `name` or `all`
+Required arguments: `index` or ' `name` or `all`
 
-Special case for listing all transportations `list transportation --name all` or `list transportation --all`
+Special case for listing all transportationsL: `list transportation --all`
+- By listing all transportations, the user will be able to view the associated index for each transportation.
 
 Example of usage:
 
@@ -399,7 +404,7 @@ Example of usage:
 list transportation --index 1
 
 ~ >
-list transportation --n all
+list transportation -- all
 ```
 
 
