@@ -1,11 +1,15 @@
-# Developer Guide (6 Apr)
+# Developer Guide (7 Apr)
 
 ## Table of Contents
 - [Acknowledgements (6 Apr)](#acknowledgements)
 - [Get Started (4 Apr)](#get-started)
     - [Setting up (4 Apr)](#setting-up)
 - [Design](#design)
-  - [Architecture](#architecture)
+  - [Architecture (7 Apr)](#architecture)
+    - [Storage Component](#storage-component)
+    - [Ui Component](#ui-component)
+    - [Logic Component](#logic-component)
+    - [Model Component](#model-component)
 - [Implementation](#implementation)
     - [Storage [Implemented] (6 Apr)](#storage-proposed)
       - [How it works](#how-it-works)
@@ -45,12 +49,40 @@
 
 ### Architecture
 The architecture of the application is designed to be modular and easy to maintain.  
-The main components are:
+
+**Main Components**:
+
+> ℹ️ The components referring here are not particular classes 
+> instead high level ideas or packages we can say
+
+- **Main**: The entry point of the application, 
+responsible for initializing the application and handle program specific parameters
+- **Ui**: The user interface component,
+handle all the user inputs and program outputs
+- **Storage**: The storage component,
+handle all the file reading and writing
+- **Logic**: The logic component,
+handle all the actual execution of the commands
+- **Model**: The model component,
+handle all the data structure and data manipulation
+
+Simple diagram is included to show the relationship among these components.
 
 <img src="uml/architecture.png" alt="architecture-uml" width="300" height="300"/>  
 
 The interaction for any command is similar to the following, for simplicity, we will use `add trip` as an example:
 
+#### Storage Component
+
+<img src="uml/storage_package.png">
+
+#### Ui Component
+
+<img src="uml/ui_package.png">
+
+#### Logic Component
+
+#### Model Component
 
 <img src="uml/main_flow.png" alt="main-flow-uml"/>
 
