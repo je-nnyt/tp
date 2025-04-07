@@ -292,6 +292,8 @@ Target: `trip`
 Required arguments: 
 - `index` or `name`
 
+Note that you cannot delete the trip you are currently in.
+
 Example of usage: deleting trip named "my trip" with index 1
 
 ```
@@ -582,11 +584,13 @@ Duplicated activity name on the same day.
 ### Invalid index
 The given index is invalid. Possible reasons:
 - the given index is out of range
+- the given index of the trip to be deleted is the trip you are currently in
 - argument after (if any) has an incorrect format (like extra spaces between the hyphen and the keyword or missing a hyphen)
 
 ### Invalid name
 The given name is invalid. Possible reasons:
 - the given name is not allowed like "all" or "root" for trip and "all" for accommodation and transportation
+- the given name of the trip to be deleted is the trip you are currently in
 
 ### Invalid number format
 The given number is invalid. Possible reasons:
