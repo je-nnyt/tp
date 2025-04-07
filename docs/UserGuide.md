@@ -57,7 +57,7 @@ Target: `trip`
 
 Required arguments: `index` or `name`
 
-Special case for changing to the root directory `cd ..`, `cd trip` or `cd trip --n root`
+Special case for changing to the root directory `cd ..`, `cd trip`, `cd --root` or `cd trip --n root`
 
 Example of usage: change directory to trip named "my trip" with index 1
 

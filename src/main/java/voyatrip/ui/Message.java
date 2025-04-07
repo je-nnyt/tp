@@ -64,7 +64,6 @@ public class Message {
     static final String INVALID_INDEX_MESSAGE = "Invalid index. Please try again.";
     static final String INVALID_NAME_MESSAGE = "Invalid name. Please try again.";
     static final String INVALID_NUMBER_FORMAT_MESSAGE = "Invalid number format. Please try again.";
-    static final String INVALID_SCOPE_MESSAGE = "Invalid command scope. Please try again";
     static final String MISSING_ARGUMENT_MESSAGE = "Missing argument. Please try again.";
     static final String MISSING_COMMAND_KEYWORD_MESSAGE = "Missing command keyword. Please try again.";
     static final String TRANSPORTATION_NOT_FOUND_MESSAGE = "Transportation not found. Please try again.";

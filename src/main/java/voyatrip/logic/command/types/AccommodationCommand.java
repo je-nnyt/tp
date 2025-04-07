@@ -88,9 +88,9 @@ public class AccommodationCommand extends Command {
             case "name", "n" -> name = argumentValue;
             case "budget", "b" -> budget = Integer.parseInt(argumentValue);
             case "index", "i" -> index = Integer.parseInt(argumentValue);
-            case "all" -> name = "all";
             case "start", "s" -> startDay = Integer.parseInt(argumentValue);
             case "end", "e" -> endDay = Integer.parseInt(argumentValue);
+            case "all" -> name = "all";
             default -> throw new InvalidArgumentKeyword();
             }
         } catch (NumberFormatException e) {
@@ -109,7 +109,7 @@ public class AccommodationCommand extends Command {
         boolean isMissingAddArgument = name == null || budget == null || startDay == null || endDay == null;
         boolean isMissingDeleteArgument = name == null && index == null;
         boolean isMissingModifyArgument = index == null ||
-                (name == null && budget == null && startDay == null && endDay == null);
+                (name == null && budget == null && (startDay == null || endDay == null));
         boolean isMissingListArgument = name == null && index == null;
 
         if (isAdd && isMissingAddArgument ||

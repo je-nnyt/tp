@@ -214,10 +214,6 @@ public class Ui {
         System.out.println(Message.INVALID_NUMBER_FORMAT_MESSAGE);
     }
 
-    public static void printInvalidScope() {
-        System.out.println(Message.INVALID_SCOPE_MESSAGE);
-    }
-
     public static void printMissingArgument() {
         System.out.println(Message.MISSING_ARGUMENT_MESSAGE);
     }

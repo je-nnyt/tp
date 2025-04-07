@@ -3,6 +3,7 @@ package voyatrip.command;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import voyatrip.logic.command.exceptions.InvalidCommandTarget;
 import voyatrip.logic.command.Parser;
 import voyatrip.logic.command.types.Command;
 import voyatrip.logic.command.types.CommandAction;
@@ -12,6 +13,7 @@ import voyatrip.logic.command.types.TripsCommand;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 import java.time.LocalDate;
 
@@ -115,5 +117,11 @@ class ParserTest {
             assertEquals(CommandTarget.TRIP, command.getCommandTarget());
             assertEquals("all", ((TripsCommand) command).getName());
         });
+    }
+
+    @Test
+    void parse_invalidCommandTarget_failure() {
+        assertThrowsExactly(InvalidCommandTarget.class, () ->
+                parser.parse("add wrong --name Vietnam --start 1-5 --end 7-5 --budget 1000\n"));
     }
 }
