@@ -106,7 +106,7 @@ public class AccommodationCommand extends Command {
         boolean isMissingAddArgument = name == null || budget == null || startDay == null || endDay == null;
         boolean isMissingDeleteArgument = name == null && index == null;
         boolean isMissingModifyArgument = index == null ||
-                (name == null && budget == null && startDay == null && endDay == null);
+                (name == null && budget == null && (startDay == null || endDay == null));
         boolean isMissingListArgument = name == null && index == null;
 
         if (isAdd && isMissingAddArgument ||
@@ -119,7 +119,7 @@ public class AccommodationCommand extends Command {
         boolean isInvalidBudget = budget != null && budget < 0;
         boolean isInvalidName = !isList && name != null && Arrays.asList(INVALID_NAMES).contains(name);
         boolean hasStartEndDay = startDay != null && endDay != null;
-        boolean isInvalidStartEndDay = hasStartEndDay && (startDay < 0 || endDay < 0 || startDay > endDay);
+        boolean isInvalidStartEndDay = hasStartEndDay && (startDay < 0 || endDay < 0 || startDay >= endDay);
 
         if (isInvalidBudget) {
             throw new InvalidBudget();

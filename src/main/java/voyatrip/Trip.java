@@ -4,6 +4,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -196,12 +197,14 @@ public class Trip {
 
         validateAccommodationName(accommodationName);
 
-        validateAccommodationDays(accommodationDays);
+        ArrayList<Integer> dummyAccommodationDays = new ArrayList<>();
+        validateAccommodationDays(accommodationDays, dummyAccommodationDays);
 
         Accommodation newAccommodation = new Accommodation(accommodationName, accommodationBudget, accommodationDays);
 
         accommodations.add(newAccommodation);
         Ui.printAddAccommodationMessage(newAccommodation);
+        sortAccommodationsByDay();
         printBudgetStatus();
         logger.log(Level.INFO, "Finished adding accommodation");
     }
@@ -213,21 +216,26 @@ public class Trip {
         }
     }
 
-    private void validateAccommodationDays(ArrayList<Integer> days) throws InvalidArgumentValue {
-        if (days.get(0) < 1 || days.get(days.size() - 1) > numDays) {
+    private void validateAccommodationDays(ArrayList<Integer> newAccommodationDays, ArrayList<Integer> oldAccommodationDays) throws InvalidArgumentValue {
+        if (newAccommodationDays.size() == 1) {
+            logger.log(Level.WARNING, "Check-in and check-out are on the same day");
+            throw new InvalidDay();
+        }
+
+        if (newAccommodationDays.get(0) < 1 || newAccommodationDays.get(newAccommodationDays.size() - 1) > numDays) {
             logger.log(Level.WARNING, "Accommodation days out of range");
             throw new InvalidDay();
         }
 
-        if (hasAccommodationOverlap(days)) {
+        if (hasAccommodationOverlap(newAccommodationDays, oldAccommodationDays)) {
             logger.log(Level.WARNING, "Accommodation overlap");
             throw new InvalidDay();
         }
     }
 
-    private boolean hasAccommodationOverlap(ArrayList<Integer> days) {
+    private boolean hasAccommodationOverlap(ArrayList<Integer> newAccommodationDays, ArrayList<Integer> oldAccommodationDays) {
         for (Accommodation accommodation : accommodations) {
-            if (isDaysOverlap(days, accommodation.getDays())) {
+            if (!Objects.equals(oldAccommodationDays, accommodation.getDays()) && isDaysOverlap(newAccommodationDays, accommodation.getDays())) {
                 return true;
             }
         }
@@ -305,12 +313,14 @@ public class Trip {
 
             if (accommodationDays != null) {
                 logger.log(Level.INFO, "Modifying accommodation days");
-                validateAccommodationDays(accommodationDays);
+                ArrayList<Integer> oldAccommodationDays = accommodations.get(index - 1).getDays();
+                validateAccommodationDays(accommodationDays, oldAccommodationDays);
                 accommodations.get(index - 1).setDays(accommodationDays);
                 logger.log(Level.INFO, "Finished modifying accommodation days");
             }
 
             Ui.printModifyAccommodationMessage(accommodations.get(index - 1));
+            sortAccommodationsByDay();
             if (budgetIsModified) {
                 printBudgetStatus();
             }
@@ -319,6 +329,15 @@ public class Trip {
             throw new InvalidIndex();
         }
     }
+
+    /**
+     * Sorts the accommodation list in ascending order of the first element
+     * of the 'days' attribute of each Accommodation.
+     */
+    private void sortAccommodationsByDay() {
+        accommodations.sort(Comparator.comparing(accommodation -> accommodation.getDays().get(0)));
+    }
+
 
     public void listAccommodation(Integer index) throws InvalidCommand {
         try {
