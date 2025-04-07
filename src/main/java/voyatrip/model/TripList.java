@@ -8,7 +8,8 @@ import java.util.logging.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import voyatrip.logic.command.exceptions.InvalidArgumentValue;
+
+import voyatrip.logic.command.exceptions.DuplicatedName;
 import voyatrip.logic.command.exceptions.InvalidCommand;
 import voyatrip.logic.command.exceptions.InvalidIndex;
 import voyatrip.logic.command.exceptions.TripNotFoundException;
@@ -26,7 +27,7 @@ public class TripList {
         logger.log(Level.INFO, "Adding new trip");
         if (isContains(name)) {
             logger.log(Level.WARNING, "Trip already exists");
-            throw new InvalidArgumentValue();
+            throw new DuplicatedName();
         }
 
         Trip newTrip = new Trip(name, startDate, endDate, numDays, totalBudget);

@@ -8,7 +8,6 @@ import voyatrip.logic.command.exceptions.InvalidCommandAction;
 import voyatrip.logic.command.exceptions.InvalidCommandTarget;
 import voyatrip.logic.command.exceptions.InvalidDate;
 import voyatrip.logic.command.exceptions.InvalidNumberFormat;
-import voyatrip.logic.command.exceptions.InvalidScope;
 import voyatrip.logic.command.exceptions.InvalidTimeFormat;
 import voyatrip.logic.command.exceptions.MissingArgument;
 import voyatrip.logic.command.exceptions.MissingCommandKeyword;
@@ -72,7 +71,6 @@ public class Parser {
      * @throws InvalidCommandAction If the command action is invalid.
      * @throws InvalidDate If the date format is invalid.
      * @throws InvalidNumberFormat If the number format is invalid.
-     * @throws InvalidScope If the scope of the command is invalid.
      * @throws MissingArgument If there is missing argument.
      * @throws MissingCommandKeyword If there is missing command keyword.
      */
@@ -83,9 +81,9 @@ public class Parser {
             InvalidCommandAction,
             InvalidDate,
             InvalidNumberFormat,
-            InvalidScope,
             MissingArgument,
-            MissingCommandKeyword, InvalidTimeFormat {
+            MissingCommandKeyword,
+            InvalidTimeFormat {
         CommandAction commandAction = extractCommandAction(command);
 
         // Exception case: no argument command exit
@@ -101,7 +99,7 @@ public class Parser {
             commandAction = CommandAction.MODIFY_TRIP_WITHOUT_INDEX;
         }
 
-        validateScope(commandTarget);
+        validateTarget(commandTarget);
 
         return matchCommand(commandAction, commandTarget, arguments);
     }
@@ -135,7 +133,8 @@ public class Parser {
         };
     }
 
-    private CommandTarget extractCommandTargetType(String command, CommandAction commandAction) {
+    private CommandTarget extractCommandTargetType(String command, CommandAction commandAction)
+            throws InvalidCommandTarget {
         String[] spaceSeparatedTokens = command.strip().split("\\s+");
         if (spaceSeparatedTokens.length == 1) {
             return currentTarget;
@@ -154,11 +153,15 @@ public class Parser {
         case "activity", "act" -> CommandTarget.ACTIVITY;
         case "accommodation", "accom" -> CommandTarget.ACCOMMODATION;
         case "transportation", "tran" -> CommandTarget.TRANSPORTATION;
-        default -> getAdjustedCurrentTarget(commandAction);
+        default -> getAdjustedCurrentTarget(commandAction, commandTarget);
         };
     }
 
-    private CommandTarget getAdjustedCurrentTarget(CommandAction action) {
+    private CommandTarget getAdjustedCurrentTarget(CommandAction action, String target) throws InvalidCommandTarget {
+        if(!target.matches("--\\w+")) {
+            throw new InvalidCommandTarget();
+        }
+
         boolean isAddDeleteModify = action == CommandAction.ADD ||
                 action == CommandAction.DELETE_BY_INDEX ||
                 action == CommandAction.MODIFY;
@@ -170,12 +173,12 @@ public class Parser {
         }
     }
 
-    private void validateScope(CommandTarget commandTarget) throws InvalidScope {
+    private void validateTarget(CommandTarget commandTarget) throws InvalidCommandTarget {
         // target scope too small
-        boolean isIncorrectScope = !commandTarget.equals(CommandTarget.TRIP) && currentTarget == CommandTarget.TRIP;
+        boolean isInvalidTarget = !commandTarget.equals(CommandTarget.TRIP) && currentTarget == CommandTarget.TRIP;
 
-        if (isIncorrectScope) {
-            throw new InvalidScope();
+        if (isInvalidTarget) {
+            throw new InvalidCommandTarget();
         }
     }
 
@@ -185,7 +188,8 @@ public class Parser {
             InvalidCommandTarget,
             InvalidDate,
             InvalidNumberFormat,
-            MissingArgument, InvalidTimeFormat {
+            MissingArgument,
+            InvalidTimeFormat {
         return switch (commandTarget) {
         case TRIP -> new TripsCommand(commandAction, commandTarget, arguments);
         case ITINERARY, ACTIVITY -> new ItineraryCommand(commandAction, commandTarget, currentTrip, arguments);

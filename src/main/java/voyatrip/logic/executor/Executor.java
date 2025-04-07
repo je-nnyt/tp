@@ -18,7 +18,6 @@ import voyatrip.logic.command.exceptions.InvalidDuplicateActivity;
 import voyatrip.logic.command.exceptions.InvalidDate;
 import voyatrip.logic.command.exceptions.InvalidName;
 import voyatrip.logic.command.exceptions.InvalidNumberFormat;
-import voyatrip.logic.command.exceptions.InvalidScope;
 import voyatrip.logic.command.exceptions.InvalidTimeFormat;
 import voyatrip.logic.command.exceptions.MissingArgument;
 import voyatrip.logic.command.exceptions.MissingCommandKeyword;
@@ -63,7 +62,6 @@ public class Executor {
         Ui.printGoodbyeMessage();
     }
 
-
     private static void handleInput(String input) {
         try {
             logger.log(Level.INFO, "Starting handleInput");
@@ -106,9 +104,6 @@ public class Executor {
         } catch (InvalidNumberFormat e) {
             logger.log(Level.WARNING, "Invalid number format");
             Ui.printInvalidNumberFormat();
-        } catch (InvalidScope e) {
-            logger.log(Level.WARNING, "Invalid scope");
-            Ui.printInvalidScope();
         } catch (MissingArgument e) {
             logger.log(Level.WARNING, "Missing argument");
             Ui.printMissingArgument();
@@ -124,7 +119,7 @@ public class Executor {
         } catch (InvalidTimeFormat e){
             logger.log(Level.WARNING, "Invalid time format");
             Ui.printInvalidTimeFormat();
-        }  catch (InvalidDuplicateActivity e){
+        } catch (InvalidDuplicateActivity e){
             logger.log(Level.WARNING, "Duplicate activity");
             Ui.printInvalidDuplicateActivity();
         } catch (InvalidArgumentValue e) {
