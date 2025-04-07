@@ -281,6 +281,14 @@ public class Trip {
 
     public void deleteAccommodation(String accommodationName) throws InvalidCommand {
         logger.log(Level.INFO, "Deleting accommodation");
+        if ("all".equals(accommodationName)) {
+            // Condition to delete all accommodations
+            accommodations.clear();
+            Ui.printDeleteAllAccommodationsMessage();
+            logger.log(Level.INFO, "All accommodations are deleted");
+            return;
+        }
+
         for (Accommodation accommodation : accommodations) {
             if (accommodation.getName().equals(accommodationName)) {
                 Ui.printDeleteAccommodationMessage(accommodation);

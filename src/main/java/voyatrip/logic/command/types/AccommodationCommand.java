@@ -120,7 +120,7 @@ public class AccommodationCommand extends Command {
         }
 
         boolean isInvalidBudget = budget != null && budget < 0;
-        boolean isInvalidName = !isList && name != null && Arrays.asList(INVALID_NAMES).contains(name);
+        boolean isInvalidName = !isList && !isDelete && name != null && Arrays.asList(INVALID_NAMES).contains(name);
         boolean hasStartEndDay = startDay != null && endDay != null;
         boolean isInvalidStartEndDay = hasStartEndDay && (startDay < 0 || endDay < 0 || startDay >= endDay);
 
