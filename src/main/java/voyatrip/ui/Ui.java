@@ -1,18 +1,25 @@
 package voyatrip.ui;
 
-import voyatrip.Accommodation;
-import voyatrip.Activity;
-import voyatrip.Day;
-import voyatrip.command.Parser;
-import voyatrip.Transportation;
-import voyatrip.Trip;
+import voyatrip.model.Accommodation;
+import voyatrip.model.Activity;
+import voyatrip.model.Day;
+import voyatrip.logic.command.Parser;
+import voyatrip.model.Transportation;
+import voyatrip.model.Trip;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * This class contains all the methods to access the user interface messages that will be displayed to the user.
  */
 public class Ui {
+    static final Scanner IN = new Scanner(System.in);
+
+    public static String readInput() {
+        return IN.nextLine();
+    }
+
     public static void printWelcomeMessage() {
         System.out.println(Message.WELCOME_MESSAGE);
     }
@@ -97,6 +104,26 @@ public class Ui {
         }
     }
 
+    public static void printSameTripNameMessage() {
+        System.out.println(Message.SAME_TRIP_NAME_MESSAGE);
+    }
+
+    public static void printSameTripDatesMessage() {
+        System.out.println(Message.SAME_TRIP_DATES_MESSAGE);
+    }
+
+    public static void printSameTripNumDaysMessage() {
+        System.out.println(Message.SAME_TRIP_NUM_DAYS_MESSAGE);
+    }
+
+    public static void printSameTripBudgetMessage() {
+        System.out.println(Message.SAME_TRIP_BUDGET_MESSAGE);
+    }
+
+    public static void printSameTripMessage() {
+        System.out.println(Message.SAME_TRIP_MESSAGE);
+    }
+
     public static void printBudgetPerTransportation(ArrayList<Transportation> transportations) {
         if (transportations.isEmpty()) {
             return;
@@ -123,7 +150,7 @@ public class Ui {
 
     public static void printTotalBudgetStatus(Integer totalBudget, Float budgetSum) {
         System.out.println(Message.TOTAL_BUDGET_AGAINST_BUDGET_SUM_MESSAGE
-                + (budgetSum / totalBudget) * 100 + "%");
+                + String.format("%.2f%%", (budgetSum / totalBudget) * 100) + "%");
     }
 
     public static void printInvalidModificationOfDate() {
@@ -135,12 +162,28 @@ public class Ui {
         System.out.println(abbrTripInfo);
     }
 
+    public static void printAccommodationNotFound() {
+        System.out.println(Message.ACCOMMODATION_NOT_FOUND_MESSAGE);
+    }
+
+    public static void printActivityNotFound() {
+        System.out.println(Message.ACTIVITY_NOT_FOUND_MESSAGE);
+    }
+
+    public static void printDuplicatedName() {
+        System.out.println(Message.DUPLICATED_NAME_MESSAGE);
+    }
+
     public static void printInvalidArgumentKeyword() {
         System.out.println(Message.INVALID_ARGUMENT_KEYWORD_MESSAGE);
     }
 
     public static void printInvalidArgumentValue() {
         System.out.println(Message.INVALID_ARGUMENT_VALUE_MESSAGE);
+    }
+
+    public static void printInvalidBudget() {
+        System.out.println(Message.INVALID_BUDGET_MESSAGE);
     }
 
     public static void printInvalidCommand() {
@@ -155,16 +198,20 @@ public class Ui {
         System.out.println(Message.INVALID_COMMAND_TARGET_MESSAGE);
     }
 
-    public static void printInvalidDateFormat() {
-        System.out.println(Message.INVALID_DATE_FORMAT_MESSAGE);
+    public static void printInvalidDate() {
+        System.out.println(Message.INVALID_DATE_MESSAGE);
+    }
+
+    public static void printInvalidDay() {
+        System.out.println(Message.INVALID_DAY_MESSAGE);
+    }
+
+    public static void printInvalidName() {
+        System.out.println(Message.INVALID_NAME_MESSAGE);
     }
 
     public static void printInvalidNumberFormat() {
         System.out.println(Message.INVALID_NUMBER_FORMAT_MESSAGE);
-    }
-
-    public static void printInvalidScope() {
-        System.out.println(Message.INVALID_SCOPE_MESSAGE);
     }
 
     public static void printMissingArgument() {
@@ -175,12 +222,28 @@ public class Ui {
         System.out.println(Message.MISSING_COMMAND_KEYWORD_MESSAGE);
     }
 
+    public static void printTransportationNotFound() {
+        System.out.println(Message.TRANSPORTATION_NOT_FOUND_MESSAGE);
+    }
+
     public static void printTripNotFound() {
         System.out.println(Message.TRIP_NOT_FOUND_MESSAGE);
     }
 
     public static void printInvalidIndex() {
         System.out.println(Message.INVALID_INDEX_MESSAGE);
+    }
+
+    public static void printInvalidTimeFormat() {
+        System.out.println(Message.INVALID_TIME_FORMAT_MESSAGE);
+    }
+
+    public static void printInvalidDuplicateActivity() {
+        System.out.println(Message.INVALID_DUPLICATE_ACTIVITY);
+    }
+
+    public static void printInvalidChangeDirectory() {
+        System.out.println(Message.INVALID_CHANGE_DIRECTORY_MESSAGE);
     }
 
     public static void printListTransportationMessage(Transportation transportation) {

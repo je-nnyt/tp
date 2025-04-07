@@ -1,8 +1,16 @@
 package voyatrip;
 
 import org.junit.jupiter.api.Test;
-import voyatrip.command.exceptions.InvalidCommand;
-import voyatrip.command.exceptions.TripNotFoundException;
+import voyatrip.logic.command.exceptions.InvalidCommand;
+import voyatrip.logic.command.exceptions.TripNotFoundException;
+
+import voyatrip.model.Accommodation;
+import voyatrip.model.Activity;
+import voyatrip.model.Day;
+import voyatrip.model.Transportation;
+import voyatrip.model.Trip;
+import voyatrip.model.TripList;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;

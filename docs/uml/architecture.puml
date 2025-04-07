@@ -15,17 +15,15 @@ class Logic
 
 class Main
 
-User --> Ui : interacts
+User --> Ui : interacts >
 
-Ui -> Model
-Ui --> Logic
 
 Main --> Model
 Main --> Logic
 Main -> Storage
-Main --> Ui
 
 Storage -> Model
 
 Logic --> Model
+Logic ..> Ui
 @enduml

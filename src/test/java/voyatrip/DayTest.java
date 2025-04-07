@@ -9,8 +9,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import voyatrip.command.exceptions.InvalidArgumentValue;
-import voyatrip.command.exceptions.InvalidIndex;
+import voyatrip.logic.command.exceptions.ActivityNotFound;
+import voyatrip.logic.command.exceptions.DuplicatedName;
+import voyatrip.logic.command.exceptions.InvalidIndex;
+import voyatrip.model.Activity;
+import voyatrip.model.Day;
 
 import java.util.ArrayList;
 
@@ -27,7 +30,7 @@ public class DayTest {
 
     @Test
     void addActivitySameName_failure() {
-        assertThrowsExactly(InvalidArgumentValue.class, () ->
+        assertThrowsExactly(DuplicatedName.class, () ->
                 day.addActivity(new Activity("Visit the beach", "10:00")));
     }
 
@@ -54,7 +57,7 @@ public class DayTest {
 
     @Test
     void deleteActivityByName_failure() {
-        assertThrowsExactly(InvalidArgumentValue.class, () -> day.deleteActivity("Visit nothing"));
+        assertThrowsExactly(ActivityNotFound.class, () -> day.deleteActivity("Visit nothing"));
     }
 
     @Test

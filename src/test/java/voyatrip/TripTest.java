@@ -11,7 +11,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 
 
-import voyatrip.command.exceptions.InvalidCommand;
+import voyatrip.logic.command.exceptions.InvalidCommand;
+
+import voyatrip.model.Accommodation;
+import voyatrip.model.Activity;
+import voyatrip.model.Day;
+import voyatrip.model.Transportation;
+import voyatrip.model.Trip;
 
 public class TripTest {
 

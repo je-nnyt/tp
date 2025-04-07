@@ -1,6 +1,7 @@
 package voyatrip;
 
 import org.json.JSONObject;
+import voyatrip.model.TripList;
 
 import java.util.Optional;
 
