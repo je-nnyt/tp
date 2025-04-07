@@ -150,7 +150,7 @@ public class Ui {
 
     public static void printTotalBudgetStatus(Integer totalBudget, Float budgetSum) {
         System.out.println(Message.TOTAL_BUDGET_AGAINST_BUDGET_SUM_MESSAGE
-                + String.format("%.2f%%", (budgetSum / totalBudget) * 100) + "%");
+                + String.format("%.2f", (budgetSum / totalBudget) * 100) + "%");
     }
 
     public static void printInvalidModificationOfDate() {
