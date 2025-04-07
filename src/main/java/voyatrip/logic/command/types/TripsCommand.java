@@ -62,7 +62,7 @@ public class TripsCommand extends Command {
     }
 
     private void calculateNumDay() {
-        if (startDate != null) {
+        if (startDate != null && endDate != null) {
             numDay = Math.toIntExact(ChronoUnit.DAYS.between(startDate, endDate) + 1);
         }
     }
