@@ -11,7 +11,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 
 
+import voyatrip.logic.command.exceptions.AccommodationNotFound;
+import voyatrip.logic.command.exceptions.DuplicatedName;
 import voyatrip.logic.command.exceptions.InvalidCommand;
+import voyatrip.logic.command.exceptions.InvalidDay;
+import voyatrip.logic.command.exceptions.InvalidIndex;
 
 import voyatrip.model.Accommodation;
 import voyatrip.model.Activity;
@@ -91,8 +95,31 @@ public class TripTest {
         days.add(5);
         days.add(6);
         trip.addAccommodation("Park Hyatt Saigon", 800, days);
-        Assertions.assertThrows(InvalidCommand.class, () ->
+        Assertions.assertThrows(DuplicatedName.class, () ->
                 trip.addAccommodation("Park Hyatt Saigon", 600, days));
+    }
+
+    @Test
+    void addAccommodation_accommodationDaysOutOfRange_failure() throws InvalidCommand {
+        ArrayList<Integer> days = new ArrayList<>();
+        days.add(7);
+        days.add(8);
+        days.add(9);
+        Assertions.assertThrows(InvalidDay.class, () ->
+                trip.addAccommodation("Park Hyatt Saigon", 600, days));
+    }
+
+    @Test
+    void addAccommodation_overlappingAccommodationDays_failure() throws InvalidCommand {
+        ArrayList<Integer> days = new ArrayList<>();
+        days.add(3);
+        days.add(4);
+        days.add(5);
+        trip.addAccommodation("Park Hyatt Saigon", 600, days);
+        days.remove(0);
+        days.add(6);
+        Assertions.assertThrows(InvalidDay.class, () ->
+                trip.addAccommodation("Lotte Hotel Saigon", 1200, days));
     }
 
     @Test
@@ -111,7 +138,7 @@ public class TripTest {
         days.add(3);
         days.add(4);
         trip.addAccommodation("Park Hyatt Saigon", 800, days);
-        Assertions.assertThrows(InvalidCommand.class, () ->
+        Assertions.assertThrows(InvalidIndex.class, () ->
                 trip.deleteAccommodation(2));
     }
 
@@ -131,8 +158,64 @@ public class TripTest {
         days.add(1);
         days.add(2);
         trip.addAccommodation("Park Hyatt Saigon", 800, days);
-        Assertions.assertThrows(InvalidCommand.class, () ->
+        Assertions.assertThrows(AccommodationNotFound.class, () ->
                 trip.deleteAccommodation("Lotte Hotel Saigon"));
+    }
+
+    @Test
+    void modifyAccommodation_allValidArguments_success() throws InvalidCommand {
+        ArrayList<Integer> days = new ArrayList<>();
+        days.add(3);
+        days.add(4);
+        trip.addAccommodation("Park Hyatt Saigon", 800, days);
+        ArrayList<Integer> newDays = new ArrayList<>();
+        newDays.add(1);
+        newDays.add(2);
+        trip.modifyAccommodation("Lotte Hotel Saigon", 900, newDays, 1);
+        Assertions.assertTrue(trip.isContainsAccommodation("Lotte Hotel Saigon"));
+    }
+
+    @Test
+    void modifyAccommodation_duplicateAccommodationName_failure() throws InvalidCommand {
+        ArrayList<Integer> days = new ArrayList<>();
+        days.add(5);
+        days.add(6);
+        trip.addAccommodation("Park Hyatt Saigon", 800, days);
+        ArrayList<Integer> newDays = new ArrayList<>();
+        newDays.add(1);
+        newDays.add(2);
+        Assertions.assertThrows(DuplicatedName.class, () ->
+                trip.modifyAccommodation("Park Hyatt Saigon", 600, newDays, 1));
+    }
+
+    @Test
+    void modifyAccommodation_accommodationDaysOutOfRange_failure() throws InvalidCommand {
+        ArrayList<Integer> days = new ArrayList<>();
+        days.add(5);
+        days.add(6);
+        trip.addAccommodation("Park Hyatt Saigon", 800, days);
+        ArrayList<Integer> newDays = new ArrayList<>();
+        newDays.add(7);
+        newDays.add(8);
+        newDays.add(9);
+        Assertions.assertThrows(InvalidDay.class, () ->
+                trip.modifyAccommodation("Lotte Hotel Saigon", 600, newDays, 1));
+    }
+
+    @Test
+    void modifyAccommodation_overlappingAccommodationDays_failure() throws InvalidCommand {
+        ArrayList<Integer> days = new ArrayList<>();
+        days.add(5);
+        days.add(6);
+        trip.addAccommodation("Park Hyatt Saigon", 600, days);
+        days.clear();
+        days.add(3);
+        days.add(4);
+        days.add(5);
+        trip.addAccommodation("Lotte Hotel Saigon", 1200, days);
+        days.add(6);
+        Assertions.assertThrows(InvalidDay.class, () ->
+                trip.modifyAccommodation(null, null, days, 1));
     }
 
     @Test

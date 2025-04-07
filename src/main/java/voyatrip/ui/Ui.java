@@ -57,6 +57,11 @@ public class Ui {
         System.out.println(Message.NEXT_COMMAND_MESSAGE);
     }
 
+    public static void printDeleteAllAccommodationsMessage() {
+        System.out.println(Message.DELETE_ALL_ACCOMMODATIONS_MESSAGE);
+        System.out.println(Message.NEXT_COMMAND_MESSAGE);
+    }
+
     public static void printAddTransportationMessage(Transportation transportation) {
         System.out.println(Message.ADD_TRANSPORTATION_MESSAGE);
         System.out.println(transportation);
@@ -150,7 +155,7 @@ public class Ui {
 
     public static void printTotalBudgetStatus(Integer totalBudget, Float budgetSum) {
         System.out.println(Message.TOTAL_BUDGET_AGAINST_BUDGET_SUM_MESSAGE
-                + String.format("%.2f%%", (budgetSum / totalBudget) * 100) + "%");
+                + String.format("%.2f", (budgetSum / totalBudget) * 100) + "%");
     }
 
     public static void printInvalidModificationOfDate() {

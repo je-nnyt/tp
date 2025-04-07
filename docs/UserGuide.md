@@ -13,6 +13,7 @@ It also includes a budget system for keeping track of the budget of the trip.
 3. Open a terminal and `cd` to where the jar file is located
 4. Run the following command:  `java -jar JAR_FILE_NAME`
 5. Enter any command listed from the features section
+2. Download the latest version of `VoyaTrip` from our [release page](https://github.com/AY2425S2-CS2113-F14-3/tp/releases).
 
 ## Features
 
@@ -126,7 +127,8 @@ mk --n my trip --b 1000 --s 1-5 --e 7-5
 ```
 
 > ⚠️ Note that the trip's duration should be smaller than 366 days.
-#### Adding new activity
+
+### Adding new activity
 
 Target: `activity`
 
@@ -162,7 +164,27 @@ add transportation --name airplane --mode air --budget 350 --day 1
 add --n airplane --b 350 --m air --d 1
 ```
 
-### Modifying
+### Adding new accommodation
+
+Target: `accommodation`
+
+Required arguments: `name` , `budget` , `start` (check-in day of accommodation), `end` (check-out day of accommodation)
+
+> ⚠️ Note that checking-in and checking-out at an accommodation on the same day is considered invalid, but checking-out at Hotel A 
+and checking-in at Hotel B on the same day is valid. If users are to stay at the same accommodation in two (or more) different/separated 
+time periods, they are advised to add symbols like (2) for distinguishing purpose, otherwise it would be classified as having duplicate names for accommodations.
+
+Example of usage:
+
+```
+~/My Trip/Accommodation >
+add accommodation --name Hilton Hotel --budget 500 --start 1 --end 4
+
+~/My Trip/Accommodation >
+add --n Hilton Hotel --b 500 --s 1 --e 4
+```
+
+## Modifying
 
 Generally speaking, modify the item specified by index. The argument that are not index are the parameters to be changed to. Day number is also required for modifying activity. User do not need to specify the trip index if they are already in the trip they want to modify.
 
@@ -176,9 +198,9 @@ Required arguments: `index`
 
 Arguments: `name`, `start`, `end` and `budget`
 
-start date and end date should be in the format `d-M-yyyy` or `d-M` if the year is the current year.
+Start date and end date should be in the format `d-M-yyyy` or `d-M` if the year is the current year.
 
-Note that the user do not need to specify the index of the trip if they want to modify the current trip they are in.
+Note: the user do not need to specify the index of the trip if they want to modify the current trip they are in.
 
 Example of usage: changing the current trip name to "new my trip" and the total budget to 1200
 
@@ -198,10 +220,14 @@ Target: `accommodation`
 
 Required arguments: `index`
 
-Arguments: `name`, `budget`, `start` (start day of accommodation), `end` (end day of accommodation)
+Arguments: `name`, `budget`, `start` (check-in day of accommodation), `end` (check-out day of accommodation)
 
-Note that if you are changing the days of accommodation of a saved accommodation, 
-you should provide both the new start and end days.
+> ⚠️ Note that changing the name of an accommodation to the same name it had is considered as having duplicate names, no modification(s) will be done.
+
+> ⚠️ Note that if you are changing the days of accommodation of a saved accommodation, 
+you should provide both the new check-in and check-out days, even if one of them stays the same.
+
+> ⚠️ See the special note at listing accommodation(s) for more details about accommodation indexes.
 
 Example of usage: for the 1st accommodation of the current trip, change the 
 accommodation name to "Lotte Hotel" and the days of accommodation to day 3 to 6
@@ -238,6 +264,7 @@ modify transportation --i 1 --d 3 --b 1200
 The `delete` or `remove` command will delete the item specified with the argument `index` or `name` in the specified target. Maybe shorten as `d` or `rm`.
 
 #### Deleting a trip
+Note that if you give argument values for both argument `--index` and `--name`, the priority will be given to `--name`, i.e. delete by name.
 
 Target: `trip`
 
@@ -273,9 +300,15 @@ rm --n my trip
 
 Target: `accommodation`
 
-Required arguments: `index` or `name`
+Required arguments: `index` or `name` or `all`
+
+Special case for deleting all accommodations of the current trip `delete accommodation --all` or `delete accommodation --n all`
 
 Example of usage: deleting accommodation named "Hilton Hotel" with index 1
+
+> ⚠️ Note that if you give any argument value for the argument `--all`, the values will be ignored.
+
+> ⚠️ See the special note at listing accommodation(s) for more details about accommodation indexes.
 
 ```
 ~/My Trip/ITINERARY >
@@ -289,27 +322,11 @@ delete --n Hilton Hotel
 
 List command will list the item(s) in the target specified by index or name. In the case of wanting to list all the item in the target, use the special argument `--all` that does not take any argument value or use `all` as the argument value for the argument `name`.
 
+Note that if you give argument values for both argument `--index` and `--name`, the priority will be given to `--name`, i.e. list by name.
+
 Note that if you give any argument value for the argument `--all`, the values will be ignored.
 
-#### Listing accommodation(s)
-
-Target: `accommodation`
-
-Required arguments: `index` or `name` or `all`
-
-Special case for listing all accommodations of the current trip `list accommodation --all` or `list accommodation --n all`
-
-Example of usage:
-
-```
-~/My Trip/ACCOMMODATION >
-list accom --index 1
-
-~/My Trip/ACCOMMODATION >
-list --n Hilton Hotel
-```
-
-#### Listing trips
+### Listing trips
 
 Target: `trip`
 
@@ -327,7 +344,47 @@ list trip --index 1
 list --n my trip
 ```
 
-#### Listing transportations
+### Listing accommodation(s)
+
+Target: `accommodation`
+
+Required arguments: `index` or `name` or `all`
+
+Special case for listing all accommodations of the current trip `list accommodation --all` or `list accommodation --n all`
+
+> ⚠️ Note that the accommodations are sorted in ascending order of the check-in days. Therefore, after adding a new 
+accommodation/modifying a saved accommodation, the indexes of the accommodations might update. Users are advised to 
+utilise the 'listing all' feature to check for the most updated accommodations' indexes before deleting/modifying.
+
+Example of usage:
+
+```
+~/My Trip/ACCOMMODATION >
+list accom --index 1
+
+~/My Trip/ACCOMMODATION >
+list --n Hilton Hotel
+```
+
+### Listing trips
+
+Target: `trip`
+
+Required arguments: `index` or `name` or `all`
+
+Special case for listing all trips `list trip --all`
+
+Example of usage:
+
+```
+~ >
+list trip --index 1
+
+~ >
+list --n my trip
+```
+
+### Listing transportations
 
 Target: `trip`
 
