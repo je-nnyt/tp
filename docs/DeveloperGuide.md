@@ -163,14 +163,42 @@ A trip named 'My Trip' has three accommodations stored in the `accommodations` l
 ~/My Trip/Accommodation >
 modify accom --index 2 --n Resort Paradise --b 500
 ```
-
 #### Execution:
 1. `accommodationName != null`: Updates the name to `"Resort Paradise"` by calling `setName` of the accommodation.
 2. `accommodationBudget != null`: Updates the budget to `500` by calling `setBudget` of the accommodation.
 3. `accommodationDays == null`: Days remain unchanged.
 4. After modifications, `Ui.printModifyAccommodationMessage` is called to display a confirmation message.
 
+### Modify Transportation [Implemented]
+The modify transportation feature is facilitated by calling `executeModifyTransportation` who in turns calls `modifyTransportation`.
+This feature allows the user to modify the information of any given transportation from the transportation list of a given trip.
 
+#### Implementation Details
+- The user is required to provide the associated transportation index and at least one parameter they wish to modify . 
+- The user may perform `list transportaion -- all` to view all the transportations, and their associated index, contained in the current trip.
+- Logging messages are printed  before and after modifying each desired parameter.
+- If the user modifies the day parameter, `validateTransportationDay` is called to verify that the day is within the trip duration and is greater than 1.
+  If the day is not validated, `InvalidDayException` is thrown
+
+### List Transportation [Implemented]
+The list transportation feature is facilitated by calling the `executeListTransportation` who in turns calls `listTransportation`.
+This listing feature allows the user to list a transportation information by simply inputting its associated index or by its name. 
+This feature also enables the user to list all the transportations and their index from a given trip.
+
+#### Implementation Details
+- The user is required to provide the associated transportation index or name to list the transportation information.
+- The user may provide `list transportation -- all` to view all the transportations, and their associated index, contained in the current trip.
+- The user may perform `list transportaion -- all` to view all the transportations, and their associated index, contained in the current trip.
+- Logging messages are printed before the operation and upon successful completion
+- Prior to calling the `printListTransportation` method, depending on the provided parameter, 
+  the program verifies if the transportation at a given index or name exists in the list of transportation.
+- If the transportation is not found, `InvalidIndexException` is thrown in the case that the index is invalid, 
+  TransportationNotFoundException in the case that the provided name does not exist
+
+#### Execution
+
+### List trip Itinerary [Implemented]
+The list trip itinerary feature is facilitated by calling 
 ## Git Workflow
 
 ### Branch
