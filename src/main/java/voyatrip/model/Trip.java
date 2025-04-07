@@ -378,10 +378,10 @@ public class Trip {
     public void addActivity(Integer day, String name, String time) throws InvalidCommand {
         logger.log(Level.INFO, "Adding activity");
 
-        //verify if duplicate activity
-        validateDuplicateActivity(day, name, time);
-
         try {
+            //verify if duplicate activity
+            validateDuplicateActivity(day, name, time);
+
             Activity newActivity = new Activity(name, time);
             itineraries.get(day - 1).addActivity(newActivity);
             Ui.printAddActivityMessage(newActivity);
