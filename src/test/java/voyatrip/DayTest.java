@@ -9,9 +9,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import voyatrip.command.exceptions.ActivityNotFound;
-import voyatrip.command.exceptions.DuplicatedName;
-import voyatrip.command.exceptions.InvalidIndex;
+import voyatrip.logic.command.exceptions.ActivityNotFound;
+import voyatrip.logic.command.exceptions.DuplicatedName;
+import voyatrip.logic.command.exceptions.InvalidIndex;
+import voyatrip.model.Activity;
+import voyatrip.model.Day;
 
 import java.util.ArrayList;
 
