@@ -8,6 +8,9 @@ VoyaTrip is a command-line application for managing trips. It also includes a bu
 
 1. Ensure that you have Java 17 or above installed.
 2. Download the latest version of `VoyaTrip` from  [Placeholder](https://).
+3. Open a terminal and `cd` to where the jar file is located
+4. Run the following command:  `java -jar JAR_FILE_NAME`
+5. Enter any command listed below
 
 ## Features
 
@@ -18,19 +21,19 @@ Each trip have a budget, starting date and ending date.
 
 The `itinerary` contains lists of activities for all the days. This is for you to plan what to do during the trip. Each day will have a budget for you to keep track of.
 
-The `transportation` contain a list of transportation. This is for you to keep track of any important transportation during the trip like the flight. Each transportation will have a budget for you to adjust and keep track of.
+A `trip` contain a list of `transportation`. This is for you to keep track of any important transportation during the trip like the flight. Each transportation will have a budget for you to adjust and keep track of.
 
-The `accommodation` contain a list of accommodations. This is for you to keep track of the accommodation during the trip. Each accommodation will have a budget for you to adjust and keep track of.
+A `trip` contain a list of `accommodation`. This is for you to keep track of the accommodation during the trip. Each accommodation will have a budget for you to adjust and keep track of.
 
-The budget of a trip is the maximum budget you expected have for the trip. It is not the sum of all the budgets of all the components. But instead, VoyaTrip will give warning if the total sum of the budgets of all the components is greater than the budget of the trip. So that you can adjust the budgets of the components accordingly.
+The budget of a trip is the maximum budget you expect to have for the trip. It is not the sum of all the budgets of all the components. But instead, VoyaTrip will give a warning if the total sum of the budgets of all the components is greater than the budget of the trip. So that you can adjust the budgets of the components accordingly.
 
-## The Directory System
+### The Directory System
 
 The directory system is used to navigate between trips and different components (`ITINERARY`, `TRANSPORTATION` and `ACCOMMODATION`) of a trip. To make changes to the components of a trip, you have to be in the directory of the trip. 
 
 Everytime the program starts at the `root`, shown in the program as: `~ >`. When working within a trip, the trip name and the target component is shown as: `~/TRIP_NAME/TARGET_NAME >`. For example: `~/My Trip/ITINERARY >`.
 
-## Commands
+### Note about the commands
 
 A command follows the format: `<action> <target> <argument(s)>`. The keywords are not case-sensitive.
 
@@ -47,11 +50,11 @@ The target keyword may be omitted if the correct directory is at the correspondi
 For example, if the current directory is `~/<trip name>/ITINERARY` and if `add` is entered without the target keyword, then since the only thing add can do in the current directory is to add an activity, the command target will be assumed to be `activity`.
 
 
-## Changing Directory
+### Changing Directory
 
 The `cd` command is used to navigate between trips and different components.
 
-### Changing the current trip currently working on
+#### Changing the current trip currently working on
 
 Target: `trip`
 
@@ -78,7 +81,7 @@ cd ..
 cd trip
 ```
 
-### Changing the current component
+#### Changing the current component
 
 Target: `itinerary`, `transportation` or `accommodation`
 
@@ -94,11 +97,11 @@ cd accommodation
 cd accom
 ```
 
-## Adding
+### Adding
 
 `add` or `make` are commands that are used to add new items. Maybe shorten as `a` or `mk`.
 
-### Adding new trip
+#### Adding new trip
 
 Format:
 
@@ -121,7 +124,7 @@ mk --n my trip --b 1000 --s 1-5 --e 7-5
 ```
 
 > ⚠️ Note that the trip's duration should be smaller than 366 days.
-### Adding new activity
+#### Adding new activity
 
 Target: `activity`
 
@@ -139,7 +142,7 @@ add activity --name activity 1 --time 9:00 --day 1
 add --d 1 --t 9:00 --n my activity 1
 ```
 
-### Adding new transportation
+#### Adding new transportation
 
 Target: `transportation`
 
@@ -157,11 +160,11 @@ add transportation --name airplane --mode air --budget 350 --day 1
 add --n airplane --b 350 --m air --d 1
 ```
 
-## Modifying
+### Modifying
 
 Generally speaking, modify the item specified by index. The argument that are not index are the parameters to be changed to. Day number is also required for modifying activity. User do not need to specify the trip index if they are already in the trip they want to modify.
 
-### Modifying the trip
+#### Modifying the trip
 
 Target: `trip`
 
@@ -185,7 +188,7 @@ modify trip --index 1 --name new my trip --budget 1200
 modify trip --n new my trip --b 1200
 ```
 
-### Modifying the accommodation
+#### Modifying the accommodation
 
 Action: `modify`
 
@@ -206,7 +209,7 @@ accommodation name to "Lotte Hotel" and the days of accommodation to day 3 to 6
 modify accom --index 1 --n Lotte Hotel --s 3 --e 6
 ```
 
-### Modifying the transportation
+#### Modifying the transportation
 
 Target: `transportation`
 
@@ -228,11 +231,11 @@ modify transportation --index 1 --budget 1200 --day 3
 modify transportation --i 1 --d 3 --b 1200
 ```
 
-## Deleting
+### Deleting
 
 The `delete` or `remove` command will delete the item specified with the argument `index` or `name` in the specified target. Maybe shorten as `d` or `rm`.
 
-### Deleting a trip
+#### Deleting a trip
 
 Target: `trip`
 
@@ -248,7 +251,7 @@ delete trip --index 1
 rm --n my trip
 ```
 
-### Deleting an activity
+#### Deleting an activity
 
 Target: `activity`
 
@@ -264,7 +267,7 @@ delete trip --index 1
 rm --n my trip
 ```
 
-### Deleting an accommodation
+#### Deleting an accommodation
 
 Target: `accommodation`
 
@@ -280,13 +283,13 @@ delete accom --index 1
 delete --n Hilton Hotel
 ```
 
-## Listing
+### Listing
 
 List command will list the item(s) in the target specified by index or name. In the case of wanting to list all the item in the target, use the special argument `--all` that does not take any argument value or use `all` as the argument value for the argument `name`.
 
 Note that if you give any argument value for the argument `--all`, the values will be ignored.
 
-### Listing accommodation(s)
+#### Listing accommodation(s)
 
 Target: `accommodation`
 
@@ -304,7 +307,7 @@ list accom --index 1
 list --n Hilton Hotel
 ```
 
-### Listing trips
+#### Listing trips
 
 Target: `trip`
 
@@ -322,7 +325,7 @@ list trip --index 1
 list --n my trip
 ```
 
-### Listing transportations
+#### Listing transportations
 
 Target: `trip`
 
@@ -341,7 +344,7 @@ list transportation --n all
 ```
 
 
-### Exiting the program
+#### Exiting the program
 
 `exit` or `quit` or `bye`
 
@@ -401,13 +404,15 @@ List of arguments:
 
 Note that when there are multiple possible errors in the same command, one of them will be shown.
 
-| Error message            | Description                        |
-|--------------------------|------------------------------------|
-| Invalid argument keyword | Given argument keyword is invalid. |
-| Invalid argument value   | Given argument value is invalid.   |
-| Invalid command action   | Given command action is invalid.   |
-| Invalid command target   | Given command target is invalid.   |
-| Invalid date format      | Given date format is invalid.      |
-| Invalid number format    | Given number format is invalid.    |
-| Missing argument         | There is missing argument.         |
-| Missing command keyword  | There is missing command keyword.  |
+| Error message            | Description                                                      |
+|--------------------------|------------------------------------------------------------------|
+| Invalid argument keyword | Given argument keyword is invalid.                               |
+| Invalid argument value   | Given argument value is invalid.                                 |
+| Invalid command action   | Given command action is invalid.                                 |
+| Invalid command target   | Given command target is invalid.                                 |
+| Invalid date format      | Given date format is invalid.                                    |
+| Invalid number format    | Given number format is invalid.                                  |
+| Invalid time format      | Given time format is invalid.                                    |
+| Invalid change directory | Arguments are not accepted for change of directory to components |
+| Missing argument         | There is missing argument.                                       |
+| Missing command keyword  | There is missing command keyword.                                |
