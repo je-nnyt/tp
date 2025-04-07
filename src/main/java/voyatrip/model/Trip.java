@@ -503,7 +503,7 @@ public class Trip {
      * This method print the information of the current trip budget status, ie budget per day and remaining budget.
      */
     public void printBudgetStatus() {
-        final double EPSILON = 1e-2;
+        final double epsilon = 1e-2;
         float budgetSum = 0;
         for (Day day : itineraries) {
             budgetSum += day.getBudget();
@@ -518,7 +518,7 @@ public class Trip {
         }
 
         float exceededBudget = budgetSum - totalBudget;
-        if (exceededBudget > EPSILON) {
+        if (exceededBudget > epsilon) {
             Ui.printExceedTotalBudget(exceededBudget);
             Ui.printBudgetPerDay(itineraries);
             Ui.printBudgetPerTransportation(transportations);
