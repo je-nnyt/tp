@@ -5,8 +5,8 @@
 * [Developer Guide (7 Apr)](#developer-guide-7-apr)
   * [Table of Contents](#table-of-contents)
 * [Acknowledgements](#acknowledgements)
-  * [Get Started](#get-started)
-    * [Setting up](#setting-up)
+* [Get Started](#get-started)
+  * [Setting up](#setting-up)
 * [Design](#design)
   * [Architecture](#architecture)
     * [Storage Component](#storage-component)
@@ -146,7 +146,7 @@ with indentation of 4 spaces for better json format
 
 <a id="uml-sequence-diagram"></a>
 <details>
-<summary style="font-weight: bold"> 🖼️ UML Sequence Diagram</summary>>
+<summary style="font-weight: bold"> 🖼️ UML Sequence Diagram</summary>
 <img src="uml/storage.png"/> 
 </details>
 
