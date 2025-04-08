@@ -248,12 +248,18 @@ public class Executor {
 
     private static void executeDeleteTripByIndex(TripsCommand command) throws InvalidCommand {
         logger.log(Level.INFO, "Starting executeDeleteTripByIndex");
+        if (trips.get(command.getIndex()).getName().equals(PARSER.getCurrentTrip())) {
+            throw new InvalidIndex();
+        }
         trips.delete(command.getIndex());
         logger.log(Level.INFO, "Finished executeDeleteTripByIndex");
     }
 
-    private static void executeDeleteTripByName(TripsCommand command) throws TripNotFoundException {
+    private static void executeDeleteTripByName(TripsCommand command) throws InvalidCommand {
         logger.log(Level.INFO, "Starting executeDeleteTripByName");
+        if (trips.get(command.getName()).getName().equals(PARSER.getCurrentTrip())) {
+            throw new InvalidName();
+        }
         trips.delete(command.getName());
         logger.log(Level.INFO, "Finished executeDeleteTripByName");
     }

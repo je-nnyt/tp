@@ -2,11 +2,17 @@
 
 ## Introduction
 
-VoyaTrip is a command-line application for managing trips. It also includes a budget system for keeping track of the budget of the trip.
+VoyaTrip is a command-line application for managing trips optimized for users that can type fast on a keyboard.
+It also includes a budget system for keeping track of the budget of the trip.
+
 
 ## Quick Start
 
 1. Ensure that you have Java 17 or above installed.
+2. Download the latest version of `VoyaTrip` from  [Placeholder](https://).
+3. Open a terminal and `cd` to where the jar file is located
+4. Run the following command:  `java -jar JAR_FILE_NAME`
+5. Enter any command listed from the features section
 2. Download the latest version of `VoyaTrip` from our [release page](https://github.com/AY2425S2-CS2113-F14-3/tp/releases).
 
 ## Features
@@ -18,21 +24,21 @@ Each trip have a budget, starting date and ending date.
 
 The `itinerary` contains lists of activities for all the days. This is for you to plan what to do during the trip. Each day will have a budget for you to keep track of.
 
-The `transportation` contain a list of transportation. This is for you to keep track of any important transportation during the trip like the flight. Each transportation will have a budget for you to adjust and keep track of.
+A `trip` contain a list of `transportation`. This is for you to keep track of any important transportation during the trip like the flight. Each transportation will have a budget for you to adjust and keep track of.
 
-The `accommodation` contain a list of accommodations. This is for you to keep track of the accommodation during the trip. Each accommodation will have a budget for you to adjust and keep track of.
+A `trip` contain a list of `accommodation`. This is for you to keep track of the accommodation during the trip. Each accommodation will have a budget for you to adjust and keep track of.
 
-The budget of a trip is the maximum budget you expected have for the trip. It is not the sum of all the budgets of all the components. But instead, VoyaTrip will give warning if the total sum of the budgets of all the components is greater than the budget of the trip. So that you can adjust the budgets of the components accordingly.
+The budget of a trip is the maximum budget you expect to have for the trip. It is not the sum of all the budgets of all the components. But instead, VoyaTrip will give a warning if the total sum of the budgets of all the components is greater than the budget of the trip. So that you can adjust the budgets of the components accordingly.
 
 All budget values entered must be in integer form.
 
-## The Directory System
+### The Directory System
 
 The directory system is used to navigate between trips and different components (`ITINERARY`, `TRANSPORTATION` and `ACCOMMODATION`) of a trip. To make changes to the components of a trip, you have to be in the directory of the trip. 
 
 Everytime the program starts at the `root`, shown in the program as: `~ >`. When working within a trip, the trip name and the target component is shown as: `~/TRIP_NAME/TARGET_NAME >`. For example: `~/My Trip/ITINERARY >`.
 
-## Commands
+### Note about the commands
 
 A command follows the format: `<action> <target> <argument(s)>`. The keywords are not case-sensitive.
 
@@ -45,11 +51,11 @@ An argument consist of a double hyphen (`--`) immediately followed by a keyword 
 Note that some commands may not have a target or arguments. Also note that extra arguments that are not necessary or duplicated will be ignored.
 
 
-## Changing Directory
+### Changing Directory
 
 The `cd` command is used to navigate between trips and different components.
 
-### Changing the current trip currently working on
+#### Changing the current trip currently working on
 
 Target: `trip`
 
@@ -77,7 +83,7 @@ cd ..
 cd trip
 ```
 
-### Changing the current component
+#### Changing the current component
 
 Target: `itinerary`, `transportation` or `accommodation`
 
@@ -93,11 +99,11 @@ cd accommodation
 cd accom
 ```
 
-## Adding
+### Adding
 
 `add` or `make` are commands that are used to add new items. Maybe shorten as `a` or `mk`.
 
-### Adding new trip
+#### Adding new trip
 
 Format:
 
@@ -148,7 +154,7 @@ add activity --name activity 1 --time 9:00 --day 1
 add --d 1 --t 9:00 --n my activity 1
 ```
 
-### Adding new transportation
+#### Adding new transportation
 
 Target: `transportation`
 
@@ -158,7 +164,10 @@ Required arguments:
 - `budget`
 - `day`
 
-Name should be unique and cannot be "all".
+Note: 
+- Name should be unique and cannot be "all"
+- Day is an integer greater than 1
+- Duplicate transportation is not allowed
 
 Example of usage: 
 
@@ -169,6 +178,7 @@ add transportation --name airplane --mode air --budget 350 --day 1
 ~/My Trip/TRANSPORTATION >
 add --n airplane --b 350 --m air --d 1
 ```
+
 
 ### Adding new accommodation
 
@@ -199,7 +209,7 @@ add --n hotel ABC --b 800 --s 1 --e 3
 
 The command `modify` modify the item specified by index. The argument that are not index are the parameters to be changed to.
 
-### Modifying the trip
+#### Modifying the trip
 
 Target: `trip`
 
@@ -228,7 +238,7 @@ modify trip --index 1 --name new my trip --budget 1200
 modify trip --n new my trip --b 1200
 ```
 
-### Modifying the accommodation
+#### Modifying the accommodation
 
 Target: `accommodation`
 
@@ -253,9 +263,10 @@ accommodation name to "Lotte Hotel" and the days of accommodation to day 3 to 6
 ```
 ~/My Trip/ACCOMMODATION >
 modify accom --index 1 --n Lotte Hotel --s 3 --e 6
+
 ```
 
-### Modifying the transportation
+#### Modifying the transportation
 
 Target: `transportation`
 
@@ -269,7 +280,7 @@ Arguments:
 - `budget`
 - `day` (day of transportation)
 
-Note: The start and end day is expressed as a single integer and  must be a number greater than 0
+Note: The start and end day is expressed as a single integer and  must be a number greater than 1
 
 Example of usage:
 
@@ -281,13 +292,13 @@ modify transportation --index 1 --budget 1200 --day 3
 modify transportation --i 1 --d 3 --b 1200
 ```
 
-## Deleting
+
+### Deleting
 
 The `delete` or `remove` command will delete the item specified with the argument `index` or `name` in the specified target. Maybe shorten as `d` or `rm`.
 
+#### Deleting a trip
 Note that if you give argument values for both argument `--index` and `--name`, the priority will be given to `--name`, i.e. delete by name.
-
-### Deleting a trip
 
 Target: `trip`
 
@@ -306,7 +317,7 @@ delete trip --index 1
 rm --n my trip
 ```
 
-### Deleting an activity
+#### Deleting an activity
 
 Target: `activity`
 
@@ -322,7 +333,23 @@ delete trip --index 1
 rm --n my trip
 ```
 
-### Deleting an accommodation
+#### Deleting a transportation
+
+Target: `transportation`
+
+Required arguments: `index` or `name`
+
+Example of usage: deleting transportation named "Scoot" with index 1
+
+```
+~/My Trip/ITINERARY >
+delete transportation --index 1
+
+~/My Trip/TRANSPORTATION >
+delete --n Scoot
+```
+
+#### Deleting an accommodation
 
 Target: `accommodation`
 
@@ -451,10 +478,10 @@ list --n Hilton Hotel
 
 Target: `trip`
 
-Required arguments:
-- `index` or `name` or `all`
+- `index` or ' `name` or `all`
 
-Special case for listing all transportations `list transportation --name all` or `list transportation --all`
+Special case for listing all transportationsL: `list transportation --all`
+- By listing all transportations, the user will be able to view the associated index for each transportation.
 
 Example of usage:
 
@@ -463,11 +490,11 @@ Example of usage:
 list transportation --index 1
 
 ~ >
-list transportation --n all
+list transportation -- all
 ```
 
 
-### Exiting the program
+#### Exiting the program
 
 `exit` or `quit` or `bye`
 
@@ -525,8 +552,6 @@ List of arguments:
 - `--mode <transportation mode>` or `--m`
 - `--all`
 - `--root`
-
-* Add transportation `add transportaion --n NAME --m MODE --b BUDGET --s START_DAY_NUMBER --e END_DAY_NUMBER`
 
 ## Command Error
 
@@ -619,4 +644,3 @@ The given transportation name is not found in the trip.  Possible reason:
 The given trip name is not found.  Possible reason:
 - the word given in the name argument is misspelled
 - argument after (if any) has an incorrect format (like extra spaces between the hyphen and the keyword or missing a hyphen)
-
