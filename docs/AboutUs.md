@@ -1,8 +1,5 @@
 # About us
 
-Display | Name | Github Profile | Portfolio 
---------|:----:|:--------------:|:---------:
-=======
 Display |     Name     |           Github Profile            | Portfolio 
 --------|:------------:|:-----------------------------------:|:---------:
 ![]() | Ayu Goto | [Github](https://github.com/sweetFish8) | [Portfolio](team/ayugoto.md)
