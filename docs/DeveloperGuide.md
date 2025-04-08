@@ -29,7 +29,6 @@
     * [Implementation Details](#implementation-details-1)
   * [List Transportation [Implemented]](#list-transportation-implemented)
     * [Implementation Details](#implementation-details-2)
-    * [Execution](#execution-1)
 * [Git Workflow](#git-workflow)
 * [Appendix A: Product Scope](#appendix-a-product-scope)
   * [Target user profile](#target-user-profile)
@@ -38,11 +37,11 @@
 * [Appendix C: Non-Functional Requirements](#appendix-c-non-functional-requirements)
 * [Appendix D: Glossary](#appendix-d-glossary)
 * [Appendix E: Instructions for manual testing](#appendix-e-instructions-for-manual-testing)
-  * [PlantUML](#plantuml)
-    * [How to use](#how-to-use)
 * [Documentation Standard](#documentation-standard)
   * [Important notes](#important-notes)
   * [Branch](#branch)
+  * [PlantUML](#plantuml)
+    * [How to use](#how-to-use)
 * [Code Standard](#code-standard)
   * [Primitive Type](#primitive-type)
   * [Switch](#switch)
@@ -310,21 +309,6 @@ This section provides instructions for manual testing of VoyaTrip
 
   -  `modify accommodation --i 1 --n Hotel Mao` 
   - Expected: Display the information of the newly modified accommodation
-  
-
-### PlantUML
-
-PlantUML is the software/code I used to generate the uml diagram.
-
-#### How to use
-
-1. Download the PlantUML plugin in your own IDE, it is available for both IntelliJ and VSCode
-> ℹ️ Make sure you have also download the graphviz
-> Check it by typing `brew info graphviz` in linux environment terminal
-> Install it by typing `brew install graphviz` in linux environment terminal
-2. Please refer to the official documents to start code it, you can check it [here](https://plantuml.com/en-dark/class-diagram). It is a generally powerful and easy tool not only to general uml, you may check there main page for more information
-3. Make sure you end the uml document with `.puml` but  **not** `.uml`
-
 
 ## Documentation Standard
 
@@ -338,6 +322,19 @@ PlantUML is the software/code I used to generate the uml diagram.
 Please try to use consistent branch name style if applicable
 - developing a new feature: `dev/<issueNumber>-<description>`, ie `dev/8-add-delete-trip
 - fixing a bug: `fix/<issueNumber>-<description>`, ie `fix/8-incorrect-output`
+
+### PlantUML
+
+PlantUML is the software/code we use to generate the uml diagram.
+
+#### How to use
+
+1. Download the PlantUML plugin in your own IDE, it is available for both IntelliJ and VSCode
+> ℹ️ Make sure you have also download the graphviz
+> Check it by typing `brew info graphviz` in linux environment terminal
+> Install it by typing `brew install graphviz` in linux environment terminal
+2. Please refer to the official documents to start code it, you can check it [here](https://plantuml.com/en-dark/class-diagram). It is a generally powerful and easy tool not only to general uml, you may check there main page for more information
+3. Make sure you end the uml document with `.puml` but  **not** `.uml`
 
 ## Code Standard
 
