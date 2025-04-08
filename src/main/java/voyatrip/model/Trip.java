@@ -210,7 +210,8 @@ public class Trip {
      * @throws InvalidIndex if invalid index provided.
      */
     public void modifyTransportation(String transportName, String transportMode, Integer transportBudget,
-                                     Integer day, Integer index) throws InvalidArgumentValue, InvalidIndex, DuplicatedName {
+                                     Integer day, Integer index)
+            throws InvalidArgumentValue, InvalidIndex, DuplicatedName {
         logger.log(Level.INFO, "Modifying transportation");
 
         try {
