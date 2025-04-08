@@ -1,5 +1,6 @@
 package voyatrip.logic.executor;
 
+import voyatrip.logic.command.exceptions.ExtraArgument;
 import voyatrip.model.Trip;
 import voyatrip.model.TripList;
 
@@ -121,6 +122,9 @@ public class Executor {
         } catch (InvalidDuplicateActivity e) {
             logger.log(Level.WARNING, "Duplicate activity");
             Ui.printInvalidDuplicateActivity();
+        } catch (ExtraArgument e){
+            logger.log(Level.WARNING, "Extra argument");
+            Ui.printExtraArgument();
         } catch (InvalidArgumentValue e) {
             logger.log(Level.WARNING, "Invalid argument value");
             Ui.printInvalidArgumentValue();

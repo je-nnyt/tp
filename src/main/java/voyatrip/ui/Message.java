@@ -4,8 +4,6 @@ package voyatrip.ui;
  * This class store all the user interface messages that will be displayed to the user.
  */
 public class Message {
-    public static final String INVALID_TIME_FORMAT_MESSAGE = "Invalid time format. Please try again.";
-    public static final String INVALID_DUPLICATE_ACTIVITY = "The activity already exists. Pleas try again.";
     // user message
     static final String WELCOME_MESSAGE = "Welcome to VoyaTrip! How can I help you today?";
     static final String GOODBYE_MESSAGE = "Goodbye! Wish you have a lovely trip!";
@@ -70,7 +68,9 @@ public class Message {
     static final String MISSING_COMMAND_KEYWORD_MESSAGE = "Missing command keyword. Please try again.";
     static final String TRANSPORTATION_NOT_FOUND_MESSAGE = "Transportation not found. Please try again.";
     static final String TRIP_NOT_FOUND_MESSAGE = "Trip not found. Please try again.";
-
+    static final String INVALID_TIME_FORMAT_MESSAGE = "Invalid time format. Please try again.";
+    static final String INVALID_DUPLICATE_ACTIVITY = "The activity already exists. Pleas try again.";
+    static final String EXTRA_ARGUMENT_MESSAFE = "Extra argument. Please try again.";
 
     // Getters
     public static String getWelcomeMessage() {

@@ -258,6 +258,7 @@ information on its itinerary, transportation, accommodation and budget.
 | v2.0    | user           | modify the accommodation                     | update it with any new information                       |
 | v2.0    | user           | modify the transportation                    | update it with any new information                       |
 | v2.0    | user           | modify the trip                              | update it with any new information                       |
+| v2.0    | user           | modify the activity                          | update it with any new information                       |
  v2.0     | user           | include a day to my transportation           | keep track of my transportation dates                    |
 | v2.0    | forgetful user | include a day to my accommodation            | keep track of accommodation dates                        |
 | v2.1    | user           | view the activities in a chronological order | organize my trip itinerary                 |
@@ -280,7 +281,8 @@ information on its itinerary, transportation, accommodation and budget.
 * *Multistep command* - A feature which requires the user to go through several steps to complete.
 
 ## Appendix E: Instructions for manual testing
-This section provides instructions for manual testing of VoyaTrip
+This section provides instructions for manual testing. 
+This manual testing will allow the user to test the add, delete, cd, list and modify features.
 
 1. Launch the program
    1. Download the jar file
