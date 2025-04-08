@@ -40,6 +40,7 @@
   - [Accommodation not found](#accommodation-not-found)
   - [Activity not found](#activity-not-found)
   - [Duplicated name](#duplicated-name)
+  - [Extra argument](#extra-argument)
   - [Invalid argument keyword](#invalid-argument-keyword)
   - [Invalid argument value](#invalid-argument-value)
   - [Invalid budget](#invalid-budget)
@@ -47,12 +48,12 @@
   - [Invalid command target](#invalid-command-target)
   - [Invalid date](#invalid-date)
   - [Invalid day](#invalid-day)
-  - [The activity already exists](#the-activity-already-exists)
   - [Invalid index](#invalid-index)
   - [Invalid name](#invalid-name)
   - [Invalid number format](#invalid-number-format)
   - [Invalid time format](#invalid-time-format)
   - [Missing argument](#missing-argument)
+  - [The activity already exists](#the-activity-already-exists)
   - [Transportation not found](#transportation-not-found)
   - [Trip not found](#trip-not-found)
 </details>
@@ -647,6 +648,10 @@ The given activity name is not found in the trip.  Possible reason:
 ### Duplicated name
 The given name is duplicated.
 
+### Extra argument
+There is an extra argument not supported by the `cd` command. Possible reason:
+- The user might be trying to cd to either transportation and accommodation using an index
+
 ### Invalid argument keyword
 The given argument keyword is incorrect.  Possible reason:
 - the word immediately after the double hyphen "--" is misspelled
@@ -682,9 +687,6 @@ The given day is invalid. Possible reasons:
 - overlapping with other accommodations
 - argument after (if any) has an incorrect format (like extra spaces between the hyphen and the keyword or missing a hyphen)
 
-### The activity already exists
-Duplicated activity name on the same day.
-
 ### Invalid index
 The given index is invalid. Possible reasons:
 - the given index is out of range
@@ -712,9 +714,8 @@ There is missing argument. Possible reasons:
 - the required argument is missing
 - the argument input are in incorrect format (like extra spaces between the hyphen and the keyword or missing a hyphen)
 
-### Extra argument
-There is an extra argument not supported by the program. Possible reason:
-- The user might be trying to cd to either transportation and accommodation using an index
+### The activity already exists
+Duplicated activity name on the same day.
 
 ### Transportation not found
 The given transportation name is not found in the trip.  Possible reason:
