@@ -1,5 +1,62 @@
 # VoyaTrip User Guide
 
+<a id="toc"></a>
+<details style="width: 100%;">
+<summary style="font-size: 2.1em; font-weight: bold; cursor: pointer; display: flex; align-items: center;">
+📋 Table of Contents
+</summary>
+
+- [Introduction](#introduction)
+- [Quick Start](#quick-start)
+- [Features](#features)
+  - [Directory System](#the-directory-system)
+- [Command](#note-about-the-commands)
+  - [Changing Directory](#changing-directory)
+    - [Changing the current trip currently working on](#changing-the-current-trip-currently-working-on)
+    - [Changing the current component](#changing-the-current-component)
+  - [Adding](#adding)
+    - [Adding new trip](#adding-new-trip)
+    - [Adding new activity](#adding-new-activity)
+    - [Adding new transportation](#adding-new-transportation)
+    - [Adding new accommodation](#adding-new-accommodation)
+  - [Modifying](#modifying)
+    - [Modifying the trip](#modifying-the-trip)
+    - [Modifying the accommodation](#modifying-the-accommodation)
+    - [Modifying the transportation](#modifying-the-transportation)
+  - [Deleting](#deleting)
+    - [Deleting a trip](#deleting-a-trip)
+    - [Deleting an activity](#deleting-an-activity)
+    - [Deleting a transportation](#deleting-a-transportation)
+    - [Deleting an accommodation](#deleting-an-accommodation)
+  - [Listing](#listing)
+    - [Listing trips](#listing-trips)
+    - [Listing itinerary](#listing-itinerary)
+    - [Listing accommodation(s)](#listing-accommodations)
+    - [Listing transportation(s)](#listing-transportations)
+  - [Exiting the program](#exiting-the-program)
+- [FAQ](#faq)
+- [Command Summary](#command-summary)
+- [Command Error](#command-error)
+  - [Accommodation not found](#accommodation-not-found)
+  - [Activity not found](#activity-not-found)
+  - [Duplicated name](#duplicated-name)
+  - [Invalid argument keyword](#invalid-argument-keyword)
+  - [Invalid argument value](#invalid-argument-value)
+  - [Invalid budget](#invalid-budget)
+  - [Invalid command action](#invalid-command-action)
+  - [Invalid command target](#invalid-command-target)
+  - [Invalid date](#invalid-date)
+  - [Invalid day](#invalid-day)
+  - [The activity already exists](#the-activity-already-exists)
+  - [Invalid index](#invalid-index)
+  - [Invalid name](#invalid-name)
+  - [Invalid number format](#invalid-number-format)
+  - [Invalid time format](#invalid-time-format)
+  - [Missing argument](#missing-argument)
+  - [Transportation not found](#transportation-not-found)
+  - [Trip not found](#trip-not-found)
+</details>
+
 ## Introduction
 
 VoyaTrip is a command-line application for managing trips optimized for users that can type fast on a keyboard.
@@ -647,3 +704,5 @@ The given transportation name is not found in the trip.  Possible reason:
 The given trip name is not found.  Possible reason:
 - the word given in the name argument is misspelled
 - argument after (if any) has an incorrect format (like extra spaces between the hyphen and the keyword or missing a hyphen)
+
+[BACK TO TOP](#toc)

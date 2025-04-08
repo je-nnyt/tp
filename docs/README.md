@@ -1,7 +1,6 @@
 # VoyaTrip
 
-VoyaTrip is a Command Line Interface (CLI) program designed for users to manage their trip information and budget. 
-Users can quickly add, delete, view, and modify trip details by executing simple commands.
+VoyaTrip helps the users who prefer CLI-based tools to track their travel plans and budget. 
 
 Useful links:
 * [User Guide](UserGuide.md)
