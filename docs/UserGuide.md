@@ -90,6 +90,7 @@ cd accommodation
 ~/My Trip/ITINERARY >
 cd accom
 ```
+⚠️ Note that the user must be in the curren trip directory prior to changing to the current component
 
 ## Adding
 
