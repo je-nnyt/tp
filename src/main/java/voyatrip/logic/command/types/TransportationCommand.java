@@ -3,6 +3,7 @@ package voyatrip.logic.command.types;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import voyatrip.logic.command.exceptions.ExtraArgument;
 import voyatrip.logic.command.exceptions.InvalidArgumentKeyword;
 import voyatrip.logic.command.exceptions.InvalidArgumentValue;
 import voyatrip.logic.command.exceptions.InvalidBudget;
@@ -48,7 +49,7 @@ public class TransportationCommand extends Command {
             InvalidArgumentValue,
             InvalidDate,
             InvalidNumberFormat,
-            MissingArgument, InvalidTimeFormat{
+            MissingArgument, InvalidTimeFormat {
         super.processRawArgument(arguments);
 
         processCommandVariation();
@@ -101,6 +102,14 @@ public class TransportationCommand extends Command {
                 commandAction == CommandAction.DELETE_BY_NAME;
         boolean isModify = commandAction == CommandAction.MODIFY;
         boolean isList = commandAction == CommandAction.LIST;
+        boolean isChangeDirectory = commandAction == CommandAction.CHANGE_DIRECTORY;
+
+        boolean isInvalidChangeDirectoryArgument = index != null || day != null
+                || budget != null || name != null;
+
+        if (isInvalidChangeDirectoryArgument && isChangeDirectory) {
+            throw new ExtraArgument();
+        }
 
         boolean isMissingAddArgument =
                 name == null || mode == null || budget == null || day == null;
