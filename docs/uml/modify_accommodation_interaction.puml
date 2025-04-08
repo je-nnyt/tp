@@ -1,0 +1,29 @@
+@startuml
+actor User
+participant ":Executor" as Executor
+participant ":Parser" as Parser
+participant ":Trip" as Trip
+participant ":Ui" as Ui
+
+User -> Executor: modify accommodation request
+note right of Executor: Processes input and handles the command.
+
+Executor -> Parser: parse(input)
+Parser --> Executor: return command
+
+Executor -> Executor: handleCommand(command)
+note right of Executor: Decides which action to take based on the command.
+
+Executor -> Trip: modifyAccommodation(...)
+note right of Trip: Updates the accommodation details.
+
+Trip -> Ui: printModifyAccommodationMessage(...)
+note right of Ui: Displays the modification result to the user.
+
+Ui --> Trip:
+
+Trip --> Executor:
+
+Executor --> User: display modification message
+
+@enduml

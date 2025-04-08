@@ -22,16 +22,15 @@
       * [Saving](#saving-)
     * [UML Sequence Diagram](#uml-sequence-diagram)
   * [Modify Accommodation [Implemented]](#modify-accommodation-implemented)
-  * [Implementation Details](#implementation-details)
-  * [Example Workflow](#example-workflow)
-    * [Scenario:](#scenario)
-    * [Input Arguments:](#input-arguments)
-    * [Execution:](#execution)
+    * [Implementation Details](#implementation-details)
+    * [Example Workflow](#example-workflow)
+      * [Scenario](#scenario)
+      * [Input Arguments](#input-arguments)
+      * [Execution](#execution)
   * [Modify Transportation [Implemented]](#modify-transportation-implemented)
     * [Implementation Details](#implementation-details-1)
   * [List Transportation [Implemented]](#list-transportation-implemented)
     * [Implementation Details](#implementation-details-2)
-    * [Execution](#execution-1)
 * [Git Workflow](#git-workflow)
 * [Appendix A: Product Scope](#appendix-a-product-scope)
   * [Target user profile](#target-user-profile)
@@ -40,11 +39,11 @@
 * [Appendix C: Non-Functional Requirements](#appendix-c-non-functional-requirements)
 * [Appendix D: Glossary](#appendix-d-glossary)
 * [Appendix E: Instructions for manual testing](#appendix-e-instructions-for-manual-testing)
+* [Documentation Standard](#documentation-standard)
+  * [Important notes](#important-notes)
+  * [Branch](#branch)
   * [PlantUML](#plantuml)
     * [How to use](#how-to-use)
-* [Documentation Standard](#documentation-standard)
-  * [important notes](#important-notes)
-  * [Branch](#branch)
 * [Code Standard](#code-standard)
   * [Primitive Type](#primitive-type)
   * [Switch](#switch)
@@ -63,7 +62,7 @@
 > if you are not a developer, please refer to [User Guide](UserGuide.md) instead.
 
 > ℹ️ Logger information is hidden by default,
-> if you wish to unable logger for debugging purpose, 
+> if you wish to enable logger for debugging purpose, 
 > please pass argument `--verbose` when running the jar file.
 > ie java -jar VoyaTrip.jar --verbose
 
@@ -159,39 +158,41 @@ with indentation of 4 spaces for better json format
 
 ### Modify Accommodation [Implemented]
 The 'modify accommodation' feature is facilitated by calling `modifyAccommodation` in the `Trip` class, which is responsible 
-for updating the details of existing accommodation in the `accommodations` list, based on the modifications provided.
+for updating the details of existing accommodation in the `accommodations` list, based on the modifications provided. 
+Here is the overview of the whole modification operation:
 
-### Implementation Details
-1. **Index Adjustment**:
-  - The code adjusts the user-provided 1-based `index` (common for user interfaces) to the 0-based indexing of Java lists via `index - 1`.
+<img src="uml/modify_accommodation_interaction.png"/>
 
-2. **Logger Messages**:
-  - The `logger.log` statements keep track of the progress of each modification for debugging and auditing purposes.
-  - **INFO level** logs are used for successful operations, while **WARNING level** logs are added for any potential issues, like an invalid index.
+#### Implementation Details
 
-3. **Accommodation Updates**:
-  - Each modification operates on the corresponding `Accommodation` object in the `accommodations` list, invoking setters like `setName`, `setBudget`, and `setDays`, which ensure encapsulated updates to the object's state.
+1. **Role of `Parser`**:
+  - The `Parser` class takes the input from the user and transforms it into a `AccommodationCommand` object using the `parse` method.
 
-4. **Error Handling**:
-  - An invalid index (e.g., `index < 1` or `index > accommodations.size()`) triggers an `IndexOutOfBoundsException`, which is caught and handled by throwing a custom `InvalidCommand` exception. This approach provides a cleaner, more user-friendly error interface for clients of this method.
+2. **Role of `handleCommand`**:
+  - After receiving the `AccommodationCommand` object, `handleCommand(command)` is called within the `Executor`, which determines the appropriate action (like invoking `modifyAccommodation`).
 
-5. **UI Feedback**:
-  - After all successful updates, the `Ui.printModifyAccommodationMessage` call provides clear visual feedback to the user about the successful modification.
+3. **Role of `Trip`**:
+  - The `modifyAccommodation(...)` method is called to perform the changes to the trip accommodation data.
 
-### Example Workflow
-#### Scenario:
+4. **`Ui` Feedback**:
+  - After all successful updates, the `Trip` class calls the `printModifyAccommodationMessage` method on the `Ui` class
+      to provide clear visual feedback to the user about the successful modification.
+
+#### Example Workflow of `modifyAccommodation` in `Trip`
+
+##### Scenario:
 A trip named 'My Trip' has three accommodations stored in the `accommodations` list. We want to modify the second accommodation by:
-- Changing its name to `"Resort Paradise"`.
+- Changing its name to `"Courtyard Resort"`.
 - Updating its budget to `$500`.
 - Leaving the booked days unchanged (`null` for `accommodationDays`).
 
-#### Input Arguments:
+##### Input Arguments:
 ```
 ~/My Trip/Accommodation >
-modify accom --index 2 --n Resort Paradise --b 500
+modify accom --index 2 --n Courtyard Resort --b 500
 ```
-#### Execution:
-1. `accommodationName != null`: Updates the name to `"Resort Paradise"` by calling `setName` of the accommodation.
+##### Execution:
+1. `accommodationName != null`: Updates the name to `"Courtyard Resort"` by calling `setName` of the accommodation.
 2. `accommodationBudget != null`: Updates the budget to `500` by calling `setBudget` of the accommodation.
 3. `accommodationDays == null`: Days remain unchanged.
 4. After modifications, `Ui.printModifyAccommodationMessage` is called to display a confirmation message.
@@ -320,11 +321,23 @@ This manual testing will allow the user to test the add, delete, cd, list and mo
 
   -  `modify accommodation --i 1 --n Hotel Mao` 
   - Expected: Display the information of the newly modified accommodation
-  
+
+## Documentation Standard
+
+### Important notes
+
+- Please don't **remove** the old documentation, but instead **~~strikethrough~~** or append (deprecated) at the end
+- After update the documentation, please make sure to list the latest version on the [table of contents](#table-of-contents)
+
+### Branch
+
+Please try to use consistent branch name style if applicable
+- developing a new feature: `dev/<issueNumber>-<description>`, ie `dev/8-add-delete-trip
+- fixing a bug: `fix/<issueNumber>-<description>`, ie `fix/8-incorrect-output`
 
 ### PlantUML
 
-PlantUML is the software/code I used to generate the uml diagram.
+PlantUML is the software/code we use to generate the uml diagram.
 
 #### How to use
 
@@ -334,20 +347,6 @@ PlantUML is the software/code I used to generate the uml diagram.
 > Install it by typing `brew install graphviz` in linux environment terminal
 2. Please refer to the official documents to start code it, you can check it [here](https://plantuml.com/en-dark/class-diagram). It is a generally powerful and easy tool not only to general uml, you may check there main page for more information
 3. Make sure you end the uml document with `.puml` but  **not** `.uml`
-
-
-## Documentation Standard
-
-### important notes
-
-- please dont **remove** the old documentation, but instead **~~strikethrough~~** or append (deprecated) at the end
-- after update the documentation, please make sure to list the latest version on the [table of contents](#table-of-contents), ie Code Standard (15 Mar)
-
-### Branch
-
-Please try to use consistent branch name style if applicable
-- developing a new feature: `dev/<issueNumber>-<description>`, ie `dev/8-add-delete-trip
-- fixing a bug: `fix/<issueNumber>-<description>`, ie `fix/8-incorrect-output`
 
 ## Code Standard
 

@@ -66,11 +66,10 @@ It also includes a budget system for keeping track of the budget of the trip.
 ## Quick Start
 
 1. Ensure that you have Java 17 or above installed.
-2. Download the latest version of `VoyaTrip` from  [Placeholder](https://).
+2. Download the latest version of `VoyaTrip` from our [release page](https://github.com/AY2425S2-CS2113-F14-3/tp/releases).
 3. Open a terminal and `cd` to where the jar file is located
 4. Run the following command:  `java -jar JAR_FILE_NAME`
 5. Enter any command listed from the features section
-2. Download the latest version of `VoyaTrip` from our [release page](https://github.com/AY2425S2-CS2113-F14-3/tp/releases).
 
 ## Features
 
@@ -86,6 +85,8 @@ A `trip` contain a list of `transportation`. This is for you to keep track of an
 A `trip` contain a list of `accommodation`. This is for you to keep track of the accommodation during the trip. Each accommodation will have a budget for you to adjust and keep track of.
 
 The budget of a trip is the maximum budget you expect to have for the trip. It is not the sum of all the budgets of all the components. But instead, VoyaTrip will give a warning if the total sum of the budgets of all the components is greater than the budget of the trip. So that you can adjust the budgets of the components accordingly.
+
+All budget values entered must be in integer form.
 
 ### The Directory System
 
@@ -336,7 +337,7 @@ Arguments:
 - `budget`
 - `day` (day of transportation)
 
-Note: The start and end day is expressed as a single integer and  must be a number greater than 1
+Note: The start and end day is expressed as a single integer and must be a number greater than 1
 
 Example of usage:
 
