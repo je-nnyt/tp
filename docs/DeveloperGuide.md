@@ -132,40 +132,40 @@ with indentation of 4 spaces for better json format
 
 ### Modify Accommodation [Implemented]
 The 'modify accommodation' feature is facilitated by calling `modifyAccommodation` in the `Trip` class, which is responsible 
-for updating the details of existing accommodation in the `accommodations` list, based on the modifications provided.
+for updating the details of existing accommodation in the `accommodations` list, based on the modifications provided. 
+Here is the overview of the whole modification operation:
+
+<img src="uml/modify_accommodation_interaction.png"/>
 
 ### Implementation Details
-1. **Index Adjustment**:
-  - The code adjusts the user-provided 1-based `index` (common for user interfaces) to the 0-based indexing of Java lists via `index - 1`.
+1. **Role of `Parser`**:
+  - The `Parser` class takes the input from the user and transforms it into a `AccommodationCommand` object using the `parse` method.
 
-2. **Logger Messages**:
-  - The `logger.log` statements keep track of the progress of each modification for debugging and auditing purposes.
-  - **INFO level** logs are used for successful operations, while **WARNING level** logs are added for any potential issues, like an invalid index.
+2. **Role of `handleCommand`**:
+  - After receiving the `AccommodationCommand` object, `handleCommand(command)` is called within the `Executor`, which determines the appropriate action (like invoking `modifyAccommodation`).
 
-3. **Accommodation Updates**:
-  - Each modification operates on the corresponding `Accommodation` object in the `accommodations` list, invoking setters like `setName`, `setBudget`, and `setDays`, which ensure encapsulated updates to the object's state.
+3. **Role of `Trip`**:
+  - The `modifyAccommodation(...)` method is called to perform the changes to the trip accommodation data.
 
-4. **Error Handling**:
-  - An invalid index (e.g., `index < 1` or `index > accommodations.size()`) triggers an `IndexOutOfBoundsException`, which is caught and handled by throwing a custom `InvalidCommand` exception. This approach provides a cleaner, more user-friendly error interface for clients of this method.
+4. **`Ui` Feedback**:
+  - After all successful updates, the `Trip` class calls the `printModifyAccommodationMessage` method on the `Ui` class
+      to provide clear visual feedback to the user about the successful modification.
 
-5. **UI Feedback**:
-  - After all successful updates, the `Ui.printModifyAccommodationMessage` call provides clear visual feedback to the user about the successful modification.
-
-### Example Workflow
+### Example Workflow of `modifyAccommodation` in `Trip`
 #### Scenario:
 A trip named 'My Trip' has three accommodations stored in the `accommodations` list. We want to modify the second accommodation by:
-- Changing its name to `"Resort Paradise"`.
+- Changing its name to `"Courtyard Resort"`.
 - Updating its budget to `$500`.
 - Leaving the booked days unchanged (`null` for `accommodationDays`).
 
 #### Input Arguments:
 ```
 ~/My Trip/Accommodation >
-modify accom --index 2 --n Resort Paradise --b 500
+modify accom --index 2 --n Courtyard Resort --b 500
 ```
 
 #### Execution:
-1. `accommodationName != null`: Updates the name to `"Resort Paradise"` by calling `setName` of the accommodation.
+1. `accommodationName != null`: Updates the name to `"Courtyard Resort"` by calling `setName` of the accommodation.
 2. `accommodationBudget != null`: Updates the budget to `500` by calling `setBudget` of the accommodation.
 3. `accommodationDays == null`: Days remain unchanged.
 4. After modifications, `Ui.printModifyAccommodationMessage` is called to display a confirmation message.
