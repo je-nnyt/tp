@@ -3,7 +3,7 @@
 <a id="toc"></a>
 <details style="width: 100%;">
 <summary style="font-size: 2.1em; font-weight: bold; cursor: pointer; display: flex; align-items: center;">
-📋 Table of Contents
+📋 Table of Contents (Click to expand)
 </summary>
 
 - [Introduction](#introduction)
