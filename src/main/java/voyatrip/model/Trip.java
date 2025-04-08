@@ -101,9 +101,12 @@ public class Trip {
      * @param day Day associated to the transportation
      */
     private void validateTransportationDay(Integer day) throws InvalidArgumentValue {
+        logger.log(Level.INFO, "Validating transportation day");
         if (day < 1 || day > numDays) {
+            logger.log(Level.WARNING, "Invalid day");
             throw new InvalidDay();
         }
+        logger.log(Level.INFO, "Valid transportation day");
     }
 
     /**
@@ -162,6 +165,7 @@ public class Trip {
 
     /**
      * This method prints the transportation details by providing its associated index.
+     *
      * @param index Index input by user.
      * @throws InvalidIndex if invalid index provided.
      */
@@ -178,6 +182,7 @@ public class Trip {
 
     /**
      * This method prints the transportation details by providing the transportation name.
+     *
      * @param name Transportation Name input by user.
      * @throws TransportationNotFound if invalid name provided.
      */
@@ -196,19 +201,21 @@ public class Trip {
 
     /**
      * This method modifies the transportation details.
-     * @param transportName New transportation name.
-     * @param transportMode New transportation mode.
+     *
+     * @param transportName   New transportation name.
+     * @param transportMode   New transportation mode.
      * @param transportBudget New transport budget.
-     * @param day New associated day to transportation.
-     * @param index Associated index of the transportation to modify.
+     * @param day             New associated day to transportation.
+     * @param index           Associated index of the transportation to modify.
      * @throws InvalidIndex if invalid index provided.
      */
     public void modifyTransportation(String transportName, String transportMode, Integer transportBudget,
-                                     Integer day, Integer index) throws InvalidArgumentValue, InvalidIndex {
+                                     Integer day, Integer index) throws InvalidArgumentValue, InvalidIndex, DuplicatedName {
         logger.log(Level.INFO, "Modifying transportation");
 
         try {
             if (transportName != null) {
+                validateTransportationName(transportName);
                 logger.log(Level.INFO, "Starting modifying name");
                 transportations.get(index - 1).setName(transportName);
                 logger.log(Level.INFO, "Finishing modifying name");
@@ -233,6 +240,13 @@ public class Trip {
             logger.log(Level.INFO, "Finishing modifying transportation");
         } catch (IndexOutOfBoundsException e) {
             throw new InvalidIndex();
+        }
+    }
+
+    private void validateTransportationName(String transportName) throws DuplicatedName {
+        if (isContainsTransportation(transportName)) {
+            logger.log(Level.WARNING, "Transportation already exists");
+            throw new DuplicatedName();
         }
     }
 
@@ -526,6 +540,7 @@ public class Trip {
 
     /**
      * This method appends each transportations' detail to a StringBuilder
+     *
      * @param tripInfo StringBuilder containing details of the trip
      */
     public void buildTransportationsInfo(StringBuilder tripInfo) {
