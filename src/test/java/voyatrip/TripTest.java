@@ -56,7 +56,8 @@ public class TripTest {
     @Test
     void addTransportation_notWithinTripDuration_failure() throws InvalidCommand {
         Assertions.assertThrows(InvalidCommand.class, () -> {
-            trip.addTransportation("VietJet Air", "Plane", 200, 9);});
+            trip.addTransportation("VietJet Air", "Plane", 200, 9);
+        });
     }
 
     @Test
@@ -91,13 +92,15 @@ public class TripTest {
             trip.deleteTransportation("    Transit 170");
         });
     }
+
     @Test
     void modifyTransportation_invalidDay_failure() throws InvalidCommand {
         trip.addTransportation("VietJet Air", "Plane", 200, 2);
         Assertions.assertThrows(InvalidCommand.class, () -> {
-            trip.modifyTransportation("Scoot", "air", 100,9,1);
+            trip.modifyTransportation("Scoot", "air", 100, 9, 1);
         });
     }
+
     @Test
     void addAccommodation_uniqueAccommodationName_success() throws InvalidCommand {
         ArrayList<Integer> days = new ArrayList<>();
@@ -235,6 +238,7 @@ public class TripTest {
         Assertions.assertThrows(InvalidDay.class, () ->
                 trip.modifyAccommodation(null, null, days, 1));
     }
+
     @Test
     void addActivity_duplicateActivity_failure() throws InvalidCommand {
         trip.addActivity(1, "Sand Dunes", "7:09");
