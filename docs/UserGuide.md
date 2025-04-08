@@ -1,5 +1,58 @@
 # VoyaTrip User Guide
 
+## 📋 Table of Contents
+
+- [Introduction](#introduction)
+- [Quick Start](#quick-start)
+- [Features](#features)
+  - [Directory System](#the-directory-system)
+- [Command](#note-about-the-commands)
+  - [Changing Directory](#changing-directory)
+    - [Changing the current trip currently working on](#changing-the-current-trip-currently-working-on)
+    - [Changing the current component](#changing-the-current-component)
+  - [Adding](#adding)
+    - [Adding new trip](#adding-new-trip)
+    - [Adding new activity](#adding-new-activity)
+    - [Adding new transportation](#adding-new-transportation)
+    - [Adding new accommodation](#adding-new-accommodation)
+  - [Modifying](#modifying)
+    - [Modifying the trip](#modifying-the-trip)
+    - [Modifying the accommodation](#modifying-the-accommodation)
+    - [Modifying the transportation](#modifying-the-transportation)
+  - [Deleting](#deleting)
+    - [Deleting a trip](#deleting-a-trip)
+    - [Deleting an activity](#deleting-an-activity)
+    - [Deleting a transportation](#deleting-a-transportation)
+    - [Deleting an accommodation](#deleting-an-accommodation)
+  - [Listing](#listing)
+    - [Listing trips](#listing-trips)
+    - [Listing itinerary](#listing-itinerary)
+    - [Listing accommodation(s)](#listing-accommodations)
+    - [Listing transportation(s)](#listing-transportations)
+  - [Exiting the program](#exiting-the-program)
+- [FAQ](#faq)
+- [Command Summary](#command-summary)
+- [Command Error](#command-error)
+  - [Accommodation not found](#accommodation-not-found)
+  - [Activity not found](#activity-not-found)
+  - [Duplicated name](#duplicated-name)
+  - [Extra argument](#extra-argument)
+  - [Invalid argument keyword](#invalid-argument-keyword)
+  - [Invalid argument value](#invalid-argument-value)
+  - [Invalid budget](#invalid-budget)
+  - [Invalid command action](#invalid-command-action)
+  - [Invalid command target](#invalid-command-target)
+  - [Invalid date](#invalid-date)
+  - [Invalid day](#invalid-day)
+  - [Invalid index](#invalid-index)
+  - [Invalid name](#invalid-name)
+  - [Invalid number format](#invalid-number-format)
+  - [Invalid time format](#invalid-time-format)
+  - [Missing argument](#missing-argument)
+  - [The activity already exists](#the-activity-already-exists)
+  - [Transportation not found](#transportation-not-found)
+  - [Trip not found](#trip-not-found)
+
 ## Introduction
 
 VoyaTrip is a command-line application for managing trips optimized for users that can type fast on a keyboard.
@@ -9,11 +62,10 @@ It also includes a budget system for keeping track of the budget of the trip.
 ## Quick Start
 
 1. Ensure that you have Java 17 or above installed.
-2. Download the latest version of `VoyaTrip` from  [Placeholder](https://).
+2. Download the latest version of `VoyaTrip` from our [release page](https://github.com/AY2425S2-CS2113-F14-3/tp/releases).
 3. Open a terminal and `cd` to where the jar file is located
 4. Run the following command:  `java -jar JAR_FILE_NAME`
 5. Enter any command listed from the features section
-2. Download the latest version of `VoyaTrip` from our [release page](https://github.com/AY2425S2-CS2113-F14-3/tp/releases).
 
 ## Features
 
@@ -29,6 +81,8 @@ A `trip` contain a list of `transportation`. This is for you to keep track of an
 A `trip` contain a list of `accommodation`. This is for you to keep track of the accommodation during the trip. Each accommodation will have a budget for you to adjust and keep track of.
 
 The budget of a trip is the maximum budget you expect to have for the trip. It is not the sum of all the budgets of all the components. But instead, VoyaTrip will give a warning if the total sum of the budgets of all the components is greater than the budget of the trip. So that you can adjust the budgets of the components accordingly.
+
+All budget values entered must be in integer form.
 
 ### The Directory System
 
@@ -46,7 +100,9 @@ A command target is what group does the command affects, such as `trip` and `tra
 
 An argument consist of a double hyphen (`--`) immediately followed by a keyword and a value: `--<keyword> <value>`. For example: `--name my trip` will have the keyword `name` and the value `my trip`. The order of the different arguments does not matter.
 
-Note that some commands may not have a target or arguments. Also note that extra arguments that are not necessary or duplicated will be ignored.
+> ⚠️ Some commands may not have a target or arguments.
+
+> ⚠️ Extra arguments that are not necessary or duplicated will be ignored.
 
 
 ### Changing Directory
@@ -55,7 +111,10 @@ The `cd` command is used to navigate between trips and different components.
 
 #### Changing the current trip currently working on
 
-Target: `trip`
+Format:
+
+- `cd trip --index INDEX` or
+- `cd trip --name NAME`
 
 Required arguments:
 - `index` or `name`
@@ -83,7 +142,10 @@ cd trip
 
 #### Changing the current component
 
-Target: `itinerary`, `transportation` or `accommodation`
+Format: 
+- `cd itinerary` to change to itinerary
+- `cd transportation` to change to transportation
+- `cd accommodation` to change to accommodation
 
 No required arguments
 
@@ -113,11 +175,8 @@ Required arguments:
 - `end`
 - `budget`
 
-start date and end date should be in the format `d-M-yyyy` or `d-M` if the year is the current year. Note that entering 2-29 if the year is not leap year, the program will assume it means the last day of the month which is 2-28.
 
-Name of the trip should be unique and cannot be "root" or "all".
-
-Example of usage: 
+Example of usage: adding trip named "my trip" from  1st of May to 7th of May with budget of 1000.
 
 ```
 ~ >
@@ -127,20 +186,26 @@ add trip --name my trip --start 1-5 --end 7-5 --budget 1000
 mk --n my trip --b 1000 --s 1-5 --e 7-5
 ```
 
-> ⚠️ Note that the trip's duration should be smaller than 366 days.
+> ⚠️ Name of the trip should be unique and cannot be "root" or "all".
+
+> ⚠️ The budget should be an integer.
+
+> ⚠️ Start date and end date should be in the format `d-M-yyyy` or `d-M` if the year is the current year.
+
+> ⚠️ Entering the day that is smaller or equal to 31 but the month does not have that day, the program will assume it means the last day of month and change it to the last day of the month.
+
+> ⚠️ Trip's duration should be smaller than 366 days.
 
 ### Adding new activity
 
-Target: `activity`
+Format:
+
+`add activity --name NAME --time TIME --day DAY`
 
 Required arguments:
 - `name`
 - `time`
 - `day`
-
-Name of the activity should be unique among the activities on the same day.
-
-time must be in the `H:mm` format, where `H` can be 1 or 2 digits from 0 to 23 and `mm` must be 2 digits from 00-59
 
 Example of usage:
 
@@ -149,23 +214,27 @@ Example of usage:
 add activity --name activity 1 --time 9:00 --day 1
 
 ~/My Trip/ITINERARY >
-add --d 1 --t 9:00 --n my activity 1
+a --d 1 --t 9:00 --n my activity 1
 ```
+
+> ⚠️ Name of the activity should be unique among the activities on the same day.
+
+> ⚠️ Day should be an integer.
+
+> ⚠️ Time must be in the `H:mm` format, where `H` can be 1 or 2 digits from 0 to 23 and `mm` must be 2 digits from 00-59.
+
 
 #### Adding new transportation
 
-Target: `transportation`
+Format:
+
+`add transportation --name NAME --mode MODE --budget BUDGET --day DAY`
 
 Required arguments:
 - `name`
 - `mode`
 - `budget`
 - `day`
-
-Note: 
-- Name should be unique and cannot be "all"
-- Day is an integer greater than 1
-- Duplicate transportation is not allowed
 
 Example of usage: 
 
@@ -174,13 +243,18 @@ Example of usage:
 add transportation --name airplane --mode air --budget 350 --day 1
 
 ~/My Trip/TRANSPORTATION >
-add --n airplane --b 350 --m air --d 1
+a --n airplane --b 350 --m air --d 1
 ```
 
+> ⚠️ Name should be unique and cannot be "all".
+
+> ⚠️ Day and budget should be an integer.
 
 ### Adding new accommodation
 
-Target: `accommodation`
+Format:
+
+`add accommodation --name NAME --budget BUDGET --start DAY --end DAY`
 
 Required arguments:
 - `name`
@@ -189,7 +263,10 @@ Required arguments:
 - `end` (check-out day of accommodation)
 
 Name should be unique and cannot be "all".
-> ⚠️ Note that checking-in and checking-out at an accommodation on the same day is considered invalid, but checking-out at Hotel A 
+
+> ⚠️ Budget and the start and end day should be an integer.
+
+> ⚠️ Note that checking-in and checking-out at accommodation on the same day is considered invalid, but checking-out at Hotel A 
 and checking-in at Hotel B on the same day is valid. If users are to stay at the same accommodation in two (or more) different/separated 
 time periods, they are advised to use different name or add symbols like (2) for distinguishing purpose, otherwise it would be classified as having duplicate names for accommodations.
 
@@ -197,21 +274,21 @@ Example of usage:
 
 ```
 ~/My Trip/ITINERARY >
-add accommodation --name hotel ABC  --budget 800 --start 1 --end 3
+add accommodation --name hotel ABC --budget 800 --start 1 --end 3
 
 ~/My Trip/ACCOMMODATION >
-add --n hotel ABC --b 800 --s 1 --e 3
+a --n hotel ABC --b 800 --s 1 --e 3
 ```
 
 ## Modifying
 
-The command `modify` modify the item specified by index. The argument that are not index are the parameters to be changed to.
+The command `modify` will modify the item specified by index. The argument that are not index are the parameters to be changed to. Maybe shorten as `mod` or `m`.
 
 #### Modifying the trip
 
-Target: `trip`
+Format:
 
-Action: `modify`
+`modify trip --index INDEX --name NAME --start START_DATE --end END_DATE --budget TOTAL_BUDGET`
 
 Required arguments: 
 - `index` if not in the trip to be modified
@@ -222,10 +299,6 @@ Arguments:
 - `end`
 - `budget`
 
-Start date and end date should be in the format `d-M-yyyy` or `d-M` if the year is the current year.
-
-Note that the user do not need to specify the index of the trip if they want to modify the current trip they are in.
-
 Example of usage: changing the current trip name to "new my trip" and the total budget to 1200
 
 ```
@@ -233,12 +306,18 @@ Example of usage: changing the current trip name to "new my trip" and the total 
 modify trip --index 1 --name new my trip --budget 1200
 
 ~/my trip/itinerary >
-modify trip --n new my trip --b 1200
+m trip --n new my trip --b 1200
 ```
+
+> ⚠️ Budget should be an integer.
+
+> ⚠️ Start date and end date should be in the format `d-M-yyyy` or `d-M` if the year is the current year.
 
 #### Modifying the accommodation
 
-Target: `accommodation`
+Format:
+
+`modify accommodation --index INDEX --name NAME --budget BUDGET --start DAY --end DAY`
 
 Required arguments: 
 - `index`
@@ -249,14 +328,7 @@ Arguments:
 - `start` (check-in day of accommodation)
 - `end` (check-out day of accommodation)
 
-> ⚠️ Note that changing the name of an accommodation to the same name it had is considered as having duplicate names, no modification(s) will be done.
-
-> ⚠️ Note that if you are changing the days of accommodation of a saved accommodation, both the new check-in and check-out day should be provided, even if one of them stays the same.
-
-> ⚠️ See the special note at listing accommodation(s) for more details about accommodation indexes.
-
-Example of usage: for the 1st accommodation of the current trip, change the 
-accommodation name to "Lotte Hotel" and the days of accommodation to day 3 to 6
+Example of usage: change the accommodation name to "Lotte Hotel" and the days of accommodation to day 3 to 6
 
 ```
 ~/My Trip/ACCOMMODATION >
@@ -264,11 +336,19 @@ modify accom --index 1 --n Lotte Hotel --s 3 --e 6
 
 ```
 
+> ⚠️ Budget and the start and end day should be an integer
+
+> ⚠️ Note that changing the name of accommodation to the same name it had is considered as having duplicate names, no modification(s) will be done.
+
+> ⚠️ Note that if you are changing the days of accommodation of a saved accommodation, both the new check-in and check-out day should be provided, even if one of them stays the same.
+
+> ⚠️ See the special note at listing accommodation(s) for more details about accommodation indexes.
+
 #### Modifying the transportation
 
-Target: `transportation`
+Format:
 
-Action: `modify`
+`modify transportation --index INDEX --name NAME --budget BUDGET --day DAY`
 
 Required arguments: 
 - `index`
@@ -278,10 +358,7 @@ Arguments:
 - `budget`
 - `day` (day of transportation)
 
-Note: The start and end day is expressed as a single integer and  must be a number greater than 1
-
-Example of usage:
-
+Example of usage: modify the transportation budget to 1200 and the day to 3
 ```
 ~/My Trip/ITINERARY >
 modify transportation --index 1 --budget 1200 --day 3
@@ -290,21 +367,21 @@ modify transportation --index 1 --budget 1200 --day 3
 modify transportation --i 1 --d 3 --b 1200
 ```
 
+> ⚠️ Budget and the day should be an integer.
 
 ### Deleting
 
 The `delete` or `remove` command will delete the item specified with the argument `index` or `name` in the specified target. Maybe shorten as `d` or `rm`.
 
 #### Deleting a trip
-Note that if you give argument values for both argument `--index` and `--name`, the priority will be given to `--name`, i.e. delete by name.
 
-Target: `trip`
+Format:
+- `delete trip --index INDEX` or
+- `delete trip --name NAME`
 
 Required arguments: 
 - `index` or `name`
 
-Note that you cannot delete the trip you are currently in.
-
 Example of usage: deleting trip named "my trip" with index 1
 
 ```
@@ -314,12 +391,21 @@ delete trip --index 1
 ~ >
 rm --n my trip
 ```
+
+> ⚠️ You cannot delete the trip you are currently in.
+
+> ⚠️ If both argument `--index` and `--name`, the priority will be given to `--name`, i.e. delete by name.
 
 #### Deleting an activity
 
-Target: `activity`
+Format:
 
-Required arguments: `index` or `name`, and `day`
+- `delete activity --day DAY --index INDEX` or 
+- `delete activity --day DAY --name NAME`
+
+Required arguments:
+- `index` or `name`
+- `day`
 
 Example of usage: deleting trip named "my trip" with index 1
 
@@ -331,11 +417,17 @@ delete trip --index 1
 rm --n my trip
 ```
 
+> ⚠️ If both argument `--index` and `--name`, the priority will be given to `--name`, i.e. delete by name.
+
 #### Deleting a transportation
 
-Target: `transportation`
+Format:
 
-Required arguments: `index` or `name`
+- `delete transportation --index INDEX` or
+- `delete transportation --name NAME`
+
+Required arguments:
+- `index` or `name`
 
 Example of usage: deleting transportation named "Scoot" with index 1
 
@@ -347,22 +439,21 @@ delete transportation --index 1
 delete --n Scoot
 ```
 
+> ⚠️ If both argument `--index` and `--name`, the priority will be given to `--name`, i.e. delete by name.
+
 #### Deleting an accommodation
 
-Target: `accommodation`
+Format:
+
+- `delete accommodation --index INDEX` or
+- `delete accommodation --name NAME` or
 
 Required arguments:
-- `index` or `name`
-- `all`
+- `index` or `name` or `all`
 
 Special case for deleting all accommodations of the current trip `delete accommodation --all` or `delete accommodation --n all`
 
 Example of usage: deleting accommodation named "Hilton Hotel" with index 1
-
-> ⚠️ Note that if you give any argument value for the argument `--all`, the values will be ignored.
-
-> ⚠️ See the special note at listing accommodation(s) for more details about accommodation indexes.
-
 ```
 ~/My Trip/ITINERARY >
 delete accom --index 1
@@ -371,48 +462,15 @@ delete accom --index 1
 delete --n Hilton Hotel
 ```
 
-### Deleting a transportation
+> ⚠️ Note that if you give any argument value for the argument `--all`, the values will be ignored.
 
-Target: `transportation`
+> ⚠️ If both argument `--index` and `--name`, the priority will be given to `--name`, i.e. delete by name.
 
-Required arguments: 
-- `index` or `name`
-
-Example of usage: deleting transportation named "plane" with index 1
-
-```
-~/My Trip/ITINERARY >
-delete transportation --index 1
-
-~/My Trip/TRANSPORTATION >
-delete --n plane
-```
-
-### Deleting an activity
-
-Target: `activity`
-
-Required arguments: 
-- `day`
-- `index` or `name`
-
-Example of usage: deleting activity named "shopping" in day 1 with index 1
-
-```
-~/My Trip/ACCOMMODATION >
-delete activity --day 1 --index 1
-
-~/My Trip/ITINERARY >
-delete --d 1 --n shopping
-```
+> ⚠️ See the special note at listing accommodation(s) for more details about accommodation indexes.
 
 ## Listing
 
-List command will list the item(s) in the target specified by index or name (except for itinerary). In the case of wanting to list all the item in the target, use the special argument `--all` that does not take any argument value or use `all` as the argument value for the argument `name`.
-
-Note that if you give argument values for both argument `--index` and `--name`, the priority will be given to `--name`, i.e. list by name.
-
-Note that if you give any argument value for the argument `--all`, the values will be ignored.
+The `list` command will list the item(s) in the target specified by index or name (except for itinerary). Maybe shorten as `l`.
 
 ### Listing trips
 
@@ -423,15 +481,25 @@ Required arguments:
 
 Special case for listing all trips `list trip --all`
 
-Example of usage:
-
+Example of usage: list trip named "my trip" with index 1
 ```
 ~ >
 list trip --index 1
 
 ~ >
-list --n my trip
+l --n my trip
 ```
+
+Example of usage: list all trip
+
+```
+~ >
+l --all
+```
+
+> ⚠️ If both argument `--index` and `--name`, the priority will be given to `--name`, i.e. list by name.
+
+> ⚠️ If any argument value for the argument `--all` are given, the values will be ignored.
 
 ### Listing itinerary
 
@@ -458,10 +526,6 @@ Required arguments:
 
 Special case for listing all accommodations of the current trip `list accommodation --all` or `list accommodation --n all`
 
-> ⚠️ Note that the accommodations are sorted in ascending order of the check-in days. Therefore, after adding a new 
-accommodation/modifying a saved accommodation, the indexes of the accommodations might update. Users are advised to 
-utilise the 'listing all' feature to check for the most updated accommodations' indexes before deleting/modifying.
-
 Example of usage:
 
 ```
@@ -471,6 +535,14 @@ list accom --index 1
 ~/My Trip/ACCOMMODATION >
 list --n Hilton Hotel
 ```
+
+> ⚠️ Note that the accommodations are sorted in ascending order of the check-in days. Therefore, after adding a new
+accommodation/modifying a saved accommodation, the indexes of the accommodations might update. Users are advised to
+utilise the 'listing all' feature to check for the most updated accommodations' indexes before deleting/modifying.
+
+> ⚠️ If both argument `--index` and `--name`, the priority will be given to `--name`, i.e. list by name.
+
+> ⚠️ If any argument value for the argument `--all` are given, the values will be ignored.
 
 ### Listing transportation(s)
 
@@ -491,6 +563,9 @@ list transportation --index 1
 list transportation -- all
 ```
 
+> ⚠️ If both argument `--index` and `--name`, the priority will be given to `--name`, i.e. list by name.
+
+> ⚠️ If any argument value for the argument `--all` are given, the values will be ignored.
 
 #### Exiting the program
 
@@ -516,13 +591,13 @@ Does not require any target or arguments
 
 **A**: By entering only the command action `cd` and omitting the command target, the program will use the default target. So input `cd` means asking to program to "change the directory to the current directory".
 
-**Q**: How can I see the activity I added?
+**Q**: Can I see the activity I added individually or per day?
 
-**A**: You can see all the activity added by listing the itinerary. But there is no way to list the activity individually.
+**A**: You can see all the activity added by listing the itinerary. But there is no way to list the activity individually or list the activity per day.
 
 ## Command Summary
 
-{Give a 'cheat sheet' of commands here}
+Command format: `<action> <target> <arguments>`
 
 Command action:
 - Adding: `add` or `a` or `make` or `mk`
@@ -568,6 +643,10 @@ The given activity name is not found in the trip.  Possible reason:
 ### Duplicated name
 The given name is duplicated.
 
+### Extra argument
+There is an extra argument not supported by the `cd` command. Possible reason:
+- The user might be trying to cd to either transportation and accommodation using an index
+
 ### Invalid argument keyword
 The given argument keyword is incorrect.  Possible reason:
 - the word immediately after the double hyphen "--" is misspelled
@@ -603,9 +682,6 @@ The given day is invalid. Possible reasons:
 - overlapping with other accommodations
 - argument after (if any) has an incorrect format (like extra spaces between the hyphen and the keyword or missing a hyphen)
 
-### The activity already exists
-Duplicated activity name on the same day.
-
 ### Invalid index
 The given index is invalid. Possible reasons:
 - the given index is out of range
@@ -633,6 +709,9 @@ There is missing argument. Possible reasons:
 - the required argument is missing
 - the argument input are in incorrect format (like extra spaces between the hyphen and the keyword or missing a hyphen)
 
+### The activity already exists
+Duplicated activity name on the same day.
+
 ### Transportation not found
 The given transportation name is not found in the trip.  Possible reason:
 - the word given in the name argument is misspelled
@@ -642,3 +721,5 @@ The given transportation name is not found in the trip.  Possible reason:
 The given trip name is not found.  Possible reason:
 - the word given in the name argument is misspelled
 - argument after (if any) has an incorrect format (like extra spaces between the hyphen and the keyword or missing a hyphen)
+
+[BACK TO TOP](#toc)

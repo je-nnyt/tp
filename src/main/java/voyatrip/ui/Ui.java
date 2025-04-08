@@ -270,4 +270,7 @@ public class Ui {
         System.out.println(transportation);
     }
 
+    public static void printExtraArgument() {
+        System.out.println(Message.EXTRA_ARGUMENT_MESSAFE);
+    }
 }
