@@ -9,11 +9,10 @@ It also includes a budget system for keeping track of the budget of the trip.
 ## Quick Start
 
 1. Ensure that you have Java 17 or above installed.
-2. Download the latest version of `VoyaTrip` from  [Placeholder](https://).
+2. Download the latest version of `VoyaTrip` from our [release page](https://github.com/AY2425S2-CS2113-F14-3/tp/releases).
 3. Open a terminal and `cd` to where the jar file is located
 4. Run the following command:  `java -jar JAR_FILE_NAME`
 5. Enter any command listed from the features section
-2. Download the latest version of `VoyaTrip` from our [release page](https://github.com/AY2425S2-CS2113-F14-3/tp/releases).
 
 ## Features
 

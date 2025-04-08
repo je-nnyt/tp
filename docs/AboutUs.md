@@ -9,4 +9,4 @@ Display |     Name     |           Github Profile            | Portfolio
 ![](https://via.placeholder.com/100.png?text=Photo) | je-nnyt | [Github](https://github.com/je-nnyt) | [Portfolio](je-nnyt)
 ![]() | Lyam Tang | [Github](https://github.com/Lyam-T) | [Portfolio](docs/team/lyamtang.md)
 ![](https://via.placeholder.com/100.png?text=Photo) | Raymond Choi | [Github](https://github.com/choiak) | [Portfolio](docs/team/raymondchoi.md)
-![]() | Thomas Chiu | [Github](https://github.com/paklongchiu) | [Portfolio](docs/team/thomaschiu.md)
+![]() | Thomas Chiu | [Github](https://github.com/paklongchiu) | [Portfolio](docs/team/paklongchiu.md)
