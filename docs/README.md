@@ -1,6 +1,6 @@
-# Duke
+# VoyaTrip
 
-{Give product intro here}
+VoyaTrip helps the users who prefer CLI-based tools to track their travel plans and budget. 
 
 Useful links:
 * [User Guide](UserGuide.md)
