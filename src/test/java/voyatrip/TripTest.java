@@ -49,6 +49,17 @@ public class TripTest {
     }
 
     @Test
+    void addTransportation_isWithinTripDuration_success() throws InvalidCommand {
+        trip.addTransportation("VietJet Air", "Plane", 200, 8);
+    }
+
+    @Test
+    void addTransportation_notWithinTripDuration_failure() throws InvalidCommand {
+        Assertions.assertThrows(InvalidCommand.class, () -> {
+            trip.addTransportation("VietJet Air", "Plane", 200, 9);});
+    }
+
+    @Test
     void deleteTransportationByIndex_indexWithinRange_success() throws InvalidCommand {
         trip.addTransportation("SBS Transit 170", "bus", 5, 1);
         trip.deleteTransportation(1);
@@ -57,13 +68,14 @@ public class TripTest {
     }
 
     @Test
-    void deleteTransportationByIndex_indexWithinRange_failure() throws InvalidCommand {
+    void deleteTransportationByIndex_indexOutOfBounds_failure() throws InvalidCommand {
         trip.addTransportation("SBS Transit 170", "bus", 5, 1);
         Assertions.assertThrows(InvalidCommand.class, () -> {
             trip.deleteTransportation(2);
         });
 
     }
+
 
     @Test
     void deleteTransportationByName_nameExists_success() throws InvalidCommand {
@@ -79,7 +91,13 @@ public class TripTest {
             trip.deleteTransportation("    Transit 170");
         });
     }
-
+    @Test
+    void modifyTransportation_invalidDay_failure() throws InvalidCommand {
+        trip.addTransportation("VietJet Air", "Plane", 200, 2);
+        Assertions.assertThrows(InvalidCommand.class, () -> {
+            trip.modifyTransportation("Scoot", "air", 100,9,1);
+        });
+    }
     @Test
     void addAccommodation_uniqueAccommodationName_success() throws InvalidCommand {
         ArrayList<Integer> days = new ArrayList<>();
@@ -216,6 +234,12 @@ public class TripTest {
         days.add(6);
         Assertions.assertThrows(InvalidDay.class, () ->
                 trip.modifyAccommodation(null, null, days, 1));
+    }
+    @Test
+    void addActivity_duplicateActivity_failure() throws InvalidCommand {
+        trip.addActivity(1, "Sand Dunes", "7:09");
+        Assertions.assertThrows(InvalidCommand.class, () ->
+                trip.addActivity(1, "Sand Dunes", "7:09"));
     }
 
     @Test
