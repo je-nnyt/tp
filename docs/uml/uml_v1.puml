@@ -57,9 +57,11 @@ class Accommodation{
 }
 
 class Transportation{
+    - name: String
     - mode: String
     - budget: Integer
-    + Transportation(mode: String, budget: Integer)
+    - day: Integer
+    + Transportation(name: String, mode: String, budget: Integer, day: Integer)
     + toString(){redefines toString()}: String
 }
 
