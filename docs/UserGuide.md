@@ -1,10 +1,6 @@
 # VoyaTrip User Guide
 
-<a id="toc"></a>
-<details style="width: 100%;">
-<summary style="font-size: 2.1em; font-weight: bold; cursor: pointer; display: flex; align-items: center;">
-📋 Table of Contents (Click to expand)
-</summary>
+## 📋 Table of Contents
 
 - [Introduction](#introduction)
 - [Quick Start](#quick-start)
@@ -56,7 +52,6 @@
   - [The activity already exists](#the-activity-already-exists)
   - [Transportation not found](#transportation-not-found)
   - [Trip not found](#trip-not-found)
-</details>
 
 ## Introduction
 

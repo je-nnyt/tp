@@ -1,10 +1,6 @@
 # Developer Guide (8 Apr)
 
-<a id="toc"></a>
-<details style="width: 100%;">
-<summary style="font-size: 2.1em; font-weight: bold; cursor: pointer; display: flex; align-items: center;">
-📋 Table of Contents
-</summary>
+# 📋 Table of Contents
 
 * [Developer Guide (7 Apr)](#developer-guide-7-apr)
   * [Table of Contents](#table-of-contents)
@@ -47,8 +43,6 @@
 * [Code Standard](#code-standard)
   * [Primitive Type](#primitive-type)
   * [Switch](#switch)
-
-</details>
 
 # Acknowledgements
 - [PlantUML](https://plantuml.com/) for the UML diagrams
