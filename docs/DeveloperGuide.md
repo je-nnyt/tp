@@ -7,45 +7,45 @@
 * [Acknowledgements](#acknowledgements)
   * [Get Started](#get-started)
     * [Setting up](#setting-up)
-  * [Design](#design)
-    * [Architecture](#architecture)
-      * [Storage Component](#storage-component)
-      * [Ui Component](#ui-component)
-      * [Logic Component](#logic-component)
-      * [Model Component](#model-component)
-  * [Implementation](#implementation)
-    * [Storage [Implemented]](#storage-implemented)
-      * [How it works](#how-it-works)
-        * [Loading](#loading-)
-        * [Saving](#saving-)
-      * [UML Sequence Diagram](#uml-sequence-diagram)
-    * [Modify Accommodation [Implemented]](#modify-accommodation-implemented)
+* [Design](#design)
+  * [Architecture](#architecture)
+    * [Storage Component](#storage-component)
+    * [Ui Component](#ui-component)
+    * [Logic Component](#logic-component)
+    * [Model Component](#model-component)
+* [Implementation](#implementation)
+  * [Storage [Implemented]](#storage-implemented)
+    * [How it works](#how-it-works)
+      * [Loading](#loading-)
+      * [Saving](#saving-)
+    * [UML Sequence Diagram](#uml-sequence-diagram)
+  * [Modify Accommodation [Implemented]](#modify-accommodation-implemented)
     * [Implementation Details](#implementation-details)
     * [Example Workflow](#example-workflow)
-      * [Scenario:](#scenario)
-      * [Input Arguments:](#input-arguments)
-      * [Execution:](#execution)
-    * [Modify Transportation [Implemented]](#modify-transportation-implemented)
-      * [Implementation Details](#implementation-details-1)
-    * [List Transportation [Implemented]](#list-transportation-implemented)
-      * [Implementation Details](#implementation-details-2)
-      * [Execution](#execution-1)
-  * [Git Workflow](#git-workflow)
-  * [Appendix A: Product Scope](#appendix-a-product-scope)
-    * [Target user profile](#target-user-profile)
-    * [Value Proposition](#value-proposition)
-  * [Appendix B: User Stories](#appendix-b-user-stories)
-  * [Appendix C: Non-Functional Requirements](#appendix-c-non-functional-requirements)
-  * [Appendix D: Glossary](#appendix-d-glossary)
-  * [Appendix E: Instructions for manual testing](#appendix-e-instructions-for-manual-testing)
-    * [PlantUML](#plantuml)
-      * [How to use](#how-to-use)
-  * [Documentation Standard](#documentation-standard)
-    * [important notes](#important-notes)
-    * [Branch](#branch)
-  * [Code Standard](#code-standard)
-    * [Primitive Type](#primitive-type)
-    * [Switch](#switch)
+      * [Scenario](#scenario)
+      * [Input Arguments](#input-arguments)
+      * [Execution](#execution)
+  * [Modify Transportation [Implemented]](#modify-transportation-implemented)
+    * [Implementation Details](#implementation-details-1)
+  * [List Transportation [Implemented]](#list-transportation-implemented)
+    * [Implementation Details](#implementation-details-2)
+    * [Execution](#execution-1)
+* [Git Workflow](#git-workflow)
+* [Appendix A: Product Scope](#appendix-a-product-scope)
+  * [Target user profile](#target-user-profile)
+  * [Value Proposition](#value-proposition)
+* [Appendix B: User Stories](#appendix-b-user-stories)
+* [Appendix C: Non-Functional Requirements](#appendix-c-non-functional-requirements)
+* [Appendix D: Glossary](#appendix-d-glossary)
+* [Appendix E: Instructions for manual testing](#appendix-e-instructions-for-manual-testing)
+  * [PlantUML](#plantuml)
+    * [How to use](#how-to-use)
+* [Documentation Standard](#documentation-standard)
+  * [Important notes](#important-notes)
+  * [Branch](#branch)
+* [Code Standard](#code-standard)
+  * [Primitive Type](#primitive-type)
+  * [Switch](#switch)
 <!-- TOC -->
 
 # Acknowledgements
@@ -156,7 +156,8 @@ Here is the overview of the whole modification operation:
 
 <img src="uml/modify_accommodation_interaction.png"/>
 
-### Implementation Details
+#### Implementation Details
+
 1. **Role of `Parser`**:
   - The `Parser` class takes the input from the user and transforms it into a `AccommodationCommand` object using the `parse` method.
 
@@ -170,19 +171,20 @@ Here is the overview of the whole modification operation:
   - After all successful updates, the `Trip` class calls the `printModifyAccommodationMessage` method on the `Ui` class
       to provide clear visual feedback to the user about the successful modification.
 
-### Example Workflow of `modifyAccommodation` in `Trip`
-#### Scenario:
+#### Example Workflow of `modifyAccommodation` in `Trip`
+
+##### Scenario:
 A trip named 'My Trip' has three accommodations stored in the `accommodations` list. We want to modify the second accommodation by:
 - Changing its name to `"Courtyard Resort"`.
 - Updating its budget to `$500`.
 - Leaving the booked days unchanged (`null` for `accommodationDays`).
 
-#### Input Arguments:
+##### Input Arguments:
 ```
 ~/My Trip/Accommodation >
 modify accom --index 2 --n Courtyard Resort --b 500
 ```
-#### Execution:
+##### Execution:
 1. `accommodationName != null`: Updates the name to `"Courtyard Resort"` by calling `setName` of the accommodation.
 2. `accommodationBudget != null`: Updates the budget to `500` by calling `setBudget` of the accommodation.
 3. `accommodationDays == null`: Days remain unchanged.
@@ -214,7 +216,6 @@ This feature also enables the user to list all the transportations and their ind
 - If the transportation is not found, `InvalidIndexException` is thrown in the case that the index is invalid, 
   TransportationNotFoundException in the case that the provided name does not exist
 
-#### Execution
 
 ## Git Workflow
 
@@ -327,10 +328,10 @@ PlantUML is the software/code I used to generate the uml diagram.
 
 ## Documentation Standard
 
-### important notes
+### Important notes
 
-- please dont **remove** the old documentation, but instead **~~strikethrough~~** or append (deprecated) at the end
-- after update the documentation, please make sure to list the latest version on the [table of contents](#table-of-contents), ie Code Standard (15 Mar)
+- Please don't **remove** the old documentation, but instead **~~strikethrough~~** or append (deprecated) at the end
+- After update the documentation, please make sure to list the latest version on the [table of contents](#table-of-contents)
 
 ### Branch
 

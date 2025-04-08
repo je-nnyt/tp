@@ -279,7 +279,7 @@ Arguments:
 - `budget`
 - `day` (day of transportation)
 
-Note: The start and end day is expressed as a single integer and  must be a number greater than 1
+Note: The start and end day is expressed as a single integer and must be a number greater than 1
 
 Example of usage:
 
