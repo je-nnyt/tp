@@ -634,6 +634,10 @@ There is missing argument. Possible reasons:
 - the required argument is missing
 - the argument input are in incorrect format (like extra spaces between the hyphen and the keyword or missing a hyphen)
 
+### Extra argument
+There is an extra argument non supported by the program. Possible reason:
+- The user might be trying to cd to either transportation and accommodation using an index
+
 ### Transportation not found
 The given transportation name is not found in the trip.  Possible reason:
 - the word given in the name argument is misspelled
