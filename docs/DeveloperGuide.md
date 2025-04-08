@@ -1,7 +1,11 @@
-# Developer Guide (7 Apr)
+# Developer Guide (8 Apr)
 
-## Table of Contents
-<!-- TOC -->
+<a id="toc"></a>
+<details style="width: 100%;">
+<summary style="font-size: 2.1em; font-weight: bold; cursor: pointer; display: flex; align-items: center;">
+📋 Table of Contents
+</summary>
+
 * [Developer Guide (7 Apr)](#developer-guide-7-apr)
   * [Table of Contents](#table-of-contents)
 * [Acknowledgements](#acknowledgements)
@@ -11,8 +15,6 @@
   * [Architecture](#architecture)
     * [Storage Component](#storage-component)
     * [Ui Component](#ui-component)
-    * [Logic Component](#logic-component)
-    * [Model Component](#model-component)
 * [Implementation](#implementation)
   * [Storage [Implemented]](#storage-implemented)
     * [How it works](#how-it-works)
@@ -45,7 +47,8 @@
 * [Code Standard](#code-standard)
   * [Primitive Type](#primitive-type)
   * [Switch](#switch)
-<!-- TOC -->
+
+</details>
 
 # Acknowledgements
 - [PlantUML](https://plantuml.com/) for the UML diagrams
@@ -98,11 +101,13 @@ The interaction for any command is similar to the following, for simplicity, we 
 
 <img src="uml/ui_package.png">
 
-#### Logic Component
-
-#### Model Component
+#### Main Flow
+The main flow of the application whenever a command
+is entered by the user is as follows:
 
 <img src="uml/main_flow.png" alt="main-flow-uml"/>
+
+> ℹ️ for simplicity here we use add trip as an illustration
 
 ## Implementation
 This section describes some notable details on how certain features are implemented/going to be implemented.
@@ -145,8 +150,11 @@ with indentation of 4 spaces for better json format
 > ⚠️ This method will create/ overwrite the file if it does not exist,
 > and will delete the files if the triplist object is empty.
 
-#### UML Sequence Diagram
+<a id="uml-sequence-diagram"></a>
+<details>
+<summary style="font-weight: bold"> 🖼️ UML Sequence Diagram</summary>>
 <img src="uml/storage.png"/> 
+</details>
 
 ### Modify Accommodation [Implemented]
 The 'modify accommodation' feature is facilitated by calling `modifyAccommodation` in the `Trip` class, which is responsible 
@@ -215,8 +223,11 @@ This feature also enables the user to list all the transportations and their ind
 - If the transportation is not found, `InvalidIndexException` is thrown in the case that the index is invalid, 
   TransportationNotFoundException in the case that the provided name does not exist
 
-
 ## Git Workflow
+
+Please try to use consistent branch name style if applicable
+- developing a new feature: `dev/<issueNumber>-<description>`, ie `dev/8-add-delete-trip
+- fixing a bug: `fix/<issueNumber>-<description>`, ie `fix/8-incorrect-output`
 
 ## Appendix A: Product Scope
 ### Target user profile
@@ -268,7 +279,6 @@ information on its itinerary, transportation, accommodation and budget.
 ## Appendix D: Glossary
 
 * *Multistep command* - A feature which requires the user to go through several steps to complete.
-* 
 
 ## Appendix E: Instructions for manual testing
 This section provides instructions for manual testing of VoyaTrip
@@ -360,3 +370,5 @@ case "b" -> System.out.println("b");
 default -> System.out.println("others");
 }
 ```
+
+[BACK TO TOP](#toc)
