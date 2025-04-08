@@ -2,7 +2,8 @@
 
 ## Project: VoyaTrip
 
-VoyaTrip is a command-line application for managing trips. It also includes a budget system for keeping track of the budget of the trip.
+VoyaTrip is a command-line application for managing trips optimized for users that can type fast on a keyboard.
+It also includes a budget system for keeping track of the budget of the trip.
 
 Given below are my contributions to the project.
 
